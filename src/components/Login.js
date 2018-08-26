@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { emailChanged, passwordChanged } from '../actions';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
+  onEmailChange(text) {
+    this.props.emailChanged(text.target.value);
+  }
 
-  onSubmit = e => {
-  };
+  onPasswordChange(text) {
+    this.props.passwordChanged(text.target.value);
+  }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onButtonPress() {
+    const { email, password } = this.props;
+    this.props.loginUser({ email, password });
+  }
 
   render() {
     return (
@@ -31,8 +35,8 @@ class Login extends Component {
                     className="form-control"
                     name="email"
                     required
-                    value={this.state.email}
-                    onChange={this.onChange}
+                    value={this.props.email}
+                    onChange={this.onEmailChange.bind(this)}
                   />
                 </div>
                 <div className="form-group">
@@ -42,8 +46,8 @@ class Login extends Component {
                     className="form-control"
                     name="password"
                     required
-                    value={this.state.password}
-                    onChange={this.onChange}
+                    value={this.props.password}
+                    onChange={this.onPasswordChange.bind(this)}
                   />
                 </div>
                 <input
@@ -60,4 +64,11 @@ class Login extends Component {
   }
 }
 
-export default connect(null, { })(Login);
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+  };
+};
+
+export default connect(mapStateToProps, { emailChanged, passwordChanged })(Login);
