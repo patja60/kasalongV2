@@ -1,8 +1,12 @@
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
-import reducers from './src/reducers';
+import reducers from './reducers';
+
+import Login from './components/Login';
+import Register from './components/Register';
 
 class App extends Component {
   render() {
@@ -10,17 +14,10 @@ class App extends Component {
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <Router>
           <div className="App">
-            <AppNavbar />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={UserIsAuthenticated(Dashboard)} />
-                <Route exact path="/client/add" component={UserIsAuthenticated(AddClient)} />
-                <Route exact path="/client/edit/:id" component={UserIsAuthenticated(EditClient)} />
-                <Route exact path="/client/:id" component={UserIsAuthenticated(ClientDetails)} />
-                <Route exact path="/login" component={UserIsNotAuthenticated(Login)} />
-                <Route exact path="/register" component={UserIsNotAuthenticated(Register)} />
-                <Route exact path="/settings" component={UserIsAuthenticated(Settings)} />
-                <Route component={NotFound} />
+                <Route exact path="/" component={Login} />
+                <Route exact path="/register" component={Register} />
               </Switch>
             </div>
           </div>

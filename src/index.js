@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from 'firebase';
 
-var config = {
+const config = {
     apiKey: "AIzaSyAZtl7YLiztmI0OcFz9oezPhGsmkBk8NKM",
     authDomain: "reg-app-d5779.firebaseapp.com",
     databaseURL: "https://reg-app-d5779.firebaseio.com",
