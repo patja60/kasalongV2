@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
