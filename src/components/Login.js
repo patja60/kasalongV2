@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUserWithFacebook } from '../actions';
+import { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin } from '../actions';
 
 class Login extends Component {
+  componentWillMount() {
+    this.props.checkLogin();
+  }
   onEmailChange(text) {
     this.props.emailChanged(text.target.value);
   }
@@ -82,4 +85,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUserWithFacebook })(Login);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin })(Login);
