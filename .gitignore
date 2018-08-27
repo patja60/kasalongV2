@@ -2,7 +2,12 @@
 
 # dependencies
 /node_modules
+
 /src/database.js
+/.firebaserc
+/firebase.json
+/.firebase
+/database.rules.json
 
 # testing
 /coverage

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged } from '../actions';
+import { emailChanged, passwordChanged, loginUserWithFacebook } from '../actions';
 
 class Login extends Component {
   onEmailChange(text) {
@@ -15,6 +15,10 @@ class Login extends Component {
     //const { email, password } = this.props;
     //this.props.loginUser({ email, password });
     console.log("press press!!")
+  }
+
+  onLoginUserWithFacebook() {
+    this.props.loginUserWithFacebook();
   }
 
   render() {
@@ -57,6 +61,10 @@ class Login extends Component {
                 <button className="btn btn-primary btn-block" onClick={this.onButtonPress.bind(this)}>
                   Login
                 </button>
+
+                <button className="btn btn-primary btn-block" onClick={this.onLoginUserWithFacebook.bind(this)}>
+                  Login With Facebook
+                </button>
               </div>
 
             </div>
@@ -74,4 +82,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged })(Login);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUserWithFacebook })(Login);
