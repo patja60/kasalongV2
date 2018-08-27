@@ -12,8 +12,9 @@ class Login extends Component {
   }
 
   onButtonPress() {
-    const { email, password } = this.props;
-    this.props.loginUser({ email, password });
+    //const { email, password } = this.props;
+    //this.props.loginUser({ email, password });
+    console.log("press press!!")
   }
 
   render() {
@@ -27,7 +28,8 @@ class Login extends Component {
                   <i className="fas fa-lock" /> Login
                 </span>
               </h1>
-              <form onSubmit={this.onSubmit}>
+
+              <div>
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input
@@ -39,6 +41,7 @@ class Login extends Component {
                     onChange={this.onEmailChange.bind(this)}
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
                   <input
@@ -50,12 +53,12 @@ class Login extends Component {
                     onChange={this.onPasswordChange.bind(this)}
                   />
                 </div>
-                <input
-                  type="submit"
-                  value="Login"
-                  className="btn btn-primary btn-block"
-                />
-              </form>
+
+                <button className="btn btn-primary btn-block" onClick={this.onButtonPress.bind(this)}>
+                  Login
+                </button>
+              </div>
+
             </div>
           </div>
         </div>
