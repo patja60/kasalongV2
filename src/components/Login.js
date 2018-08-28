@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin } from '../actions';
+import { Redirect } from 'react-router-dom';
+
+import {
+  emailChanged,
+  passwordChanged,
+  loginUserWithFacebook,
+  checkLogin
+} from '../actions';
 
 class Login extends Component {
   componentWillMount() {
@@ -17,7 +24,7 @@ class Login extends Component {
   onButtonPress() {
     //const { email, password } = this.props;
     //this.props.loginUser({ email, password });
-    console.log("press press!!")
+    console.log('press press!!');
   }
 
   onLoginUserWithFacebook() {
@@ -25,6 +32,10 @@ class Login extends Component {
   }
 
   render() {
+    const { user } = this.props;
+    if (user) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div className="row">
         <div className="col-md-6 mx-auto">
@@ -61,15 +72,20 @@ class Login extends Component {
                   />
                 </div>
 
-                <button className="btn btn-primary btn-block" onClick={this.onButtonPress.bind(this)}>
+                <button
+                  className="btn btn-primary btn-block"
+                  onClick={this.onButtonPress.bind(this)}
+                >
                   Login
                 </button>
 
-                <button className="btn btn-primary btn-block" onClick={this.onLoginUserWithFacebook.bind(this)}>
+                <button
+                  className="btn btn-primary btn-block"
+                  onClick={this.onLoginUserWithFacebook.bind(this)}
+                >
                   Login With Facebook
                 </button>
               </div>
-
             </div>
           </div>
         </div>
@@ -82,7 +98,11 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    user: state.auth.user
   };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin })(Login);
+export default connect(
+  mapStateToProps,
+  { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin }
+)(Login);
