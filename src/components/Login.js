@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import {
-  emailChanged,
+  usernameChanged,
   passwordChanged,
   loginUserWithFacebook,
-  checkLogin
+  checkLogin,
+  loginAdmin
 } from '../actions';
 
 class Login extends Component {
   componentWillMount() {
     this.props.checkLogin();
   }
-  onEmailChange(text) {
-    this.props.emailChanged(text.target.value);
+  onUsernameChange(text) {
+    this.props.usernameChanged(text.target.value);
   }
 
   onPasswordChange(text) {
@@ -22,9 +23,11 @@ class Login extends Component {
   }
 
   onButtonPress() {
-    //const { email, password } = this.props;
+    const { username, password } = this.props;
     //this.props.loginUser({ email, password });
-    console.log('press press!!');
+    if(username == 'admin') {
+      this.props.loginAdmin(password);
+    }
   }
 
   onLoginUserWithFacebook() {
@@ -33,8 +36,10 @@ class Login extends Component {
 
   render() {
     const { user } = this.props;
-    if (user) {
+    if (user == 'admin') {
       return <Redirect to="/dashboard" />;
+    }else if (user) {
+      return <Redirect to="/register" />;
     }
     return (
       <div className="row">
@@ -49,14 +54,14 @@ class Login extends Component {
 
               <div>
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="username">Username</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="email"
+                    name="username"
                     required
-                    value={this.props.email}
-                    onChange={this.onEmailChange.bind(this)}
+                    value={this.props.username}
+                    onChange={this.onUsernameChange.bind(this)}
                   />
                 </div>
 
@@ -96,7 +101,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.auth.email,
+    username: state.auth.username,
     password: state.auth.password,
     user: state.auth.user
   };
@@ -104,5 +109,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { emailChanged, passwordChanged, loginUserWithFacebook, checkLogin }
+  { usernameChanged, passwordChanged, loginUserWithFacebook, checkLogin, loginAdmin }
 )(Login);
