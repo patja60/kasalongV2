@@ -1,14 +1,15 @@
 import firebase from 'firebase';
 import {
-  EMAIL_CHANGED,
+  USERNAME_CHANGED,
   PASSWORD_CHANGED,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOGOUT_USER
 } from './types';
 import { provider } from '../database';
 
-export const emailChanged = (text) => {
+export const usernameChanged = (text) => {
   return {
-    type: EMAIL_CHANGED,
+    type: USERNAME_CHANGED,
     payload: text
   };
 };
@@ -55,6 +56,16 @@ export const checkLogin = () => {
   };
 };
 
+export const loginAdmin = (password) => {
+  return (dispatch) => {
+    firebase.database().ref(`/admin/password`).once('value')
+    .then((snapshot) => {
+      if(password == snapshot.val()) {
+        loginUserSuccess(dispatch, "admin");
+      }
+    });
+  };
+};
 
 export const loginUserWithFacebook = () => {
   return (dispatch) => {
@@ -71,4 +82,10 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
+};
+
+export const logoutUser = () => {
+  return {
+    type: LOGOUT_USER
+  };
 };
