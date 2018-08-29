@@ -24,7 +24,6 @@ class Login extends Component {
 
   onButtonPress() {
     const { username, password } = this.props;
-    //this.props.loginUser({ email, password });
     if(username == 'admin') {
       this.props.loginAdmin(password);
     }
