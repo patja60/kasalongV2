@@ -2,7 +2,10 @@ import firebase from 'firebase';
 import {
   CREATE_USERNAME_CHANGED,
   CREATE_PASSWORD_CHANGED,
-  CREATE_USER
+  CREATE_USER,
+  SUBJECT_NAME_CHANGED,
+  SUBJECT_ID_CHANGED,
+  SUBJECT_PASSWORD_CHANGED
 } from './types';
 import { provider } from '../database';
 
@@ -22,10 +25,35 @@ export const createPasswordChanged = (text) => {
 
 export const createUser = ({ createUsername, createPassword }) => {
   return () => {
-    var newPostRef = firebase.database().ref(`/student`)
-    .push({ username: createUsername, password: createPassword })
-    console.log(newPostRef.key);
-    var newPostRef = firebase.database().ref(`/username`)
-    .child(createUsername).set({ uid: newPostRef.key, password: createPassword })
+    firebase.database().ref(`/student`)
+    .child(createUsername).set({ password: createPassword });
+  };
+};
+
+export const subjectNameChanged = (text) => {
+  return {
+    type: SUBJECT_NAME_CHANGED,
+    payload: text
+  };
+};
+
+export const subjectIdChanged = (text) => {
+  return {
+    type: SUBJECT_ID_CHANGED,
+    payload: text
+  };
+};
+
+export const subjectPasswordChanged = (text) => {
+  return {
+    type: SUBJECT_PASSWORD_CHANGED,
+    payload: text
+  };
+};
+
+export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
+  return () => {
+    firebase.database().ref(`/subject`)
+    .child(subjectName).set({ subjectId: subjectId, subjectPassword: subjectPassword });
   };
 };
