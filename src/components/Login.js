@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import {
   usernameChanged,
@@ -96,6 +97,12 @@ class Login extends Component {
       </div>
     );
   }
+}
+
+Login.propTypes = {
+  email: PropTypes.string,
+  password: PropTypes.string,
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => {
