@@ -14,9 +14,6 @@ import {
 } from '../actions';
 
 class Login extends Component {
-  componentWillMount() {
-    this.props.checkLogin();
-  }
   onUsernameChange(text) {
     this.props.usernameChanged(text.target.value);
   }
