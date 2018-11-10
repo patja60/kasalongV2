@@ -8,13 +8,12 @@ import {
   passwordChanged,
   loginUserWithFacebook,
   checkLogin,
-  loginAdmin
+  loginAdmin,
+  loginUser,
+  signUp
 } from '../actions';
 
 class Login extends Component {
-  componentWillMount() {
-    this.props.checkLogin();
-  }
   onUsernameChange(text) {
     this.props.usernameChanged(text.target.value);
   }
@@ -23,11 +22,18 @@ class Login extends Component {
     this.props.passwordChanged(text.target.value);
   }
 
-  onButtonPress() {
+  onLogin() {
     const { username, password } = this.props;
     if(username == 'admin') {
       this.props.loginAdmin(password);
+    }else{
+      this.props.loginUser(username, password);
     }
+  }
+
+  onSignUp() {
+    const { username, password } = this.props;
+    this.props.signUp(username, password);
   }
 
   onLoginUserWithFacebook() {
@@ -79,16 +85,16 @@ class Login extends Component {
 
                 <button
                   className="btn btn-primary btn-block"
-                  onClick={this.onButtonPress.bind(this)}
+                  onClick={this.onLogin.bind(this)}
                 >
                   Login
                 </button>
 
                 <button
                   className="btn btn-primary btn-block"
-                  onClick={this.onLoginUserWithFacebook.bind(this)}
+                  onClick={this.onSignUp.bind(this)}
                 >
-                  Login With Facebook
+                  Sign Up
                 </button>
               </div>
             </div>
@@ -115,5 +121,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { usernameChanged, passwordChanged, loginUserWithFacebook, checkLogin, loginAdmin }
+  { usernameChanged, passwordChanged, loginUserWithFacebook, checkLogin, loginAdmin, loginUser, signUp }
 )(Login);
