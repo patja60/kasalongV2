@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
+import { createStore, applyMiddleware, compose } from "redux";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import reducers from "./reducers";
 
-import Routes from './components/Routes';
+import Routes from "./components/Routes";
 
 class App extends Component {
   render() {
