@@ -18,6 +18,14 @@ class Register extends Component {
     this.onSubjectClick = this.onSubjectClick.bind(this);
   }
 
+  componentWillMount() {
+    console.log("will mount");
+  }
+
+  fetchSubject() {
+    //this.props.fetchSubject();
+  }
+
   onSubjectClick(e) {
     this.setState({ currentSub: e });
   }
@@ -30,6 +38,7 @@ class Register extends Component {
     return (
       <div>
         <h1>This is Register Page</h1>
+        <h2>You are: {this.props.username}</h2>
         <SubjectList subjects={dummy} onSubjectClick={this.onSubjectClick} />
         <SubjectCard
           subName={dummy[currentSub - 1].subName}
@@ -48,7 +57,10 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    username:  state.auth.username,
+    user: state.auth.user,
+  };
 };
 
 export default connect(

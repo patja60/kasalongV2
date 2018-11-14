@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   username: '',
   password: '',
   err: '',
-  user: null
+  user: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
