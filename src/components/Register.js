@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { logoutUser } from "../actions";
+
+import {
+  logoutUser,
+  fetchSubject
+} from "../actions";
+
 import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
 
@@ -19,11 +24,7 @@ class Register extends Component {
   }
 
   componentWillMount() {
-    console.log("will mount");
-  }
-
-  fetchSubject() {
-    //this.props.fetchSubject();
+    this.props.fetchSubject();
   }
 
   onSubjectClick(e) {
@@ -65,5 +66,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser, fetchSubject }
 )(Register);
