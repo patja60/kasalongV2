@@ -36,10 +36,6 @@ class Login extends Component {
     this.props.signUp(username, password);
   }
 
-  onLoginUserWithFacebook() {
-    this.props.loginUserWithFacebook();
-  }
-
   render() {
     const { user } = this.props;
     if (user == 'admin') {
@@ -89,13 +85,6 @@ class Login extends Component {
                 >
                   Login
                 </button>
-
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={this.onSignUp.bind(this)}
-                >
-                  Sign Up
-                </button>
               </div>
             </div>
           </div>
@@ -121,5 +110,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { usernameChanged, passwordChanged, loginUserWithFacebook, checkLogin, loginAdmin, loginUser, signUp }
+  { usernameChanged, passwordChanged, loginAdmin, loginUser }
 )(Login);

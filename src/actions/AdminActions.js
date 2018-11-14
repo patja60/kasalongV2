@@ -29,13 +29,30 @@ export const createPasswordChanged = (text) => {
 
 export const createUser = ({ createUsername, createPassword }) => {
   return (dispatch) => {
-    firebase.database().ref(`/student`)
-    .child(createUsername).set({ password: createPassword })
-    .then(() => {
-      createUserSuccess(dispatch);
+    createUsername = createUsername + '@camp.com';
+    firebase.auth().createUserWithEmailAndPassword(createUsername, createPassword)
+    .then((data) => {
+      const user = data.user;
+      const defaultData = {
+        username: createUsername,
+        password: createPassword,
+        studentTime: 0,
+        registeredSubject: 0
+      };
+      firebase.database().ref(`/student/${user.uid}/`)
+      .set(defaultData)
+      .then(() => {
+        createUserSuccess(dispatch);
+      })
+      .catch((err) => {
+        createUserFailed(dispatch);
+        console.log(err);
+      });
+      console.log(data.user.uid);
     })
-    .catch(() => {
+    .catch((error) => {
       createUserFailed(dispatch);
+      console.log(error);
     });
   };
 };
@@ -72,7 +89,7 @@ export const subjectPasswordChanged = (text) => {
 export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
   return (dispatch) => {
     firebase.database().ref(`/subject`)
-    .child(subjectName).set({ subjectId: subjectId, subjectPassword: subjectPassword })
+    .child(subjectName).set({ subjectName: subjectName, subjectId: subjectId, subjectPassword: subjectPassword })
     .then(() => {
       createSubjectSuccess(dispatch);
     })

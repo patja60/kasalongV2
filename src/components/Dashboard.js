@@ -40,6 +40,7 @@ class Dashboard extends Component {
     const { subjectName, subjectId, subjectPassword } = this.props;
     this.props.createSubject({ subjectName, subjectId, subjectPassword });
   }
+  //onChange = e => this.setState({ [e.target.name]: e.target.value});
 
   render() {
     return (
@@ -64,6 +65,7 @@ class Dashboard extends Component {
                   required
                   value={this.props.createUsername}
                   onChange={this.onCreateUsernameChange.bind(this)}
+                  //onChange={this.onChange}
                 />
               </div>
 
