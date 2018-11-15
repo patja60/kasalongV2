@@ -1,64 +1,69 @@
-import firebase from 'firebase';
+import firebase from "firebase";
 import {
   USERNAME_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGOUT_USER
-} from './types';
-import { provider } from '../database';
+} from "./types";
+import { provider } from "../database";
 
-export const usernameChanged = (text) => {
+export const usernameChanged = text => {
   return {
     type: USERNAME_CHANGED,
     payload: text
   };
 };
 
-export const passwordChanged = (text) => {
+export const passwordChanged = text => {
   return {
     type: PASSWORD_CHANGED,
     payload: text
   };
 };
 
-export const loginAdmin = (password) => {
-  return (dispatch) => {
-    firebase.database().ref(`/admin/password`).once('value')
-    .then((snapshot) => {
-      if(password == snapshot.val()) {
-        loginUserSuccess(dispatch, "admin");
-      }
-    });
+export const loginAdmin = password => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`/admin/password`)
+      .once("value")
+      .then(snapshot => {
+        if (password == snapshot.val()) {
+          loginUserSuccess(dispatch, "admin");
+        }
+      });
   };
 };
 
 export const loginUser = (username, password) => {
-  return (dispatch) => {
-    username = username + '@camp.com';
-    firebase.auth().signInWithEmailAndPassword(username, password)
-    .then(user => loginUserSuccess(dispatch, user))
-    .catch((error) => {
-      loginUserFail(dispatch);
-      console.log(error);
-    });
+  return dispatch => {
+    username = username + "@camp.com";
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(username, password)
+      .then(user => loginUserSuccess(dispatch, user))
+      .catch(error => {
+        loginUserFail(dispatch);
+        console.log(error);
+      });
   };
 };
 
-export function verifyAuth() {
-    return function (dispatch) {
-        firebase.auth().onAuthStateChanged(user => {
-          console.log("tracking state");
-            if (user) {
-              console.log("user");
-                alreadyLogin(dispatch, user);
-            } else {
-              console.log("no user");
-                //loginUserFail(dispatch);
-            }
-        });
-    }
-}
+export const verifyAuth = () => {
+  return function(dispatch) {
+    firebase.auth().onAuthStateChanged(user => {
+      console.log("tracking state");
+      if (user) {
+        console.log("user");
+        alreadyLogin(dispatch, user);
+      } else {
+        console.log("no user");
+        //loginUserFail(dispatch);
+      }
+    });
+  };
+};
 
 const alreadyLogin = (dispatch, user) => {
   dispatch({
@@ -74,23 +79,25 @@ const loginUserSuccess = (dispatch, user) => {
   });
 };
 
-const loginUserFail = (dispatch) => {
+const loginUserFail = dispatch => {
   dispatch({ type: LOGIN_USER_FAIL });
 };
 
 export const logoutUser = () => {
-  return (dispatch) => {
-    firebase.auth().signOut()
-    .then(() => {
-      console.log("1");
-      logout(dispatch);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return dispatch => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("1");
+        logout(dispatch);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
 
-const logout = (dispatch) => {
-  dispatch({ type: LOGOUT_USER});
+const logout = dispatch => {
+  dispatch({ type: LOGOUT_USER });
 };

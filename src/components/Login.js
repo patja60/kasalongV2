@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import {
   usernameChanged,
@@ -11,7 +11,7 @@ import {
   loginAdmin,
   loginUser,
   signUp
-} from '../actions';
+} from "../actions";
 
 class Login extends Component {
   onUsernameChange(text) {
@@ -24,9 +24,9 @@ class Login extends Component {
 
   onLogin() {
     const { username, password } = this.props;
-    if(username == 'admin') {
+    if (username == "admin") {
       this.props.loginAdmin(password);
-    }else{
+    } else {
       this.props.loginUser(username, password);
     }
   }
@@ -39,11 +39,11 @@ class Login extends Component {
   render() {
     const { user } = this.props;
     console.log("redirect login");
-    if (user == 'admin') {
-      return <Redirect to="/dashboard" />;
-    }else if (user) {
-      return <Redirect to="/register" />;
-    }
+    // if (user == 'admin') {
+    //   return <Redirect to="/dashboard" />;
+    // }else if (user) {
+    //   return <Redirect to="/register" />;
+    // }
     return (
       <div className="row">
         <div className="col-md-6 mx-auto">
@@ -99,7 +99,7 @@ Login.propTypes = {
   email: PropTypes.string,
   password: PropTypes.string,
   user: PropTypes.object
-}
+};
 
 const mapStateToProps = state => {
   return {

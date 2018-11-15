@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import firebase from 'firebase';
+import firebase from "firebase";
 import { connect } from "react-redux";
-import { Link,Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-import {
-  logoutUser,
-  fetchSubject
-} from "../actions";
+import { logoutUser, fetchSubject } from "../actions";
 
 import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
@@ -41,9 +38,9 @@ class Register extends Component {
     console.log("currentSub in render: ", currentSub);
     var user = firebase.auth().currentUser;
     console.log("current user: ", user);
-    if (!user) {
-      return <Redirect to="/" />;
-    }
+    // if (!user) {
+    //   return <Redirect to="/" />;
+    // }
     return (
       <div>
         <h1>This is Register Page</h1>
@@ -75,8 +72,8 @@ class Register extends Component {
 
 const mapStateToProps = state => {
   return {
-    username:  state.auth.username,
-    user: state.auth.user,
+    username: state.auth.username,
+    user: state.auth.user
   };
 };
 

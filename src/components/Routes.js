@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { UserIsAuthenticated, UserIsNotAuthenticated } from "./auth";
 
-import Login from './Login';
-import Register from './Register';
-import Dashboard from './Dashboard';
-import Temporary from './Temporary';
+import Login from "./Login";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
+import Temporary from "./Temporary";
 
 export default () => (
   <Switch>
-    <Route exact path="/" component={Login} />
-    <Route exact path="/register" component={Register} />
-    <Route exact path="/dashboard" component={Dashboard} />
-    <Route exact path="/temporary" component={Temporary} />
+    <Route exact path="/" component={UserIsNotAuthenticated(Login)} />
+    <Route exact path="/register" component={UserIsAuthenticated(Register)} />
+    <Route exact path="/dashboard" component={UserIsAuthenticated(Dashboard)} />
+    <Route exact path="/temporary" component={UserIsAuthenticated(Temporary)} />
   </Switch>
 );
