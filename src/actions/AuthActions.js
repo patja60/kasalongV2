@@ -48,12 +48,9 @@ export const loginUser = (username, password) => {
 export function verifyAuth() {
     return function (dispatch) {
         firebase.auth().onAuthStateChanged(user => {
-          console.log("tracking state");
             if (user) {
-              console.log("user");
                 alreadyLogin(dispatch, user);
             } else {
-              console.log("no user");
                 //loginUserFail(dispatch);
             }
         });
@@ -82,7 +79,6 @@ export const logoutUser = () => {
   return (dispatch) => {
     firebase.auth().signOut()
     .then(() => {
-      console.log("1");
       logout(dispatch);
     })
     .catch((error) => {
