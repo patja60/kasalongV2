@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import {
   usernameChanged,
@@ -11,7 +11,7 @@ import {
   loginAdmin,
   loginUser,
   signUp
-} from '../actions';
+} from "../actions";
 
 class Login extends Component {
   onUsernameChange(text) {
@@ -24,9 +24,9 @@ class Login extends Component {
 
   onLogin() {
     const { username, password } = this.props;
-    if(username == 'admin') {
+    if (username == "admin") {
       this.props.loginAdmin(password);
-    }else{
+    } else {
       this.props.loginUser(username, password);
     }
   }
@@ -98,13 +98,12 @@ Login.propTypes = {
   email: PropTypes.string,
   password: PropTypes.string,
   user: PropTypes.object
-}
+};
 
 const mapStateToProps = state => {
   return {
     username: state.auth.username,
     password: state.auth.password,
-    user: state.auth.user
   };
 };
 
