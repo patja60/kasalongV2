@@ -38,6 +38,7 @@ class Login extends Component {
 
   render() {
     const { user } = this.props;
+    console.log("redirect login");
     if (user == 'admin') {
       return <Redirect to="/dashboard" />;
     }else if (user) {

@@ -45,6 +45,28 @@ export const loginUser = (username, password) => {
   };
 };
 
+export function verifyAuth() {
+    return function (dispatch) {
+        firebase.auth().onAuthStateChanged(user => {
+          console.log("tracking state");
+            if (user) {
+              console.log("user");
+                alreadyLogin(dispatch, user);
+            } else {
+              console.log("no user");
+                //loginUserFail(dispatch);
+            }
+        });
+    }
+}
+
+const alreadyLogin = (dispatch, user) => {
+  dispatch({
+    type: "login",
+    payload: user
+  });
+};
+
 const loginUserSuccess = (dispatch, user) => {
   dispatch({
     type: LOGIN_USER_SUCCESS,
@@ -57,7 +79,18 @@ const loginUserFail = (dispatch) => {
 };
 
 export const logoutUser = () => {
-  return {
-    type: LOGOUT_USER
+  return (dispatch) => {
+    firebase.auth().signOut()
+    .then(() => {
+      console.log("1");
+      logout(dispatch);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
+};
+
+const logout = (dispatch) => {
+  dispatch({ type: LOGOUT_USER});
 };

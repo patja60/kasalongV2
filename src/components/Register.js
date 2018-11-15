@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import firebase from 'firebase';
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 
 import {
   logoutUser,
@@ -30,12 +31,19 @@ class Register extends Component {
   onSubjectClick(e) {
     this.setState({ currentSub: e });
   }
+
   onSignout() {
     this.props.logoutUser();
   }
+
   render() {
     const { currentSub } = this.state;
     console.log("currentSub in render: ", currentSub);
+    var user = firebase.auth().currentUser;
+    console.log("current user: ", user);
+    if (!user) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <h1>This is Register Page</h1>
@@ -46,8 +54,8 @@ class Register extends Component {
           content={dummy[currentSub - 1].period}
         />
         <Link
-          to="/"
           onClick={this.onSignout.bind(this)}
+          to="/"
           className="btn btn-primary btn-block"
         >
           Sign out
@@ -56,6 +64,14 @@ class Register extends Component {
     );
   }
 }
+
+// <Link
+//   to="/"
+//   onClick={this.onSignout.bind(this)}
+//   className="btn btn-primary btn-block"
+// >
+//   Sign out
+// </Link>
 
 const mapStateToProps = state => {
   return {

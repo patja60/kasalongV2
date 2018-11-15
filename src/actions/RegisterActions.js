@@ -6,10 +6,8 @@ import { provider } from '../database';
 
 export const fetchSubject = () => {
   return (dispatch) => {
-    console.log("fetch");
     firebase.database().ref(`/subject/`)
     .on('value', function(snapshot) {
-      console.log("try");
       console.log(snapshot.val());
       updateData(snapshot.val());
     });

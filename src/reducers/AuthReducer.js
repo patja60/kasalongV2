@@ -17,6 +17,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   console.log(action);
   switch (action.type) {
+    case "login":
+      return { ...state, user: action.payload };
     case USERNAME_CHANGED:
       return { ...state, username: action.payload };
     case PASSWORD_CHANGED:
