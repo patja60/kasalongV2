@@ -15,7 +15,8 @@ class Register extends Component {
     super(props);
 
     this.state = {
-      currentSub: 1
+      currentSub: 1,
+      currentSec: 1
     };
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
@@ -34,21 +35,21 @@ class Register extends Component {
   }
 
   render() {
-    const { currentSub } = this.state;
-    console.log("currentSub in render: ", currentSub);
-    var user = firebase.auth().currentUser;
+    const { currentSub, currentSec } = this.state;
+
+    const user = firebase.auth().currentUser;
     console.log("current user: ", user);
-    // if (!user) {
-    //   return <Redirect to="/" />;
-    // }
+
     return (
       <div>
         <h1>This is Register Page</h1>
         <h2>You are: </h2>
         <SubjectList subjects={dummy} onSubjectClick={this.onSubjectClick} />
         <SubjectCard
+          subId={dummy[currentSub - 1].subId}
           subName={dummy[currentSub - 1].subName}
-          content={dummy[currentSub - 1].period}
+          sections={dummy[currentSub - 1].sec}
+          currentSec={currentSec}
         />
         <Link
           onClick={this.onSignout.bind(this)}
@@ -62,18 +63,8 @@ class Register extends Component {
   }
 }
 
-// <Link
-//   to="/"
-//   onClick={this.onSignout.bind(this)}
-//   className="btn btn-primary btn-block"
-// >
-//   Sign out
-// </Link>
-
 const mapStateToProps = state => {
-  return {
-
-  };
+  return {};
 };
 
 export default connect(
