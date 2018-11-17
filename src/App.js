@@ -3,22 +3,22 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import Routes from "./components/Routes";
+import Navbar from "./components/Navbar";
 
-import { store } from './configStore';
-import * as Actions from './actions';
+import { store } from "./configStore";
+import * as Actions from "./actions";
 
 class App extends Component {
   componentWillMount() {
-     store.dispatch(Actions.verifyAuth());
+    store.dispatch(Actions.verifyAuth());
   }
 
   render() {
     return (
-      <Provider
-        store={store}
-      >
+      <Provider store={store}>
         <Router>
           <div className="App">
+            <Navbar />
             <div className="container">
               <Routes />
             </div>
