@@ -41,11 +41,49 @@ class Register extends Component {
     this.props.logoutUser();
   }
 
+  // onRegister(subjectId, sec) {
+  //   if(checkTime(userTime,subjectTime)) {
+  //
+  //   }else{
+  //     //Time conflict
+  //     //return
+  //   }
+  //
+  //   if(checkRegistered(userRegisteredSubject, subjectId)) {
+  //
+  //   }else{
+  //     //Already Register this subject
+  //     //return
+  //   }
+  //
+  //   firebase.database().ref(`/subject/${subjectId}/${sec}/`)
+  //   .transaction((post) => {
+  //     if(post) {
+  //       let currentStudent = post.currentStudent;
+  //       let max = post.max;
+  //       let studentList = post.studentList;
+  //       if(currentStudent < max){
+  //         post.currentStudent = currentStudent+1;
+  //         //post.studentList = studentList.append(newStudent);
+  //         return post;
+  //       }
+  //     }
+  //   })
+  //
+  // }
+  // 
+  // checkTime(userTime, subjectTime) {
+  //
+  // }
+  //
+  // checkRegistered(userRegisteredSubject, subjectId) {
+  //
+  // }
+
   render() {
     const { currentSub, currentSec } = this.state;
 
     const user = firebase.auth().currentUser;
-    console.log("current user: ", user);
     return (
       <div>
         <h1>This is Register Page</h1>
