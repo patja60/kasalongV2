@@ -6,24 +6,24 @@ const locationHelper = locationHelperBuilder({});
 
 export const UserIsAuthenticated = connectedRouterRedirect({
   wrapperDisplayName: "UserIsAuthenticated",
-  AuthenticatingComponent: LoadingScreen,
   allowRedirectBack: true,
   redirectPath: (state, ownProps) =>
     locationHelper.getRedirectQueryParam(ownProps) || "/",
-  authenticatingSelector: ({ firebase: { auth, profile, isInitializing } }) =>
-    !auth.isLoaded || isInitializing === true,
-  authenticatedSelector: ({ firebase: { auth } }) =>
-    auth.isLoaded && !auth.isEmpty
+  authenticatedSelector: ({ register: { isLoading, isInitializing } }) =>
+    !isLoading && isInitializing,
+  authenticatingSelector: ({ register: { isLoading } }) =>
+    isLoading,
+  AuthenticatingComponent: LoadingScreen
 });
 
 export const UserIsNotAuthenticated = connectedRouterRedirect({
   wrapperDisplayName: "UserIsNotAuthenticated",
-  AuthenticatingComponent: LoadingScreen,
   allowRedirectBack: false,
   redirectPath: (state, ownProps) =>
     locationHelper.getRedirectQueryParam(ownProps) || "/register",
-  authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
-    !auth.isLoaded || isInitializing === true,
-  authenticatedSelector: ({ firebase: { auth } }) =>
-    auth.isLoaded && auth.isEmpty
+  authenticatedSelector: ({ register: { isLoading, isInitializing } }) =>
+    !isLoading && !isInitializing,
+    authenticatingSelector: ({ register: { isLoading } }) =>
+      isLoading,
+  AuthenticatingComponent: LoadingScreen
 });

@@ -15,6 +15,7 @@ import ReduxThunk from "redux-thunk";
 import dbconfig from "./database";
 import AuthReducer from "./reducers/AuthReducer";
 import AdminReducer from "./reducers/AdminReducer";
+import RegisterReducer from "./reducers/RegisterReducer";
 
 // import { reduxFirestore, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
 // import 'firebase/firestore' // <- needed if using firestore
@@ -45,7 +46,8 @@ const createStoreWithFirebase = compose(
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   auth: AuthReducer,
-  admin: AdminReducer
+  admin: AdminReducer,
+  register: RegisterReducer
   // firestore: firestoreReducer // <- needed if using firestore
 });
 
@@ -60,27 +62,3 @@ export const store = createStoreWithFirebase(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
-
-// Setup react-redux so that connect HOC can be used
-// const App = () => (
-//   <Provider store={store}>
-//     <Todos />
-//   </Provider>
-// );
-
-// render(<App/>, document.getElementById('root'));
-
-// export const store = createStore(
-//   reducers,
-//   {},
-//   compose(
-//     applyMiddleware(ReduxThunk),
-//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-//   )
-// );
-
-// export const store = createStore(pReducer,compose(
-//   applyMiddleware(ReduxThunk),
-//   window.__REDUX_DEVTOOLS_EXTENSION__ &&
-//     window.__REDUX_DEVTOOLS_EXTENSION__()
-// ));

@@ -29,30 +29,21 @@ export const createPasswordChanged = (text) => {
 
 export const createUser = ({ createUsername, createPassword }) => {
   return (dispatch) => {
-    createUsername = createUsername + '@camp.com';
-    firebase.auth().createUserWithEmailAndPassword(createUsername, createPassword)
-    .then((data) => {
-      const user = data.user;
-      const defaultData = {
-        username: createUsername,
-        password: createPassword,
-        studentTime: 0,
-        registeredSubject: 0
-      };
-      firebase.database().ref(`/student/${user.uid}/`)
-      .set(defaultData)
-      .then(() => {
-        createUserSuccess(dispatch);
-      })
-      .catch((err) => {
-        createUserFailed(dispatch);
-        console.log(err);
-      });
-      console.log(data.user.uid);
+    const user = firebase.auth().currentUser;
+    const defaultData = {
+      username: createUsername,
+      password: createPassword,
+      studentTime: 0,
+      registeredSubject: 0
+    };
+    firebase.database().ref(`/student/${user.uid}/`)
+    .set(defaultData)
+    .then(() => {
+      createUserSuccess(dispatch);
     })
-    .catch((error) => {
+    .catch((err) => {
       createUserFailed(dispatch);
-      console.log(error);
+      console.log(err);
     });
   };
 };

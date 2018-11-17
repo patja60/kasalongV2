@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from 'redux';
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { firebaseConnect } from 'react-redux-firebase';
 
 import {
   usernameChanged,
@@ -24,6 +26,7 @@ class Login extends Component {
 
   onLogin() {
     const { username, password } = this.props;
+    const { firebase } = this.props;
     if (username == "admin") {
       this.props.loginAdmin(password);
     } else {
@@ -38,9 +41,7 @@ class Login extends Component {
 
   render() {
     const { user } = this.props;
-    if (user == 'admin') {
-      return <Redirect to="/dashboard" />;
-    }else if (user) {
+    if (user) {
       return <Redirect to="/register" />;
     }
     return (
@@ -97,17 +98,21 @@ class Login extends Component {
 Login.propTypes = {
   email: PropTypes.string,
   password: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.object,
+  firebase: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     username: state.auth.username,
     password: state.auth.password,
+    admin: state.auth.admin,
   };
 };
 
-export default connect(
+export default compose(
+  firebaseConnect(),
+  connect(
   mapStateToProps,
   { usernameChanged, passwordChanged, loginAdmin, loginUser }
-)(Login);
+))(Login);

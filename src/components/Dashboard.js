@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   createUsernameChanged,
   createPasswordChanged,
@@ -9,6 +10,8 @@ import {
   subjectPasswordChanged,
   createSubject
 } from '../actions';
+import PropTypes from "prop-types";
+import { firebaseConnect } from 'react-redux-firebase';
 
 class Dashboard extends Component {
   onCreateUsernameChange(text) {
@@ -159,6 +162,10 @@ class Dashboard extends Component {
   }
 }
 
+Dashboard.propTypes = {
+  firebase: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = state => {
   return {
     createUsername: state.admin.createUsername,
@@ -170,7 +177,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
+export default compose(
+  firebaseConnect(),
+  connect(
   mapStateToProps,
   { createUsernameChanged,
     createPasswordChanged,
@@ -179,4 +188,4 @@ export default connect(
     subjectIdChanged,
     subjectPasswordChanged,
     createSubject }
-)(Dashboard);
+))(Dashboard);

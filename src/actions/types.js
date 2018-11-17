@@ -19,3 +19,8 @@ export const SUBJECT_PASSWORD_CHANGED = 'subject_password_changed';
 export const CREATE_SUBJECT = 'create_subject';
 export const CREATE_SEBJECT_SUCCESS = 'create_subject_success';
 export const CREATE_SEBJECT_FAILED = 'create_subject_failed';
+
+// ==========================================================
+
+export const UPDATE_USER_DATA = 'update_user_data';
+export const UPDATE_SUBJECT_DATA = 'create_subject_failed';
