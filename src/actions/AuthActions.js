@@ -43,7 +43,7 @@ export const loginUser = (username, password) => {
       .auth()
       .signInWithEmailAndPassword(username, password)
       .then(user => {
-        
+        loginUserSuccess(dispatch);
       })
       .catch(error => {
         loginUserFail(dispatch);
@@ -55,10 +55,13 @@ export const loginUser = (username, password) => {
 export function verifyAuth() {
     return function (dispatch) {
         firebase.auth().onAuthStateChanged(user => {
+          console.log("tracking state");
             if (user) {
-                alreadyLogin(dispatch, user);
+              console.log("user");
+              alreadyLogin(dispatch, user);
             } else {
-                //loginUserFail(dispatch);
+              console.log("no user");
+              notAlreadyLogin(dispatch);
             }
         });
     }
@@ -66,8 +69,14 @@ export function verifyAuth() {
 
 const alreadyLogin = (dispatch, user) => {
   dispatch({
-    type: "login",
+    type: "alreadylogin",
     payload: user
+  });
+};
+
+const notAlreadyLogin = (dispatch) => {
+  dispatch({
+    type: "notAlreadylogin"
   });
 };
 

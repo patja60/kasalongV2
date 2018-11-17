@@ -9,8 +9,9 @@ import * as Actions from './actions';
 
 class App extends Component {
   componentWillMount() {
-    store.dispatch(Actions.verifyAuth());
+     store.dispatch(Actions.verifyAuth());
   }
+
   render() {
     return (
       <Provider

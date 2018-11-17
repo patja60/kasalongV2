@@ -10,22 +10,20 @@ import {
 const INITIAL_STATE = {
   username: '',
   password: '',
-  err: ''
+  err: '',
+  admin: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch (action.type) {
-    case "login":
-      return { ...state };
     case USERNAME_CHANGED:
       return { ...state, username: action.payload };
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
     case LOGIN_USER:
-      return { ...state, error: '' };
+      return { ...state, error: ''};
     case LOGIN_USER_SUCCESS:
-      return { ...state, password: '' };
+      return { ...state, password: '', admin: action.payload  };
     case LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed', password: '' };
     case LOGOUT_USER:

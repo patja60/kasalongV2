@@ -3,7 +3,7 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
-import { logoutUser, fetchSubject } from "../actions";
+import { logoutUser, fetchSubject, fetchUserData } from "../actions";
 
 import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
@@ -24,6 +24,7 @@ class Register extends Component {
 
   componentWillMount() {
     this.props.fetchSubject();
+    this.props.fetchUserData();
   }
 
   onSubjectClick(e) {
@@ -39,11 +40,10 @@ class Register extends Component {
 
     const user = firebase.auth().currentUser;
     console.log("current user: ", user);
-
     return (
       <div>
         <h1>This is Register Page</h1>
-        <h2>You are: </h2>
+        <h2>You are: {firebase.auth().currentUser.email}</h2>
         <SubjectList subjects={dummy} onSubjectClick={this.onSubjectClick} />
         <SubjectCard
           subId={dummy[currentSub - 1].subId}
@@ -69,5 +69,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logoutUser, fetchSubject }
+  { logoutUser, fetchSubject, fetchUserData }
 )(Register);

@@ -6,6 +6,7 @@ import ReduxThunk from "redux-thunk";
 import dbconfig from "./database";
 import AuthReducer from "./reducers/AuthReducer";
 import AdminReducer from "./reducers/AdminReducer";
+import RegisterReducer from "./reducers/RegisterReducer";
 
 const firebaseConfig = dbconfig;
 
@@ -26,7 +27,13 @@ const createStoreWithFirebase = compose(
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   auth: AuthReducer,
+<<<<<<< HEAD
   admin: AdminReducer
+=======
+  admin: AdminReducer,
+  register: RegisterReducer
+  // firestore: firestoreReducer // <- needed if using firestore
+>>>>>>> 5ca0c8e6789fa2faa736252d36bf6ce0202278fd
 });
 
 // Create store with reducers and initial state
