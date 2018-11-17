@@ -16,10 +16,11 @@ class Register extends Component {
 
     this.state = {
       currentSub: 1,
-      currentSec: 1
+      currentSec: 0
     };
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
+    this.onSectionClick = this.onSectionClick.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +30,11 @@ class Register extends Component {
 
   onSubjectClick(e) {
     this.setState({ currentSub: e });
+    this.setState({ currentSec: 0 });
+  }
+
+  onSectionClick(index) {
+    this.setState({ currentSec: index });
   }
 
   onSignout() {
@@ -50,11 +56,12 @@ class Register extends Component {
           subName={dummy[currentSub - 1].subName}
           sections={dummy[currentSub - 1].sec}
           currentSec={currentSec}
+          onSectionClick={this.onSectionClick}
         />
         <Link
           onClick={this.onSignout.bind(this)}
           to="/"
-          className="btn btn-primary btn-block"
+          className="btn btn-secondary btn-block"
         >
           Sign out
         </Link>

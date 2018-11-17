@@ -1,40 +1,35 @@
 import React, { Component } from "react";
 
-export default ({ subId, subName, sections, currentSec }) => (
-  <div className="card mb-3 border-primary">
+export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
+  <div className="card mb-3 bg-light">
     <div className="card-body">
-      <h5 className="card-title">
+      <h6 className="card-title">
         {subId} {subName}
-      </h5>
+      </h6>
       <ul className="list-group">
         {sections.map((section, index) => (
-          <div>
-            {currentSec == index ? (
-              <li className="list-group-item active" key={index}>
-                <div className="clearfix">
-                  <h6 className="float-left">Section: {index + 1}</h6>
-                  <span className="badge badge-primary float-right">
-                    {section.current} / {section.capacity}
-                  </span>
-                </div>
+          <li
+            className={
+              currentSec == index
+                ? "list-group-item bg-info text-white"
+                : "list-group-item"
+            }
+            key={index}
+            onClick={() => onSectionClick(index)}
+            style={{ cursor: "pointer" }}
+          >
+            <div className="clearfix">
+              <h6 className="float-left">Section: {index + 1}</h6>
+              <span className="badge badge-info float-right">
+                {section.current} / {section.capacity}
+              </span>
+            </div>
 
-                <div>Time: 2 Jan: 9.00 - 10.30</div>
-              </li>
-            ) : (
-              <li className="list-group-item" key={index}>
-                <div className="clearfix">
-                  <h6 className="float-left">Section: {index + 1}</h6>
-                  <span className="badge badge-primary float-right">
-                    {section.current} / {section.capacity}
-                  </span>
-                </div>
-
-                <div>Time: 2 Jan: 9.00 - 10.30</div>
-              </li>
-            )}
-          </div>
+            <div>Time: 2 Jan: 9.00 - 10.30</div>
+          </li>
         ))}
       </ul>
+      <button className="btn btn-outline-info btn-block mt-3">Register</button>
     </div>
   </div>
 );

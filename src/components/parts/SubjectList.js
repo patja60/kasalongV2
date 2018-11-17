@@ -3,11 +3,11 @@ import React, { Component } from "react";
 export default ({ subjects, onSubjectClick }) => (
   <div className="dropdown mb-3">
     <button
-      className="btn btn-primary dropdown-toggle"
+      className="btn btn-info dropdown-toggle"
       type="button"
       data-toggle="dropdown"
     >
-      choose a subject
+      Choose a subject
     </button>
 
     <div className="dropdown-menu">

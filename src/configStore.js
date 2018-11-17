@@ -27,13 +27,8 @@ const createStoreWithFirebase = compose(
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   auth: AuthReducer,
-<<<<<<< HEAD
-  admin: AdminReducer
-=======
   admin: AdminReducer,
   register: RegisterReducer
-  // firestore: firestoreReducer // <- needed if using firestore
->>>>>>> 5ca0c8e6789fa2faa736252d36bf6ce0202278fd
 });
 
 // Create store with reducers and initial state
