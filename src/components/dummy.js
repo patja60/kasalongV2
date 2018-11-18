@@ -1,26 +1,28 @@
 export default [
   {
-    subjectId: 1,
-    subjectName: "Exploring Engineering World",
+    subId: 1,
+    subName: "Exploring Engineering World",
     subjectPassword: "123456",
     sec: {
-      1: { //There is always atlest 1 sec.
+      0: {
+        //There is always atlest 1 sec.
         secNumber: 1,
         subTime: 2,
         capacity: 40,
         current: 2,
         room: 1,
         studentList: {
-          "userId": { name: "Patja", timeStamp: "..." },
-          "userId": { name: "fudgy", timeStamp: "..." }
+          userId: { name: "Patja", timeStamp: "..." },
+          userId: { name: "fudgy", timeStamp: "..." }
         }
       },
-      2: {
+      1: {
         secNumber: 2,
         subTime: 5,
         capacity: 40,
         current: 0,
         room: 3,
+        studentList: null
         // this studentList node can be null if there is no student register yet, be careful.
       }
     }
@@ -36,8 +38,8 @@ export default [
         current: 2,
         room: 2,
         studentList: {
-          "userId": { name: "Patja", timeStamp: "..." },
-          "userId": { name: "fudgy", timeStamp: "..." }
+          userId: { name: "Patja", timeStamp: "..." },
+          userId: { name: "fudgy", timeStamp: "..." }
         }
       }
     }

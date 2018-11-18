@@ -15,7 +15,7 @@ class Register extends Component {
     super(props);
 
     this.state = {
-      currentSub: 1,
+      currentSub: 0,
       currentSec: 0
     };
 
@@ -71,7 +71,7 @@ class Register extends Component {
   //   })
   //
   // }
-  // 
+  //
   // checkTime(userTime, subjectTime) {
   //
   // }
@@ -86,22 +86,22 @@ class Register extends Component {
     const user = firebase.auth().currentUser;
     return (
       <div>
-        <h1>This is Register Page</h1>
-        <h2>You are: {firebase.auth().currentUser.email}</h2>
+        <h4>Welcome : {firebase.auth().currentUser.email}</h4>
         <SubjectList subjects={dummy} onSubjectClick={this.onSubjectClick} />
         <SubjectCard
-          subId={dummy[currentSub - 1].subId}
-          subName={dummy[currentSub - 1].subName}
-          sections={dummy[currentSub - 1].sec}
+          subId={dummy[currentSub].subId}
+          subName={dummy[currentSub].subName}
+          sections={dummy[currentSub].sec}
           currentSec={currentSec}
           onSectionClick={this.onSectionClick}
         />
+
         <Link
           onClick={this.onSignout.bind(this)}
           to="/"
           className="btn btn-secondary btn-block"
         >
-          Sign out
+          Logout
         </Link>
       </div>
     );

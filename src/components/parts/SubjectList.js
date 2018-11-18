@@ -11,14 +11,14 @@ export default ({ subjects, onSubjectClick }) => (
     </button>
 
     <div className="dropdown-menu">
-      {subjects.map(subject => (
+      {subjects.map((subject, index) => (
         <div
           style={{ cursor: "pointer" }}
           key={subject.subId}
           className="dropdown-item"
           onClick={() => {
             console.log("subjectId passed: ", subject.subId);
-            onSubjectClick(subject.subId);
+            onSubjectClick(index);
           }}
         >
           {subject.subId}: {subject.subName}

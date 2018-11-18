@@ -7,7 +7,7 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
         {subId} {subName}
       </h6>
       <ul className="list-group">
-        {sections.map((section, index) => (
+        {Object.values(sections).map((section, index) => (
           <li
             className={
               currentSec == index
@@ -33,20 +33,3 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
     </div>
   </div>
 );
-
-// col-sm version 1
-{
-  /* <h6>Section: {index + 1}</h6>
-          <div className="row">
-            <div className="col-sm-2">Period {index + 1}:</div>
-            <div className="col float-sm-left">2 Jan: 9.00 - 10.30</div>
-          </div> */
-}
-
-// simple version 1
-{
-  /* <div className="mb-2" key={index}>
-          <h6 className="card-subtitle">Section: {index + 1}</h6>
-          <div>Time: 2 Jan: 9.00 - 10.30</div>
-        </div> */
-}

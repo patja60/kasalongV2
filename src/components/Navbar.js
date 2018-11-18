@@ -8,39 +8,34 @@ import { firebaseConnect } from "react-redux-firebase";
 class Navbar extends Component {
   render() {
     return (
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-        <div class="container">
-          <a class="navbar-brand" href="#">
-            Navbar
-          </a>
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+        <div className="container">
+          <Link to="/timetable" className="navbar-brand">
+            Regwar
+          </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             data-toggle="collapse"
             data-target="#navbarNav"
           >
-            <span class="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon" />
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Home
-                </a>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to="/timetable" className="nav-link">
+                  <i className="far fa-calendar-alt" /> Time Table
+                </Link>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  About
-                </a>
+              <li className="nav-item">
+                <Link to="/register" className="nav-link">
+                  <i className="fas fa-pencil-alt" /> Register
+                </Link>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Services
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Contact
-                </a>
+              <li className="nav-item">
+                <Link to="/" className="nav-link">
+                  Logout
+                </Link>
               </li>
             </ul>
           </div>
