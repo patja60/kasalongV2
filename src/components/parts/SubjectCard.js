@@ -21,7 +21,7 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
             <div className="clearfix">
               <h6 className="float-left">Section: {index + 1}</h6>
               <span className="badge badge-info float-right">
-                {section.current} / {section.capacity}
+                {section.currentStudent} / {section.capacity}
               </span>
             </div>
 

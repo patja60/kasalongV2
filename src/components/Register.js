@@ -84,32 +84,45 @@ class Register extends Component {
     const { currentSub, currentSec } = this.state;
 
     const user = firebase.auth().currentUser;
-    return (
-      <div>
-        <h4>Welcome : {firebase.auth().currentUser.email}</h4>
-        <SubjectList subjects={dummy} onSubjectClick={this.onSubjectClick} />
-        <SubjectCard
-          subId={dummy[currentSub].subId}
-          subName={dummy[currentSub].subName}
-          sections={dummy[currentSub].sec}
-          currentSec={currentSec}
-          onSectionClick={this.onSectionClick}
-        />
+    const  { subjectData } = this.props;
+    console.log("real data: ", subjectData)
+    console.log("dummy: ", dummy)
+    if(subjectData){
+      return (
+        <div>
+          <h4>Welcome : {firebase.auth().currentUser.email}</h4>
+          <SubjectList subjects={subjectData} onSubjectClick={this.onSubjectClick} />
+          <SubjectCard
+            subId={subjectData[currentSub].subjectId}
+            subName={subjectData[currentSub].subjectName}
+            sections={subjectData[currentSub].secList}
+            currentSec={currentSec}
+            onSectionClick={this.onSectionClick}
+          />
 
-        <Link
-          onClick={this.onSignout.bind(this)}
-          to="/"
-          className="btn btn-secondary btn-block"
-        >
-          Logout
-        </Link>
-      </div>
-    );
+          <Link
+            onClick={this.onSignout.bind(this)}
+            to="/"
+            className="btn btn-secondary btn-block"
+          >
+            Logout
+          </Link>
+        </div>
+      );
+    }else{
+      return (
+        <div>
+          <h4>Loading</h4>
+        </div>
+      )
+    }
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    subjectData: state.register.subjectData,
+  };
 };
 
 export default connect(

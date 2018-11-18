@@ -86,8 +86,8 @@ export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
     firebase.database().ref(`/subject`)
     .child(subjectId).set({ subjectName: subjectName, subjectId: subjectId, subjectPassword: subjectPassword })
     .then(() => {
-      firebase.database().ref(`/subject/${subjectId}/sec`)
-      .child(1).set({ subjectTime: 1, capacity: 30, currentStudent: 0 })
+      firebase.database().ref(`/subject/${subjectId}/secList/sec1`)
+      .set({ subjectTime: 1, capacity: 30, currentStudent: 0 })
       .then(() => {
         createSubjectSuccess(dispatch);
       })

@@ -9,8 +9,17 @@ export const fetchSubject = () => {
   return (dispatch) => {
     firebase.database().ref(`/subject/`)
     .on('value', function(snapshot) {
-      console.log("subject data: " + snapshot.val());
-      updateSubjectData(dispatch,snapshot.val());
+      console.log("subject data: " + JSON.stringify(snapshot.val()));
+      let list = [];
+      Object.keys(snapshot.val()).forEach(function(key) {
+        let data = {};
+        Object.keys(snapshot.val()[key]).forEach(function(key2) {
+          //console.log(key2, snapshot.val()[key][key2]);
+          data[key2] = snapshot.val()[key][key2];
+        });
+        list.push(data);
+      });
+      updateSubjectData(dispatch,list);
     });
   };
 };
@@ -18,7 +27,6 @@ export const fetchSubject = () => {
 export const fetchUserData = () => {
   return (dispatch) => {
     var user = firebase.auth().currentUser;
-    console.log("from fetch user ",user);
     firebase.database().ref(`/student/${user.uid}`)
     .on('value', function(snapshot) {
       console.log("user data: " + snapshot.val().username);

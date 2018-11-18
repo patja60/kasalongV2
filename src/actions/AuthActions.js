@@ -55,12 +55,9 @@ export const loginUser = (username, password) => {
 export function verifyAuth() {
     return function (dispatch) {
         firebase.auth().onAuthStateChanged(user => {
-          console.log("tracking state");
             if (user) {
-              console.log("user");
               alreadyLogin(dispatch, user);
             } else {
-              console.log("no user");
               notAlreadyLogin(dispatch);
             }
         });
