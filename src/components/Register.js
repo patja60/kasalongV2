@@ -8,8 +8,6 @@ import { logoutUser, fetchSubject, fetchUserData } from "../actions";
 import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
 
-import dummy from "./dummy";
-
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -55,39 +53,49 @@ class Register extends Component {
   //     //Already Register this subject
   //     //return
   //   }
-  //
-  //   firebase.database().ref(`/subject/${subjectId}/${sec}/`)
-  //   .transaction((post) => {
-  //     if(post) {
-  //       let currentStudent = post.currentStudent;
-  //       let max = post.max;
-  //       let studentList = post.studentList;
-  //       if(currentStudent < max){
-  //         post.currentStudent = currentStudent+1;
-  //         //post.studentList = studentList.append(newStudent);
-  //         return post;
-  //       }
-  //     }
-  //   })
-  //
-  // }
-  //
-  // checkTime(userTime, subjectTime) {
-  //
-  // }
-  //
-  // checkRegistered(userRegisteredSubject, subjectId) {
+    // const sec = currentSec+1;
+    // firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`)
+    // .transaction((post) => {
+    //   if(post) {
+    //     let currentStudent = post.currentStudent;
+    //     let capacity = post.capacity;
+    //     let studentList = post.studentList;
+    //     const newStudent = {name: firebase.auth().currentUser.username, time: ??}
+    //     if(currentStudent < capacity){
+    //       post.currentStudent = currentStudent+1;
+    //       if(!studentList){
+    //         post.child(studentList).push(newStudent)
+    //       }else{
+    //         //post.studentList = studentList.push(newStudent);
+    //       }
+    //       return post;
+    //     }
+    //   }
+    // })
   //
   // }
+  //
+  checkTime(userTime, subjectTime) {
+    if((userTime & subjectTime) === 0){
+      return true;
+    }
+    return false;
+  }
+
+  checkRegistered(userRegisteredSubject, subjectId) {
+    if((userRegisteredSubject & subjectId) === 0){
+      return true;
+    }
+    return false;
+  }
 
   render() {
     const { currentSub, currentSec } = this.state;
-
-    const user = firebase.auth().currentUser;
     const  { subjectData } = this.props;
-    console.log("real data: ", subjectData)
-    console.log("dummy: ", dummy)
+    //console.log("real data: ", subjectData)
+    
     if(subjectData){
+      const sec = currentSec + 1;
       return (
         <div>
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>

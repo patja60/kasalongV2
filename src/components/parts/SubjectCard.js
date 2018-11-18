@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import mapToDateTime from "../DateTime";
 
 export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
   <div className="card mb-3 bg-light">
@@ -25,7 +26,7 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
               </span>
             </div>
 
-            <div>Time: 2 Jan: 9.00 - 10.30</div>
+            <div>Time: {mapToDateTime[section.subjectTime].date}: {mapToDateTime[section.subjectTime].time}</div>
           </li>
         ))}
       </ul>
