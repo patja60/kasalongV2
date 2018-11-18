@@ -11,7 +11,7 @@ export default () => (
   <Switch>
     <Route exact path="/" component={UserIsNotAuthenticated(Login)} />
     <Route exact path="/register" component={UserIsAuthenticated(Register)} />
-    <Route exact path="/dashboard" component={UserIsAuthenticated(Dashboard)} />
+    <Route exact path="/dashboard" component={Dashboard} />
     <Route exact path="/temporary" component={UserIsAuthenticated(Temporary)} />
   </Switch>
 );

@@ -29,22 +29,26 @@ export const createPasswordChanged = (text) => {
 
 export const createUser = ({ createUsername, createPassword }) => {
   return (dispatch) => {
-    const user = firebase.auth().currentUser;
-    const defaultData = {
-      username: createUsername,
-      password: createPassword,
-      studentTime: 0,
-      registeredSubject: 0
-    };
-    firebase.database().ref(`/student/${user.uid}/`)
-    .set(defaultData)
-    .then(() => {
-      createUserSuccess(dispatch);
+    const email = createUsername + "@camp.com";
+    const password = createPassword;
+    firebase.auth().createUserWithEmailAndPassword( email, password )
+    .then((userData) => {
+      const defaultData = {
+        username: createUsername,
+        password: password,
+        studentTime: 0,
+        registeredSubject: 0
+      };
+      firebase.database().ref(`/student/${userData.user.uid}/`)
+      .set(defaultData)
+      .then(() => {
+        createUserSuccess(dispatch);
+      })
+      .catch((err) => {
+        createUserFailed(dispatch);
+        console.log(err);
+      });
     })
-    .catch((err) => {
-      createUserFailed(dispatch);
-      console.log(err);
-    });
   };
 };
 
@@ -80,13 +84,21 @@ export const subjectPasswordChanged = (text) => {
 export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
   return (dispatch) => {
     firebase.database().ref(`/subject`)
-    .child(subjectName).set({ subjectName: subjectName, subjectId: subjectId, subjectPassword: subjectPassword })
+    .child(subjectId).set({ subjectName: subjectName, subjectId: subjectId, subjectPassword: subjectPassword })
     .then(() => {
-      createSubjectSuccess(dispatch);
+      firebase.database().ref(`/subject/${subjectId}/sec`)
+      .child(1).set({ subjectTime: 1, capacity: 30, currentStudent: 0 })
+      .then(() => {
+        createSubjectSuccess(dispatch);
+      })
+      .catch(() => {
+        createSubjectFailed(dispatch);
+      });
     })
     .catch(() => {
       createSubjectFailed(dispatch);
     });
+
   };
 };
 
