@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import mapToDateTime from "../DateTime";
 
 export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
   <div className="card mb-3 bg-light">
@@ -21,11 +22,11 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
             <div className="clearfix">
               <h6 className="float-left">Section: {index + 1}</h6>
               <span className="badge badge-info float-right">
-                {section.current} / {section.capacity}
+                {section.currentStudent} / {section.capacity}
               </span>
             </div>
 
-            <div>Time: 2 Jan: 9.00 - 10.30</div>
+            <div>Time: {mapToDateTime[section.subjectTime].date}: {mapToDateTime[section.subjectTime].time}</div>
           </li>
         ))}
       </ul>
