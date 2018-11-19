@@ -20,6 +20,7 @@ class Register extends Component {
     this.onSubjectClick = this.onSubjectClick.bind(this);
     this.onSectionClick = this.onSectionClick.bind(this);
     this.onRegister = this.onRegister.bind(this);
+    this.onSignout = this.onSignout.bind(this);
   }
 
   componentWillMount() {
@@ -137,7 +138,7 @@ class Register extends Component {
           />
 
           <Link
-            onClick={this.onSignout.bind(this)}
+            onClick={this.onSignout}
             to="/"
             className="btn btn-secondary btn-block"
           >
