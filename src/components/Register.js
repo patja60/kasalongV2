@@ -39,42 +39,59 @@ class Register extends Component {
     this.props.logoutUser();
   }
 
-  // onRegister(subjectId, sec) {
-  //   if(checkTime(userTime,subjectTime)) {
-  //
-  //   }else{
-  //     //Time conflict
-  //     //return
-  //   }
-  //
-  //   if(checkRegistered(userRegisteredSubject, subjectId)) {
-  //
-  //   }else{
-  //     //Already Register this subject
-  //     //return
-  //   }
-    // const sec = currentSec+1;
-    // firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`)
-    // .transaction((post) => {
-    //   if(post) {
-    //     let currentStudent = post.currentStudent;
-    //     let capacity = post.capacity;
-    //     let studentList = post.studentList;
-    //     const newStudent = {name: firebase.auth().currentUser.username, time: ??}
-    //     if(currentStudent < capacity){
-    //       post.currentStudent = currentStudent+1;
-    //       if(!studentList){
-    //         post.child(studentList).push(newStudent)
-    //       }else{
-    //         //post.studentList = studentList.push(newStudent);
-    //       }
-    //       return post;
-    //     }
-    //   }
-    // })
-  //
-  // }
-  //
+  onRegister() {
+
+    const { currentSub, currentSec } = this.state;
+    const  { subjectData } = this.props;
+
+    let timeProb = true;
+    let subjectProb = true;
+
+    const userTime = firebase.auth().currentUser.studentTime;
+    const sec = currentSec + 1;
+    console.log(subjectData[currentSub].secList[sec])
+    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
+    if(this.checkTime(userTime,subjectTime)) {
+      timeProb = false;
+    }else{
+      //Time conflict
+      //return
+    }
+
+    const userRegisteredSubject = firebase.auth().currentUser.registeredSubject;
+    const subjectIdCheck = parseInt(currentSub); // find this func later.
+    if(this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+      subjectProb = false
+    }else{
+      //Already Register this subject
+      //return
+    }
+    console.log(timeProb, subjectProb);
+    firebase.database().ref(`/subject/${subjectData[currentSub].subjectId}/secList/${sec}/`)
+    .once('value', function(snapshot) {
+      console.log("data: " + JSON.stringify(snapshot.val()));
+    });
+    const subjectId = subjectData[currentSub].subjectId;
+    firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`)
+    .transaction((post) => {
+      console.log(post);
+      if(post) {
+        let currentStudent = post.currentStudent;
+        let capacity = post.capacity;
+        let studentList = post.studentList;
+        const newStudent = { name: firebase.auth().currentUser.email, timeStamp: "now" }
+        console.log(newStudent)
+        console.log(currentStudent < capacity)
+        if(currentStudent < capacity){
+          post.currentStudent += 1;
+          firebase.database().ref(`/subject/${subjectId}/secList/${sec}/studentList/`)
+          .push(newStudent);
+        }
+      }
+    })
+
+  }
+
   checkTime(userTime, subjectTime) {
     if((userTime & subjectTime) === 0){
       return true;
@@ -93,9 +110,8 @@ class Register extends Component {
     const { currentSub, currentSec } = this.state;
     const  { subjectData } = this.props;
     //console.log("real data: ", subjectData)
-    
+
     if(subjectData){
-      const sec = currentSec + 1;
       return (
         <div>
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>
@@ -107,6 +123,8 @@ class Register extends Component {
             currentSec={currentSec}
             onSectionClick={this.onSectionClick}
           />
+          <button onClick={this.onRegister.bind(this)}> register
+          </button>
 
           <Link
             onClick={this.onSignout.bind(this)}
