@@ -19,6 +19,7 @@ class Register extends Component {
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
     this.onSectionClick = this.onSectionClick.bind(this);
+    this.onRegister = this.onRegister.bind(this);
   }
 
   componentWillMount() {
@@ -40,67 +41,74 @@ class Register extends Component {
   }
 
   onRegister() {
-
     const { currentSub, currentSec } = this.state;
-    const  { subjectData } = this.props;
+    const { subjectData } = this.props;
 
     let timeProb = true;
     let subjectProb = true;
 
     const userTime = firebase.auth().currentUser.studentTime;
     const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec])
+    console.log(subjectData[currentSub].secList[sec]);
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    if(this.checkTime(userTime,subjectTime)) {
+    if (this.checkTime(userTime, subjectTime)) {
       timeProb = false;
-    }else{
+    } else {
       //Time conflict
       //return
     }
 
     const userRegisteredSubject = firebase.auth().currentUser.registeredSubject;
     const subjectIdCheck = parseInt(currentSub); // find this func later.
-    if(this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
-      subjectProb = false
-    }else{
+    if (this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+      subjectProb = false;
+    } else {
       //Already Register this subject
       //return
     }
     console.log(timeProb, subjectProb);
-    firebase.database().ref(`/subject/${subjectData[currentSub].subjectId}/secList/${sec}/`)
-    .once('value', function(snapshot) {
-      console.log("data: " + JSON.stringify(snapshot.val()));
-    });
+    firebase
+      .database()
+      .ref(`/subject/${subjectData[currentSub].subjectId}/secList/${sec}/`)
+      .once("value", function(snapshot) {
+        console.log("data: " + JSON.stringify(snapshot.val()));
+      });
     const subjectId = subjectData[currentSub].subjectId;
-    firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`)
-    .transaction((post) => {
-      console.log(post);
-      if(post) {
-        let currentStudent = post.currentStudent;
-        let capacity = post.capacity;
-        let studentList = post.studentList;
-        const newStudent = { name: firebase.auth().currentUser.email, timeStamp: "now" }
-        console.log(newStudent)
-        console.log(currentStudent < capacity)
-        if(currentStudent < capacity){
-          post.currentStudent += 1;
-          firebase.database().ref(`/subject/${subjectId}/secList/${sec}/studentList/`)
-          .push(newStudent);
+    firebase
+      .database()
+      .ref(`/subject/${subjectId}/secList/${sec}/`)
+      .transaction(post => {
+        console.log(post);
+        if (post) {
+          let currentStudent = post.currentStudent;
+          let capacity = post.capacity;
+          let studentList = post.studentList;
+          const newStudent = {
+            name: firebase.auth().currentUser.email,
+            timeStamp: "now"
+          };
+          console.log(newStudent);
+          console.log(currentStudent < capacity);
+          if (currentStudent < capacity) {
+            post.currentStudent += 1;
+            firebase
+              .database()
+              .ref(`/subject/${subjectId}/secList/${sec}/studentList/`)
+              .push(newStudent);
+          }
         }
-      }
-    })
-
+      });
   }
 
   checkTime(userTime, subjectTime) {
-    if((userTime & subjectTime) === 0){
+    if ((userTime & subjectTime) === 0) {
       return true;
     }
     return false;
   }
 
   checkRegistered(userRegisteredSubject, subjectId) {
-    if((userRegisteredSubject & subjectId) === 0){
+    if ((userRegisteredSubject & subjectId) === 0) {
       return true;
     }
     return false;
@@ -108,23 +116,25 @@ class Register extends Component {
 
   render() {
     const { currentSub, currentSec } = this.state;
-    const  { subjectData } = this.props;
+    const { subjectData } = this.props;
     //console.log("real data: ", subjectData)
 
-    if(subjectData){
+    if (subjectData) {
       return (
         <div>
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>
-          <SubjectList subjects={subjectData} onSubjectClick={this.onSubjectClick} />
+          <SubjectList
+            subjects={subjectData}
+            onSubjectClick={this.onSubjectClick}
+          />
           <SubjectCard
             subId={subjectData[currentSub].subjectId}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}
             onSectionClick={this.onSectionClick}
+            onRegister={this.onRegister}
           />
-          <button onClick={this.onRegister.bind(this)}> register
-          </button>
 
           <Link
             onClick={this.onSignout.bind(this)}
@@ -135,19 +145,19 @@ class Register extends Component {
           </Link>
         </div>
       );
-    }else{
+    } else {
       return (
         <div>
           <h4>Loading</h4>
         </div>
-      )
+      );
     }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    subjectData: state.register.subjectData,
+    subjectData: state.register.subjectData
   };
 };
 
