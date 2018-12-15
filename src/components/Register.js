@@ -231,14 +231,8 @@ and have "Complete transact"
 
 const mapStateToProps = state => {
   return {
-<<<<<<< HEAD
     subjectData: state.register.subjectData,
     userData: state.register.userData,
-||||||| merged common ancestors
-    subjectData: state.register.subjectData,
-=======
-    subjectData: state.register.subjectData
->>>>>>> 98f669fa34af8032912f88179bc6b4af7f62e85d
   };
 };
 
