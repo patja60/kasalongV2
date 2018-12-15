@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import mapToDateTime from "../DateTime";
 
-export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
+export default ({
+  subId,
+  subName,
+  sections,
+  currentSec,
+  onSectionClick,
+  onRegister
+}) => (
   <div className="card mb-3 bg-light">
     <div className="card-body">
       <h6 className="card-title">
@@ -26,11 +33,19 @@ export default ({ subId, subName, sections, currentSec, onSectionClick }) => (
               </span>
             </div>
 
-            <div>Time: {mapToDateTime[section.subjectTime].date}: {mapToDateTime[section.subjectTime].time}</div>
+            <div>
+              Time: {mapToDateTime[section.subjectTime].date}:{" "}
+              {mapToDateTime[section.subjectTime].time}
+            </div>
           </li>
         ))}
       </ul>
-      <button className="btn btn-outline-info btn-block mt-3">Register</button>
+      <button
+        onClick={() => onRegister()}
+        className="btn btn-outline-info btn-block mt-3"
+      >
+        Register
+      </button>
     </div>
   </div>
 );

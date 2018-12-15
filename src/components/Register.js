@@ -19,6 +19,8 @@ class Register extends Component {
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
     this.onSectionClick = this.onSectionClick.bind(this);
+    this.onRegister = this.onRegister.bind(this);
+    this.onSignout = this.onSignout.bind(this);
   }
 
   componentWillMount() {
@@ -55,9 +57,9 @@ and have "Complete transact"
 
     const userTime = userData.studentTime;
     const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec])
+    console.log(subjectData[currentSub].secList[sec]);
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    if(this.checkTime(userTime,subjectTime)) {
+    if (this.checkTime(userTime, subjectTime)) {
       timeProb = false;
     }else{
       console.log("Time confilct")
@@ -91,90 +93,6 @@ and have "Complete transact"
       console.log("conplete transac")
     }).catch((err) => {
       console.log(err);
-    });
-  }
-
-  onRegister_test() {
-
-    const { currentSub, currentSec } = this.state;
-    const  { subjectData, userData } = this.props;
-
-    let timeProb = true;
-    let subjectProb = true;
-
-    const userTime = userData.studentTime;
-    const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec])
-    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    if(this.checkTime(userTime,subjectTime)) {
-      timeProb = false;
-    }else{
-      console.log("Time confilct")
-      return
-    }
-
-    const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later.
-    if(this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
-      subjectProb = false
-    }else{
-      console.log("Already register")
-      return
-    }
-    setTimeout(() => {this.test();}, 1000);
-  }
-
-  test(){
-    console.log("delay here")
-    const { currentSub, currentSec } = this.state;
-    const  { subjectData, userData } = this.props;
-
-    let timeProb = true;
-    let subjectProb = true;
-
-    const userTime = userData.studentTime;
-    const sec = currentSec + 1;
-    const subjectId = subjectData[currentSub].subjectId;
-    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    const userRegisteredSubject = userData.registeredSubject;
-
-    //above
-
-    firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).once('value').then((snapshot) => {
-      let currentStudent =  snapshot.val().currentStudent;
-      let capacity = snapshot.val().capacity;
-      let studentList = snapshot.val().studentList;
-
-      const newStudent = { username: userData.username, timeStamp: "now" }
-      console.log(currentStudent, capacity)
-      if(currentStudent < capacity){
-
-        firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).child("currentStudent").setValue(currentStudent+1).then(() => {
-          console.log("done");
-        })
-
-        const stpath = ("/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid);
-        const currentpath = "/subject/" + subjectId + "/secList/" + sec + "/currentStudent";
-        const regispath = "/student/" + firebase.auth().currentUser.uid + "/registeredSubject";
-        const stTimepath = "/student/" + firebase.auth().currentUser.uid + "/studentTime";
-        const secDictPath = "/student/" + firebase.auth().currentUser.uid + "/secDict";
-        let updateObject = {}
-
-        updateObject[stpath] = newStudent;
-        updateObject[currentpath] = (currentStudent+1);
-        const newRegisteredSubject = (userRegisteredSubject | subjectId);
-        updateObject[regispath] = newRegisteredSubject;
-        const newStudentTime = (userTime | subjectTime);
-        updateObject[stTimepath] = newStudentTime;
-
-        firebase.database().ref().update(updateObject, (err) => {
-          if(err){
-            console.log(err);
-          }
-        })
-      }else{
-        console.log("Full")
-      }
     });
   }
 
@@ -257,14 +175,14 @@ and have "Complete transact"
   }
 
   checkTime(userTime, subjectTime) {
-    if((userTime & subjectTime) === 0){
+    if ((userTime & subjectTime) === 0) {
       return true;
     }
     return false;
   }
 
   checkRegistered(userRegisteredSubject, subjectId) {
-    if((userRegisteredSubject & subjectId) === 0){
+    if ((userRegisteredSubject & subjectId) === 0) {
       return true;
     }
     return false;
@@ -272,26 +190,28 @@ and have "Complete transact"
 
   render() {
     const { currentSub, currentSec } = this.state;
-    const  { subjectData } = this.props;
+    const { subjectData } = this.props;
     //console.log("real data: ", subjectData)
 
-    if(subjectData){
+    if (subjectData) {
       return (
         <div>
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>
-          <SubjectList subjects={subjectData} onSubjectClick={this.onSubjectClick} />
+          <SubjectList
+            subjects={subjectData}
+            onSubjectClick={this.onSubjectClick}
+          />
           <SubjectCard
             subId={subjectData[currentSub].subjectId}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}
             onSectionClick={this.onSectionClick}
+            onRegister={this.onRegister}
           />
-          <button onClick={this.onRegister.bind(this)}> register
-          </button>
 
           <Link
-            onClick={this.onSignout.bind(this)}
+            onClick={this.onSignout}
             to="/"
             className="btn btn-secondary btn-block"
           >
@@ -299,20 +219,26 @@ and have "Complete transact"
           </Link>
         </div>
       );
-    }else{
+    } else {
       return (
         <div>
           <h4>Loading</h4>
         </div>
-      )
+      );
     }
   }
 }
 
 const mapStateToProps = state => {
   return {
+<<<<<<< HEAD
     subjectData: state.register.subjectData,
     userData: state.register.userData,
+||||||| merged common ancestors
+    subjectData: state.register.subjectData,
+=======
+    subjectData: state.register.subjectData
+>>>>>>> 98f669fa34af8032912f88179bc6b4af7f62e85d
   };
 };
 
