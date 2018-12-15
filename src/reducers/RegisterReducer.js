@@ -7,11 +7,7 @@ import {
 const INITIAL_STATE = {
   subjectData: null,
   userData: null,
-  username: '',
-  studentTime: 0,
-  registeredSubject: 0,
   isLoading: true,
-  userIsLoading: true,
   isInitializing: false
 };
 
@@ -26,8 +22,7 @@ export default (state = INITIAL_STATE, action) => {
     case UPDATE_SUBJECT_DATA:
       return { ...state, subjectData: action.payload };
     case UPDATE_USER_DATA:
-      return { ...state, userData: action.payload, username: action.payload.username,
-        studentTime: action.payload.studentTime, registeredSubject: action.payload.registeredSubject, userIsLoading: false };
+      return { ...state, userData: action.payload };
     default:
       return state;
   }

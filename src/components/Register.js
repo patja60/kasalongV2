@@ -42,54 +42,87 @@ class Register extends Component {
   onRegister() {
 
     const { currentSub, currentSec } = this.state;
-    const  { subjectData } = this.props;
+    const  { subjectData, userData } = this.props;
 
     let timeProb = true;
     let subjectProb = true;
 
-    const userTime = firebase.auth().currentUser.studentTime;
+    const userTime = userData.studentTime;
     const sec = currentSec + 1;
     console.log(subjectData[currentSub].secList[sec])
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
     if(this.checkTime(userTime,subjectTime)) {
       timeProb = false;
     }else{
-      //Time conflict
-      //return
+      console.log("Time confilct")
+      return
     }
 
-    const userRegisteredSubject = firebase.auth().currentUser.registeredSubject;
-    const subjectIdCheck = parseInt(currentSub); // find this func later.
+    const userRegisteredSubject = userData.registeredSubject;
+    console.log("currentSub" + currentSub);
+    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later.
     if(this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       subjectProb = false
     }else{
-      //Already Register this subject
-      //return
+      console.log("Already register")
+      return
     }
-    console.log(timeProb, subjectProb);
-    firebase.database().ref(`/subject/${subjectData[currentSub].subjectId}/secList/${sec}/`)
-    .once('value', function(snapshot) {
-      console.log("data: " + JSON.stringify(snapshot.val()));
-    });
     const subjectId = subjectData[currentSub].subjectId;
     firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`)
     .transaction((post) => {
-      console.log(post);
       if(post) {
-        let currentStudent = post.currentStudent;
-        let capacity = post.capacity;
-        let studentList = post.studentList;
-        const newStudent = { name: firebase.auth().currentUser.email, timeStamp: "now" }
-        console.log(newStudent)
-        console.log(currentStudent < capacity)
-        if(currentStudent < capacity){
-          post.currentStudent += 1;
-          firebase.database().ref(`/subject/${subjectId}/secList/${sec}/studentList/`)
-          .push(newStudent);
-        }
+        setTimeout(() => {this.test(post);}, 5000);
       }
     })
 
+  }
+
+  test(post){
+    console.log("delay here")
+    const { currentSub, currentSec } = this.state;
+    const  { subjectData, userData } = this.props;
+
+    let timeProb = true;
+    let subjectProb = true;
+
+    const userTime = userData.studentTime;
+    const sec = currentSec + 1;
+    const subjectId = subjectData[currentSub].subjectId;
+    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
+    const userRegisteredSubject = userData.registeredSubject;
+
+    //above
+
+    let currentStudent = post.currentStudent;
+    let capacity = post.capacity;
+    let studentList = post.studentList;
+
+    const newStudent = { username: userData.username, timeStamp: "now" }
+    if(currentStudent < capacity){
+      const stpath = ("/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid);
+      // const currentpath = "/subject/" + subjectId + "/secList/" + sec + "/currentStudent";
+      const regispath = "/student/" + firebase.auth().currentUser.uid + "/registeredSubject";
+      const stTimepath = "/student/" + firebase.auth().currentUser.uid + "/studentTime";
+      const secDictPath = "/student/" + firebase.auth().currentUser.uid + "/secDict";
+      let updateObject = {}
+
+      updateObject[stpath] = newStudent;
+      // updateObject[currentpath] = (currentStudent+1);
+      post.currentStudent = currentStudent+1;
+      const newRegisteredSubject = (userRegisteredSubject | subjectId);
+      updateObject[regispath] = newRegisteredSubject;
+      const newStudentTime = (userTime | subjectTime);
+      updateObject[stTimepath] = newStudentTime;
+
+      firebase.database().ref().update(updateObject, (err) => {
+        if(err){
+          console.log(err);
+          return post;
+        }
+      })
+    }else{
+      console.log("Full")
+    }
   }
 
   checkTime(userTime, subjectTime) {
@@ -148,6 +181,7 @@ class Register extends Component {
 const mapStateToProps = state => {
   return {
     subjectData: state.register.subjectData,
+    userData: state.register.userData,
   };
 };
 

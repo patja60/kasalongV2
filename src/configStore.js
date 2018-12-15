@@ -33,12 +33,12 @@ const rootReducer = combineReducers({
 
 // Create store with reducers and initial state
 const initialState = {};
+const devTools = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null
 export const store = createStoreWithFirebase(
   rootReducer,
   initialState,
   compose(
     reactReduxFirebase(firebase),
     applyMiddleware(ReduxThunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );

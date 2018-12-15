@@ -9,7 +9,7 @@ export const fetchSubject = () => {
   return (dispatch) => {
     firebase.database().ref(`/subject/`)
     .on('value', function(snapshot) {
-      console.log("subject data: " + JSON.stringify(snapshot.val()));
+      //console.log("subject data: " + JSON.stringify(snapshot.val()));
       let list = [];
       Object.keys(snapshot.val()).forEach(function(key) {
         let data = {};
@@ -29,7 +29,7 @@ export const fetchUserData = () => {
     var user = firebase.auth().currentUser;
     firebase.database().ref(`/student/${user.uid}`)
     .on('value', function(snapshot) {
-      console.log("user data: " + snapshot.val().username);
+      //console.log("user data: " + JSON.stringify(snapshot.val()));
       updateUserData(dispatch,snapshot.val());
     });
   };
