@@ -14,7 +14,9 @@ class Register extends Component {
 
     this.state = {
       currentSub: 0,
-      currentSec: 0
+      currentSec: 0,
+      deleteSub: null,
+      deleteSec: null
     };
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
@@ -96,74 +98,48 @@ and have "Complete transact"
     });
   }
 
-  onRegister() {
-
-    const { currentSub, currentSec } = this.state;
+  onDelete() {
+    const { deleteSub, deleteSec } = this.state;
     const  { subjectData, userData } = this.props;
 
-    let timeProb = true;
-    let subjectProb = true;
-
     const userTime = userData.studentTime;
-    const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec])
-    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    if(this.checkTime(userTime,subjectTime)) {
-      timeProb = false;
-    }else{
-      console.log("Time confilct")
-      return
-    }
+    const sec = deleteSec + 1;
+    const subjectTime = subjectData[deleteSub].secList[sec].subjectTime;
 
     const userRegisteredSubject = userData.registeredSubject;
-    console.log("currentSub" + currentSub);
-    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later.
-    if(this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
-      subjectProb = false
-    }else{
-      console.log("Already register")
-      return
-    }
-    const subjectId = subjectData[currentSub].subjectId;
-    var upvotesRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
-    upvotesRef.transaction(function (data) {
-      console.log("********************************************this is what i read: "+data);
-      for (let i = 0; i < 5000; i++) {
-        console.log(i);
-      }
-      console.log("done********");
-      console.log(data.currentStudent,data.capacity)
-      if(data.currentStudent >= data.capacity){
-        console.log("throw");
-        throw "full"
-      }
+    const subjectIdCheck = parseInt(deleteSub) + 1; // find this func later. because subject id may be like KSL012
+
+    const subjectId = subjectData[deleteSub].subjectId;
+    var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
+    secRef.transaction(function (data) {
+      // console.log("**********************this is what i read: "+data+"**********************");
+      // for (let i = 0; i < 5000; i++) {
+      //   console.log(i);
+      // }
+      // console.log("********done********");
+      data.currentStudent--;
       return data;
     }).then(() => {
-      console.log("conplete transac")
-
+      // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
       firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).once('value').then((snapshot) => {
-        let currentStudent =  snapshot.val().currentStudent;
-        let capacity = snapshot.val().capacity;
-        let studentList = snapshot.val().studentList;
+        const currentStudent =  snapshot.val().currentStudent;
 
-        const newStudent = { username: userData.username, timeStamp: "now" }
-
-        const stpath = ("/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid);
-        const currentpath = "/subject/" + subjectId + "/secList/" + sec + "/currentStudent";
-        const regispath = "/student/" + firebase.auth().currentUser.uid + "/registeredSubject";
-        const stTimepath = "/student/" + firebase.auth().currentUser.uid + "/studentTime";
         const secDictPath = "/student/" + firebase.auth().currentUser.uid + "/secDict";
         let updateObject = {}
 
-        updateObject[stpath] = newStudent;
-        updateObject[currentpath] = (currentStudent+1);
-        const newRegisteredSubject = (userRegisteredSubject | subjectId);
-        updateObject[regispath] = newRegisteredSubject;
-        const newStudentTime = (userTime | subjectTime);
-        updateObject[stTimepath] = newStudentTime;
+        updateObject["/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid] = null;
+        updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = (userRegisteredSubject & subjectIdCheck);
+        updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = (userTime & subjectTime);
+        updateObject["/student/" + firebase.auth().currentUser.uid + "/secDict/" + subjectId] = null;
 
         firebase.database().ref().update(updateObject, (err) => {
           if(err){
+            console.log("Sorry something went wrong, please try again.");
+            var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
+            secRef.transaction(function (data) {
+              data.currentStudent++;
+              return data;
+            })
             console.log(err);
           }
         })
@@ -172,6 +148,88 @@ and have "Complete transact"
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  onRegister() {
+
+    const { currentSub, currentSec } = this.state;
+    const  { subjectData, userData } = this.props;
+
+    const userTime = userData.studentTime;
+    const sec = currentSec + 1;
+    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
+    //console.log(subjectData[currentSub].secList[sec])
+    if(!this.checkTime(userTime,subjectTime)) {
+      console.log("Time confilct");
+      return;
+    }
+
+    const userRegisteredSubject = userData.registeredSubject;
+    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later. because subject id may be like KSL012
+    //console.log("currentSub" + currentSub);
+    if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+      console.log("Already register");
+      return;
+    }
+
+    const subjectId = subjectData[currentSub].subjectId;
+    var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
+    secRef.transaction(function (data) {
+      // console.log("**********************this is what i read: "+data+"**********************");
+      // for (let i = 0; i < 5000; i++) {
+      //   console.log(i);
+      // }
+      // console.log("********done********");
+      if(data.currentStudent >= data.capacity){
+        console.log("throw");
+        throw "full";
+      }else{
+        data.currentStudent++;
+      }
+      return data;
+    }).then(() => {
+      // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
+      firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).once('value').then((snapshot) => {
+        this.updateAllData(snapshot);
+      });
+
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  updateAllData(snapshot) {
+    const { currentSub, currentSec } = this.state;
+    const  { subjectData, userData } = this.props;
+
+    const subjectId = subjectData[currentSub].subjectId;
+    const userTime = userData.studentTime;
+    const sec = currentSec + 1;
+    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
+    const userRegisteredSubject = userData.registeredSubject;
+    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later. because subject id may be like KSL012
+
+    const studentList = snapshot.val().studentList;
+
+    const secDictPath = "/student/" + firebase.auth().currentUser.uid + "/secDict";
+    let updateObject = {}
+
+    updateObject["/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid] = { username: userData.username, timeStamp: "now" };
+    updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = (userRegisteredSubject | subjectIdCheck);
+    updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = (userTime | subjectTime);
+    updateObject["/student/" + firebase.auth().currentUser.uid + "/secDict/" + subjectId] = sec;
+
+    firebase.database().ref().update(updateObject, (err) => {
+      if(err){
+        console.log("Sorry something went wrong, please try again.");
+        var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
+        secRef.transaction(function (data) {
+          data.currentStudent--;
+          return data;
+        })
+        console.log(err);
+      }
+    })
   }
 
   checkTime(userTime, subjectTime) {
