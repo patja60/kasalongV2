@@ -4,7 +4,10 @@ import {
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGOUT_USER
+  LOGIN_TEACHER_SUCCESS,
+  LOGIN_TEACHER_FAIL,
+  LOGOUT_USER,
+  LOGOUT_TEACHER
 } from "./types";
 import { provider } from "../database";
 
@@ -22,22 +25,32 @@ export const passwordChanged = text => {
   };
 };
 
-export const loginAdmin = password => {
+export const loginTeacher = (username, password) => {
   return dispatch => {
+    if(username.substring(0,3) !== "PNG" && username.substring(0,3) !== "png"){
+      loginUserFail(dispatch);
+      return;
+    }
+    username = username + "@camp.com";
     firebase
-      .database()
-      .ref(`/admin/password`)
-      .once("value")
-      .then(snapshot => {
-        if (password == snapshot.val()) {
-          loginUserSuccess(dispatch, "admin");
-        }
+      .auth()
+      .signInWithEmailAndPassword(username, password)
+      .then(user => {
+        loginTeacherSuccess(dispatch);
+      })
+      .catch(error => {
+        loginUserFail(dispatch);
+        console.log(error);
       });
   };
 };
 
 export const loginUser = (username, password) => {
   return dispatch => {
+    if(username.substring(0,3) === "PNG" || username.substring(0,3) === "png"){
+      loginUserFail(dispatch);
+      return;
+    }
     username = username + "@camp.com";
     firebase
       .auth()
@@ -55,14 +68,27 @@ export const loginUser = (username, password) => {
 export function verifyAuth() {
     return function (dispatch) {
         firebase.auth().onAuthStateChanged(user => {
+          console.log("user data:" + JSON.stringify(user));
             if (user) {
-              alreadyLogin(dispatch, user);
+              console.log(user.email.substring(0,3))
+              if(user.email.substring(0,3) === "PNG" || user.email.substring(0,3) === "png") {
+                teacherAlreadyLogin(dispatch, user);
+              }else{
+                alreadyLogin(dispatch, user);
+              }
             } else {
               notAlreadyLogin(dispatch);
             }
         });
     }
 }
+
+const teacherAlreadyLogin = (dispatch, user) => {
+  dispatch({
+    type: "teacherAlreadylogin",
+    payload: user
+  });
+};
 
 const alreadyLogin = (dispatch, user) => {
   dispatch({
@@ -75,6 +101,17 @@ const notAlreadyLogin = (dispatch) => {
   dispatch({
     type: "notAlreadylogin"
   });
+};
+
+const loginTeacherSuccess = (dispatch, user) => {
+  dispatch({
+    type: LOGIN_TEACHER_SUCCESS,
+    payload: user
+  });
+};
+
+const loginTeacherFail = dispatch => {
+  dispatch({ type: LOGIN_TEACHER_FAIL });
 };
 
 const loginUserSuccess = (dispatch, user) => {
@@ -93,6 +130,18 @@ export const logoutUser = () => {
     firebase.auth().signOut()
     .then(() => {
       logout(dispatch);
+      logoutTeacher(dispatch);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+};
+export const logoutTeacher = () => {
+  return (dispatch) => {
+    firebase.auth().signOut()
+    .then(() => {
+      logoutT(dispatch);
     })
     .catch((error) => {
       console.log(error);
@@ -102,4 +151,8 @@ export const logoutUser = () => {
 
 const logout = dispatch => {
   dispatch({ type: LOGOUT_USER });
+};
+
+const logoutT = dispatch => {
+  dispatch({ type: LOGOUT_TEACHER });
 };

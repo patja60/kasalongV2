@@ -27,3 +27,27 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
       isLoading,
   AuthenticatingComponent: LoadingScreen
 });
+
+export const TeacherIsAuthenticated = connectedRouterRedirect({
+  wrapperDisplayName: "TeacherIsAuthenticated",
+  allowRedirectBack: true,
+  redirectPath: (state, ownProps) =>
+    locationHelper.getRedirectQueryParam(ownProps) || "/loginteacher",
+  authenticatedSelector: ({ register: { teacherIsLoading, teacherIsInitializing } }) =>
+    !teacherIsLoading && teacherIsInitializing,
+  authenticatingSelector: ({ register: { teacherIsLoading } }) =>
+    teacherIsLoading,
+  AuthenticatingComponent: LoadingScreen
+});
+
+export const TeacherIsNotAuthenticated = connectedRouterRedirect({
+  wrapperDisplayName: "TeacherIsNotAuthenticated",
+  allowRedirectBack: false,
+  redirectPath: (state, ownProps) =>
+    locationHelper.getRedirectQueryParam(ownProps) || "/teacherboard",
+  authenticatedSelector: ({ register: { teacherIsLoading, teacherIsInitializing } }) =>
+    !teacherIsLoading && !teacherIsInitializing,
+    authenticatingSelector: ({ register: { teacherIsLoading } }) =>
+      teacherIsLoading,
+  AuthenticatingComponent: LoadingScreen
+});

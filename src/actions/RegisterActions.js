@@ -5,6 +5,25 @@ import {
 } from './types';
 import { provider } from '../database';
 
+// export const fetchSubject = () => {
+//   return (dispatch) => {
+//     firebase.database().ref(`/subject/`)
+//     .on('value', function(snapshot) {
+//       //console.log("subject data: " + JSON.stringify(snapshot.val()));
+//       let list = [];
+//       Object.keys(snapshot.val()).forEach(function(key) {
+//         let data = {};
+//         Object.keys(snapshot.val()[key]).forEach(function(key2) {
+//           //console.log(key2, snapshot.val()[key][key2]);
+//           data[key2] = snapshot.val()[key][key2];
+//         });
+//         list.push(data);
+//       });
+//       updateSubjectData(dispatch,list);
+//     });
+//   };
+// };
+
 export const fetchSubject = () => {
   return (dispatch) => {
     firebase.database().ref(`/subject/`)

@@ -10,9 +10,8 @@ import {
   passwordChanged,
   loginUserWithFacebook,
   checkLogin,
-  loginAdmin,
   loginUser,
-  signUp
+  signUp,
 } from "../actions";
 
 class Login extends Component {
@@ -27,11 +26,7 @@ class Login extends Component {
   onLogin() {
     const { username, password } = this.props;
     const { firebase } = this.props;
-    if (username == "admin") {
-      this.props.loginAdmin(password);
-    } else {
-      this.props.loginUser(username, password);
-    }
+    this.props.loginUser(username, password);
   }
 
   onSignUp() {
@@ -106,7 +101,6 @@ const mapStateToProps = state => {
   return {
     username: state.auth.username,
     password: state.auth.password,
-    admin: state.auth.admin,
   };
 };
 
@@ -114,5 +108,5 @@ export default compose(
   firebaseConnect(),
   connect(
   mapStateToProps,
-  { usernameChanged, passwordChanged, loginAdmin, loginUser }
+  { usernameChanged, passwordChanged, loginUser }
 ))(Login);
