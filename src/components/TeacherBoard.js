@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import firebase from "firebase";
 import { Link, Redirect } from "react-router-dom";
 import {
-  logoutTeacher
+  logoutTeacher,
+  fetchTeacher
   } from '../actions';
-
+import StudentList from "./parts/StudentList";
 class TeacherBoard extends Component {
   constructor(props) {
     super(props);
     this.onSignout = this.onSignout.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchTeacher();
   }
 
   onSignout() {
@@ -17,14 +22,26 @@ class TeacherBoard extends Component {
   }
 
   render() {
-    const { subjectData } = this.props;
-    //console.log("real data: ", subjectData)
-
-    if (subjectData) {
+    const { teacherData } = this.props;
+    console.log("teacher data: ", teacherData)
+    if (teacherData) {
+      const secList = teacherData.secList;
       return (
         <div>
-          <h4>Welcome : {firebase.auth().currentUser.email}</h4>
-
+          <h4>Subject Name : {teacherData.subjectName}</h4>
+          <h4>Subject ID : {teacherData.subjectId}</h4>
+          {secList.map((sec, index) => {
+            return (
+              <div>
+                <h5>sec : {index}</h5>
+                <h5>time : {sec.subjectTime}</h5>
+                <h5>student : {sec.currentStudent}/{sec.capacity}</h5>
+                <StudentList
+                  students={sec.studentList}
+                />
+              </div>
+            )
+          })}
           <Link
             onClick={this.onSignout}
             to="/"
@@ -53,11 +70,11 @@ class TeacherBoard extends Component {
 
 const mapStateToProps = state => {
   return {
-    subjectData: state.register.subjectData
+    teacherData: state.register.teacherData
   };
 };
 
 export default connect(
   mapStateToProps,
-  { logoutTeacher }
+  { logoutTeacher, fetchTeacher }
 )(TeacherBoard);

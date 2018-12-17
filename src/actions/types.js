@@ -26,4 +26,5 @@ export const CREATE_SEBJECT_FAILED = 'create_subject_failed';
 // ==========================================================
 
 export const UPDATE_USER_DATA = 'update_user_data';
-export const UPDATE_SUBJECT_DATA = 'create_subject_failed';
+export const UPDATE_SUBJECT_DATA = 'update_subject_data';
+export const UPDATE_TEACHER_DATA = 'update_teacher_data';

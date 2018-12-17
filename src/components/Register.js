@@ -31,6 +31,7 @@ class Register extends Component {
   }
 
   onSubjectClick(e) {
+    console.log("e ":e)
     this.setState({ currentSub: e });
     this.setState({ currentSec: 0 });
   }
@@ -165,8 +166,8 @@ and have "Complete transact"
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later. because subject id may be like KSL012
-    //console.log("currentSub" + currentSub);
+    const subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
+    console.log("*************" + subjectIdCheck);
     if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");
       return;
@@ -260,7 +261,7 @@ and have "Complete transact"
             onSubjectClick={this.onSubjectClick}
           />
           <SubjectCard
-            subId={subjectData[currentSub].subjectId}
+            subId={subjectData[currentSub].subjectId.substring(3,5)}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}

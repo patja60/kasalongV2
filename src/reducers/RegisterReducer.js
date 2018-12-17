@@ -1,6 +1,7 @@
 import {
   UPDATE_SUBJECT_DATA,
   UPDATE_USER_DATA,
+  UPDATE_TEACHER_DATA,
   LOGOUT_USER,
   LOGOUT_TEACHER
 } from '../actions/types';
@@ -8,6 +9,7 @@ import {
 const INITIAL_STATE = {
   subjectData: null,
   userData: null,
+  teacherData: null,
   isLoading: true,
   isInitializing: false,
   teacherIsLoading: true,
@@ -30,6 +32,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, subjectData: action.payload };
     case UPDATE_USER_DATA:
       return { ...state, userData: action.payload };
+    case UPDATE_TEACHER_DATA:
+      return { ...state, teacherData: action.payload };
     default:
       return state;
   }

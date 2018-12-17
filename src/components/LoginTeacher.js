@@ -38,7 +38,7 @@ import {
               <div className="card-body">
                 <h1 className="text-center pb-4 pt-3">
                   <span className="text-primary">
-                    <i className="fas fa-lock" /> Login
+                    <i className="fas fa-lock" /> Login Teacher
                   </span>
                 </h1>
 
