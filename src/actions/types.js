@@ -11,6 +11,7 @@ export const LOGOUT_TEACHER = 'login_teacher';
 // ==========================================================
 
 export const CREATE_USERNAME_CHANGED = 'create_username_changed';
+export const CREATE_NAME_CHANGED = 'create_name_changed';
 export const CREATE_PASSWORD_CHANGED = 'create_password_changed';
 export const CREATE_USER = 'create_user';
 export const CREATE_USER_SUCCESS = 'create_user_success';

@@ -120,7 +120,8 @@ class Register extends Component {
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
     //console.log(subjectData[currentSub].secList[sec])
     if (!this.checkTime(userTime, subjectTime)) {
-      console.log("Time confilct");
+      alert("Time confilct")
+      console.log("Time confilct.");
       return;
     }
 
@@ -131,6 +132,7 @@ class Register extends Component {
     subjectIdCheck = Math.pow(2, subjectIdCheck - 1);
     console.log("*************" + subjectIdCheck);
     if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+      alert(subjectData[currentSub].subjectId + " (" + subjectData[currentSub].subjectName + ") "  + " is already register.")
       console.log("Already register");
       return;
     }
@@ -144,6 +146,7 @@ class Register extends Component {
       // }
       // console.log("********done********");
       if (data.currentStudent >= data.capacity) {
+        alert("This section is full.")
         console.log("throw");
         throw "full";
       } else {
@@ -169,6 +172,7 @@ class Register extends Component {
 
         firebase.database().ref().update(updateObject, err => {
           if (err) {
+            alert("Sorry something went wrong, please try again.");
             console.log("Sorry something went wrong, please try again.");
             var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
             secRef.transaction(function(data) {
@@ -206,13 +210,13 @@ class Register extends Component {
     if (userData && subjectData) {
       return (
         <div className="mb-5">
-          <h4>Welcome : {firebase.auth().currentUser.email}</h4>
+          <h4>Welcome : {userData.username}</h4>
           <SubjectList
             subjects={subjectData}
             onSubjectClick={this.onSubjectClick}
           />
           <SubjectCard
-            subId={subjectData[currentSub].subjectId.substring(3, 5)}
+            subId={subjectData[currentSub].subjectId}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}
@@ -224,26 +228,12 @@ class Register extends Component {
             subjectData={this.props.subjectData}
             onDelete={this.onDelete}
           />
-          <Link
-            onClick={this.onSignout}
-            to="/"
-            className="btn btn-secondary btn-block"
-          >
-            Logout
-          </Link>
         </div>
       );
     } else {
       return (
         <div>
           <h4>Loading</h4>
-          <Link
-            onClick={this.onSignout}
-            to="/"
-            className="btn btn-secondary btn-block"
-          >
-            Logout
-          </Link>
         </div>
       );
     }

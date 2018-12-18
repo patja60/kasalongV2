@@ -44,26 +44,12 @@ class TeacherBoard extends Component {
               </div>
             </div>
           ))}
-          <Link
-            onClick={this.onSignout}
-            to="/"
-            className="btn btn-secondary btn-block"
-          >
-            Logout
-          </Link>
         </div>
       );
     } else {
       return (
         <div>
           <h4>Loading Teacher</h4>
-          <Link
-            onClick={this.onSignout}
-            to="/"
-            className="btn btn-secondary btn-block"
-          >
-            Logout
-          </Link>
         </div>
       );
     }

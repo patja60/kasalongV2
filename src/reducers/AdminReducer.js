@@ -9,11 +9,13 @@ import {
   SUBJECT_PASSWORD_CHANGED,
   CREATE_SUBJECT,
   CREATE_SEBJECT_SUCCESS,
-  CREATE_SEBJECT_FAILED
+  CREATE_SEBJECT_FAILED,
+  CREATE_NAME_CHANGED
 } from '../actions/types';
 
 const INITIAL_STATE = {
   createUsername: '',
+  createName: '',
   createPassword: '',
   subjectName: '',
   subjectId: '',
@@ -26,6 +28,8 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case CREATE_USERNAME_CHANGED:
       return { ...state, createUsername: action.payload };
+    case CREATE_NAME_CHANGED:
+      return { ...state, createName: action.payload };
     case CREATE_PASSWORD_CHANGED:
       return { ...state, createPassword: action.payload };
     case CREATE_USER:

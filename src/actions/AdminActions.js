@@ -9,13 +9,21 @@ import {
   CREATE_SEBJECT_SUCCESS,
   CREATE_SEBJECT_FAILED,
   CREATE_USER_SUCCESS,
-  CREATE_USER_FAILED
+  CREATE_USER_FAILED,
+  CREATE_NAME_CHANGED
 } from './types';
 import { provider } from '../database';
 
 export const createUsernameChanged = (text) => {
   return {
     type: CREATE_USERNAME_CHANGED,
+    payload: text
+  };
+};
+
+export const createNameChanged = (text) => {
+  return {
+    type: CREATE_NAME_CHANGED,
     payload: text
   };
 };
@@ -27,14 +35,14 @@ export const createPasswordChanged = (text) => {
   };
 };
 
-export const createUser = ({ createUsername, createPassword }) => {
+export const createUser = ({ createUsername, createName, createPassword }) => {
   return (dispatch) => {
     const email = createUsername + "@camp.com";
     const password = createPassword;
     firebase.auth().createUserWithEmailAndPassword( email, password )
     .then((userData) => {
       const defaultData = {
-        username: createUsername,
+        username: createName,
         password: password,
         studentTime: 0,
         registeredSubject: 0

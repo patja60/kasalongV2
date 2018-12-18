@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   createUsernameChanged,
+  createNameChanged,
   createPasswordChanged,
   createUser,
   subjectNameChanged,
@@ -18,13 +19,17 @@ class Dashboard extends Component {
     this.props.createUsernameChanged(text.target.value);
   }
 
+  onCreateNameChange(text) {
+    this.props.createNameChanged(text.target.value);
+  }
+
   onCreatePasswordChange(text) {
     this.props.createPasswordChanged(text.target.value);
   }
 
   onCreateUser() {
-    const { createUsername, createPassword } = this.props;
-    this.props.createUser({ createUsername, createPassword });
+    const { createUsername, createName, createPassword } = this.props;
+    this.props.createUser({ createUsername, createName, createPassword });
   }
 
   onSubjectNameChanged(text) {
@@ -68,6 +73,19 @@ class Dashboard extends Component {
                   required
                   value={this.props.createUsername}
                   onChange={this.onCreateUsernameChange.bind(this)}
+                  //onChange={this.onChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="name">name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  required
+                  value={this.props.createName}
+                  onChange={this.onCreateNameChange.bind(this)}
                   //onChange={this.onChange}
                 />
               </div>
@@ -169,6 +187,7 @@ Dashboard.propTypes = {
 const mapStateToProps = state => {
   return {
     createUsername: state.admin.createUsername,
+    createName: state.admin.createName,
     createPassword: state.admin.createPassword,
     subjectName: state.admin.subjectName,
     subjectId: state.admin.subjectId,
@@ -182,6 +201,7 @@ export default compose(
   connect(
   mapStateToProps,
   { createUsernameChanged,
+    createNameChanged,
     createPasswordChanged,
     createUser,
     subjectNameChanged,

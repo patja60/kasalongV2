@@ -140,7 +140,6 @@ export const logoutUser = () => {
       .signOut()
       .then(() => {
         logout(dispatch);
-        logoutTeacher(dispatch);
       })
       .catch(error => {
         console.log(error);

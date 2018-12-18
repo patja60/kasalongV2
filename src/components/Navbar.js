@@ -4,9 +4,60 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firebaseConnect } from "react-redux-firebase";
+import firebase from "firebase";
+import { logoutUser, logoutTeacher } from "../actions";
 
 class Navbar extends Component {
+
+  constructor(props) {
+    super(props);
+    this.onSignout = this.onSignout.bind(this);
+    this.onSignoutTeacher = this.onSignoutTeacher.bind(this);
+  }
+
+  onSignout() {
+    this.props.logoutUser();
+  }
+
+  onSignoutTeacher() {
+    this.props.logoutTeacher();
+  }
+
   render() {
+    console.log("firebase.auth().currentUser")
+    console.log(firebase.auth().currentUser)
+
+    let timeTableButton;
+    let registerButton;
+    let logoutButton;
+
+    if(firebase.auth().currentUser){
+      console.log("firebase.auth().currentUser.email.substring(0,3)")
+      console.log(firebase.auth().currentUser.email.substring(0,3))
+      if(firebase.auth().currentUser.email.substring(0,3) === "png" | firebase.auth().currentUser.email.substring(0,3) === "PNG") {
+        logoutButton = (
+          <Link to="/" onClick={this.onSignoutTeacher} className="nav-link">
+            Logout
+          </Link>
+        );
+      }else{
+        logoutButton = (
+          <Link to="/" onClick={this.onSignout} className="nav-link">
+            Logout
+          </Link>
+        );
+        timeTableButton = (
+          <Link to="/timetable" className="nav-link">
+            <i className="far fa-calendar-alt" /> Time Table
+          </Link>
+        );
+        registerButton = (
+          <Link to="/register" className="nav-link">
+            <i className="fas fa-pencil-alt" /> Register
+          </Link>
+        );
+      }
+    }
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
         <div className="container">
@@ -23,19 +74,13 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to="/timetable" className="nav-link">
-                  <i className="far fa-calendar-alt" /> Time Table
-                </Link>
+                {timeTableButton}
               </li>
               <li className="nav-item">
-                <Link to="/register" className="nav-link">
-                  <i className="fas fa-pencil-alt" /> Register
-                </Link>
+                {registerButton}
               </li>
               <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Logout
-                </Link>
+                {logoutButton}
               </li>
             </ul>
           </div>
@@ -45,4 +90,15 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = state => {
+  return {
+    subjectData: state.register.subjectData,
+    userData: state.register.userData,
+    teacherData: state.register.teacherData
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { logoutUser, logoutTeacher }
+)(Navbar);
