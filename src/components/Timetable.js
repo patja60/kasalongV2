@@ -16,6 +16,9 @@ class Timetable extends Component {
   }
 
   generateRegisteredData(userData, subjectData) {
+    if(!userData.secDict){
+      return [];
+    }
     const secDict = userData.secDict;
     let registeredData = [];
     Object.keys(secDict).forEach((key) => {
