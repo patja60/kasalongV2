@@ -27,7 +27,10 @@ export const passwordChanged = text => {
 
 export const loginTeacher = (username, password) => {
   return dispatch => {
-    if(username.substring(0,3) !== "PNG" && username.substring(0,3) !== "png"){
+    if (
+      username.substring(0, 3) !== "PNG" &&
+      username.substring(0, 3) !== "png"
+    ) {
       loginUserFail(dispatch);
       return;
     }
@@ -47,7 +50,10 @@ export const loginTeacher = (username, password) => {
 
 export const loginUser = (username, password) => {
   return dispatch => {
-    if(username.substring(0,3) === "PNG" || username.substring(0,3) === "png"){
+    if (
+      username.substring(0, 3) === "PNG" ||
+      username.substring(0, 3) === "png"
+    ) {
       loginUserFail(dispatch);
       return;
     }
@@ -66,20 +72,23 @@ export const loginUser = (username, password) => {
 };
 
 export function verifyAuth() {
-    return function (dispatch) {
-        firebase.auth().onAuthStateChanged(user => {
-          //console.log("user data:" + JSON.stringify(user));
-            if (user) {
-              if(user.email.substring(0,3) === "PNG" || user.email.substring(0,3) === "png") {
-                teacherAlreadyLogin(dispatch, user);
-              }else{
-                alreadyLogin(dispatch, user);
-              }
-            } else {
-              notAlreadyLogin(dispatch);
-            }
-        });
-    }
+  return function(dispatch) {
+    firebase.auth().onAuthStateChanged(user => {
+      //console.log("user data:" + JSON.stringify(user));
+      if (user) {
+        if (
+          user.email.substring(0, 3) === "PNG" ||
+          user.email.substring(0, 3) === "png"
+        ) {
+          teacherAlreadyLogin(dispatch, user);
+        } else {
+          alreadyLogin(dispatch, user);
+        }
+      } else {
+        notAlreadyLogin(dispatch);
+      }
+    });
+  };
 }
 
 const teacherAlreadyLogin = (dispatch, user) => {
@@ -96,7 +105,7 @@ const alreadyLogin = (dispatch, user) => {
   });
 };
 
-const notAlreadyLogin = (dispatch) => {
+const notAlreadyLogin = dispatch => {
   dispatch({
     type: "notAlreadylogin"
   });
@@ -125,26 +134,30 @@ const loginUserFail = dispatch => {
 };
 
 export const logoutUser = () => {
-  return (dispatch) => {
-    firebase.auth().signOut()
-    .then(() => {
-      logout(dispatch);
-      logoutTeacher(dispatch);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return dispatch => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        logout(dispatch);
+        logoutTeacher(dispatch);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
 export const logoutTeacher = () => {
-  return (dispatch) => {
-    firebase.auth().signOut()
-    .then(() => {
-      logoutT(dispatch);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return dispatch => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        logoutT(dispatch);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
 
