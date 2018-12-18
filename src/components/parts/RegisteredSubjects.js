@@ -10,9 +10,10 @@ class RegisteredSubjects extends Component {
     this.generateRegisteredData = this.generateRegisteredData.bind(this);
   }
 
-  componentDidMount() {
-    // this.getRegisteredSubject();
-  }
+  // componentDidMount() {
+  //   this.props.fetchSubject();
+  //   this.props.fetchUserData();
+  // }
 
   // this method returns a list of subjects that this student has registered, which contains subjects information
   generateRegisteredData(userData, subjectData) {

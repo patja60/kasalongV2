@@ -142,7 +142,7 @@ class Register extends Component {
     }
   }
 
-    /* this funct is the example of performing transaction, if you register from 2 user,
+  /* this funct is the example of performing transaction, if you register from 2 user,
   there are delay from 5000 loop, the first user who register will have sentence "Complete transact" at the end.
   but 2nd user will perform this transact 2 time at first time it will have no "Complete transact" after that it will perform again
   and have "Complete transact"
@@ -161,8 +161,10 @@ class Register extends Component {
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
-    subjectIdCheck = Math.pow(2, subjectIdCheck-1);
+    let subjectIdCheck = parseInt(
+      subjectData[currentSub].subjectId.substring(3, 5)
+    ); // find this func later. because subject id may be like KSL012
+    subjectIdCheck = Math.pow(2, subjectIdCheck - 1);
     console.log("*************" + subjectIdCheck);
     if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");
@@ -272,10 +274,10 @@ class Register extends Component {
 
   render() {
     const { currentSub, currentSec } = this.state;
-    const { subjectData } = this.props;
+    const { userData, subjectData } = this.props;
     //console.log("real data: ", subjectData)
 
-    if (subjectData) {
+    if (userData && subjectData) {
       return (
         <div className="mb-5">
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>
@@ -292,8 +294,8 @@ class Register extends Component {
             onRegister={this.onRegister}
           />
           <RegisteredSubjects
-            userData={this.props.userData}
-            subjectData={this.props.subjectData}
+            userData={userData}
+            subjectData={subjectData}
             onDelete={this.onDelete2}
           />
           <Link
