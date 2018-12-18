@@ -4,14 +4,14 @@ const dummy1 = [
     subjectName: "Name1",
     sec: 1,
     subjectDate: "27 Dec 2018",
-    subJectTime: "8.00 - 9.30"
+    subjectTime: "8.00 - 9.30"
   },
   {
     subjectId: "PNG02",
     subjectName: "Name2",
     sec: 2,
     subjectDate: "28 Dec 2018",
-    subJectTime: "8.00 - 9.30"
+    subjectTime: "8.00 - 9.30"
   }
 ];
 
