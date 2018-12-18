@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { convertDecToBin } from "../DateTime";
+import { mapToDateTime } from "../DateTime";
 
 import RegisteredCard from "./RegisteredCard";
-
-import { dummy1 } from "./dummyForTableAndList";
 
 class RegisteredSubjects extends Component {
   constructor(props) {
     super(props);
+
+    this.generateRegisteredData = this.generateRegisteredData.bind(this);
   }
 
   componentDidMount() {
@@ -15,23 +15,40 @@ class RegisteredSubjects extends Component {
   }
 
   // this method returns a list of subjects that this student has registered, which contains subjects information
-  getRegisteredSubject = () => {
-    console.log("getting...");
-    const { userData } = this.props;
-    const charStr = convertDecToBin(userData.registeredSubject);
-    console.log("convert successful charStr = " + charStr);
-    const regList = [];
-    for (let i = charStr.length - 1; i >= 0; i--) {
-      if (charStr.charAt(i) === "1") console.log(`charAt(${i}) == 1`);
-    }
-  };
+  generateRegisteredData(userData, subjectData) {
+    const secDict = userData.secDict;
+    const registeredData = [];
+    Object.keys(secDict).forEach(key => {
+      const index = parseInt(key.substring(3, 5)) - 1;
+      const subjectTime = subjectData[index].secList[secDict[key]].subjectTime;
+      console.log(
+        `subjectData[${index}]=${
+          subjectData[index].secList[secDict[key]].subjectTime
+        }`
+      );
+      const obj = {
+        subjectId: key,
+        subjectName: subjectData[index].subjectName,
+        sec: secDict[key],
+        subjectDate: mapToDateTime[subjectTime].date,
+        subjectTime
+      };
+      registeredData.push(obj);
+    });
+    return registeredData;
+  }
 
   render() {
-    if (dummy1)
+    const { userData, subjectData } = this.props;
+    const registeredSubjects = this.generateRegisteredData(
+      userData,
+      subjectData
+    );
+    if (registeredSubjects)
       return (
         <div>
           <div className="h4">Registered Subject</div>
-          {dummy1.map((subject, index) => (
+          {registeredSubjects.map((subject, index) => (
             <RegisteredCard
               key={index}
               subject={subject}
