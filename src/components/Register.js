@@ -24,6 +24,7 @@ class Register extends Component {
     this.onSectionClick = this.onSectionClick.bind(this);
     this.onRegister = this.onRegister.bind(this);
     this.onSignout = this.onSignout.bind(this);
+    this.onDelete2 = this.onDelete2.bind(this);
   }
 
   componentWillMount() {
@@ -83,8 +84,7 @@ and have "Complete transact"
     upvotesRef
       .transaction(function(data) {
         console.log(
-          "**************this is what i read: " +
-            data + "**************"
+          "**************this is what i read: " + data + "**************"
         );
         for (let i = 0; i < 5000; i++) {
           console.log(i);
@@ -190,6 +190,19 @@ and have "Complete transact"
       });
   }
 
+  // this method takes two parameters subjectId and sec
+  onDelete2(subId, sec) {
+    //testing
+    const result = window.confirm(
+      `Are you sure to remove ${subId}, sec ${sec}?`
+    );
+    if (result) {
+      console.log(`delete: subId=${subId}, sec=${sec}`);
+      // if the student click yes,
+      // remove the specified subId and sec from this students registration
+    }
+  }
+
   onRegister() {
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
@@ -204,9 +217,11 @@ and have "Complete transact"
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
+    const subjectIdCheck = parseInt(
+      subjectData[currentSub].subjectId.substring(3, 5)
+    ); // find this func later. because subject id may be like KSL012
     console.log("*************" + subjectIdCheck);
-    if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+    if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");
       return;
     }
@@ -326,7 +341,7 @@ and have "Complete transact"
             onSubjectClick={this.onSubjectClick}
           />
           <SubjectCard
-            subId={subjectData[currentSub].subjectId.substring(3,5)}
+            subId={subjectData[currentSub].subjectId.substring(3, 5)}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}
@@ -336,6 +351,7 @@ and have "Complete transact"
           <RegisteredSubjects
             userData={this.props.userData}
             subjectData={this.props.subjectData}
+            onDelete={this.onDelete2}
           />
           <Link
             onClick={this.onSignout}
