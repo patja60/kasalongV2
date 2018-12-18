@@ -12,6 +12,6 @@ export default ({ students }) => {
       </div>
     );
   } else {
-    return <div>hello</div>;
+    return <div>no student</div>;
   }
 };
