@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
 export default ({ subjects, onSubjectClick }) => {
-  console.log("this is subject list")
-  console.log(subjects)
   return (
     <div className="dropdown mb-3">
       <button
@@ -15,7 +13,6 @@ export default ({ subjects, onSubjectClick }) => {
 
       <div className="dropdown-menu">
         {subjects.map((subject, index) => {
-          console.log(subject, index);
           return (
             <div
               style={{ cursor: "pointer" }}

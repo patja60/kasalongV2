@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import mapToDateTime from "../DateTime";
+import React from "react";
+import { mapToDateTime } from "../DateTime";
 
 export default ({
   subId,

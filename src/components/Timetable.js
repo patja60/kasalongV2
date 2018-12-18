@@ -1,98 +1,96 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 
-class Temporary extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    balance: ''
-  };
+import { fetchSubject, fetchUserData } from "../actions";
 
-  onSubmit() {
-    console.log('onSubmit');
+class Timetable extends Component {
+  constructor(props) {
+    super(props);
   }
 
-  onChange() {
-    console.log('onChange');
+  componentDidMount() {
+    this.props.fetchSubject();
+    this.props.fetchUserData();
+    console.log("hi : " + JSON.stringify(this.props.userData));
+    console.log("ho : " + JSON.stringify(this.props.subjectData));
+  }
+
+  generateSecDict(userData) {
+    const secDict = userData.secDict;
+    Object.keys(secDict).forEach((key) => {
+        console.log(key);
+    })
   }
 
   render() {
-    return (
-      <div className="card">
-          <div className="card-header">Add Client</div>
-          <div className="card-body">
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="firstName"
-                  minLength="2"
-                  required
-                  onChange={this.onChange}
-                  value={this.state.firstName}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="firstName">Last Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="lastName"
-                  minLength="2"
-                  required
-                  onChange={this.onChange}
-                  value={this.state.lastName}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  onChange={this.onChange}
-                  value={this.state.email}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="phone">Phone</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="phone"
-                  minLength="10"
-                  required
-                  onChange={this.onChange}
-                  value={this.state.phone}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="balance">Balance</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="balance"
-                  onChange={this.onChange}
-                  value={this.state.balance}
-                />
-              </div>
-              <input
-                type="submit"
-                value="Submit"
-                className="btn btn-primary btn-block"
-              />
-            </form>
-          </div>
+    const { userData } = this.props;
+    if(userData){
+      this.generateSecDict(userData)
+      return (
+        <div className="mt-5">
+          <div className="h5 mb-2">This is your time table</div>
+          <table className="table table-dark">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>9.00 - 10.30</th>
+                <th>10.30 - 12.00</th>
+                <th>13.00 - 14.30</th>
+                <th>14.30 - 16.00</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>John</td>
+                <td>Doe</td>
+                <td>jdoe@gmail.com</td>
+                <td>jdoe@gmail.com</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Will</td>
+                <td>Johnson</td>
+                <td>will@yahoo.com</td>
+                <td>will@yahoo.com</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Shannon</td>
+                <td>Williams</td>
+                <td>shannon@yahoo.com</td>
+                <td>shannon@yahoo.com</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    );
+      );
+    }else{
+      return (
+        <div>
+          <h4>Loading</h4>
+          <Link
+            onClick={this.onSignout}
+            to="/"
+            className="btn btn-secondary btn-block"
+          >
+            Logout
+          </Link>
+        </div>
+      );
+    }
   }
 }
 
-export default Temporary;
+const mapStateToProps = state => {
+  return {
+    subjectData: state.register.subjectData,
+    userData: state.register.userData
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchSubject, fetchUserData }
+)(Timetable);
