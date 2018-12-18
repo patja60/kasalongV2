@@ -34,7 +34,8 @@ export default ({
             </div>
 
             <div>
-              Time: {section.subjectTime}: {section.subjectTime}
+              Time: {mapToDateTime[section.subjectTime].date}:{" "}
+              {mapToDateTime[section.subjectTime].time}
             </div>
           </li>
         ))}
