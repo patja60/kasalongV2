@@ -44,7 +44,7 @@ class RegisteredSubjects extends Component {
       userData,
       subjectData
     );
-    if (registeredSubjects)
+    if (userData && subjectData)
       return (
         <div>
           <div className="h4">Registered Subject</div>
