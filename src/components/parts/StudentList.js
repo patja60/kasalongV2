@@ -3,11 +3,11 @@ import React from "react";
 export default ({ students }) => {
   if (students) {
     return (
-      <div>
+      <div className="list-group">
         {Object.values(students).map((student, index) => (
-          <div key={index}>
-            <h5>{student.username}</h5>
-          </div>
+          <ul key={index} className="list-group-item bg-light">
+            {student.username}
+          </ul>
         ))}
       </div>
     );

@@ -29,13 +29,19 @@ class TeacherBoard extends Component {
           <h4>Subject ID : {teacherData.subjectId}</h4>
           <br />
           {secList.map((sec, index) => (
-            <div key={index}>
-              <h5>sec : {index}</h5>
-              <h5>time : {sec.subjectTime}</h5>
-              <h5>
-                student : {sec.currentStudent}/{sec.capacity}
-              </h5>
-              <StudentList students={sec.studentList} />
+            <div key={index} className="card mb-2">
+              <div className="card-header">
+                <strong>Section : {index}</strong>
+              </div>
+              <div className="card-body">
+                <div>Time : {sec.subjectTime}</div>
+                <div>
+                  Student : {sec.currentStudent}/{sec.capacity}
+                </div>
+                <br />
+                <div className="mb-1">Student List</div>
+                <StudentList students={sec.studentList} />
+              </div>
             </div>
           ))}
           <Link
