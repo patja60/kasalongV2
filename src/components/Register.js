@@ -64,6 +64,7 @@ and have "Complete transact"
       timeProb = false;
     } else {
       console.log("Time confilct");
+      alert("Time conflict!");
       return;
     }
 
@@ -72,7 +73,8 @@ and have "Complete transact"
     if (this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       subjectProb = false;
     } else {
-      console.log("Already register");
+      console.log("Already registered");
+      alert("Already registered");
       return;
     }
     const subjectId = subjectData[currentSub].subjectId;
