@@ -83,8 +83,8 @@ class Register extends Component {
           let updateObject = {};
 
           updateObject["/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid] = null;
-          updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = userRegisteredSubject & subjectIdCheck;
-          updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = userTime & subjectTime;
+          updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = userRegisteredSubject - subjectIdCheck;
+          updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = userTime - subjectTime;
           updateObject["/student/" + firebase.auth().currentUser.uid + "/secDict/" + subjectId] = null;
 
           firebase.database().ref().update(updateObject, err => {
