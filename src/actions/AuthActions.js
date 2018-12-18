@@ -68,9 +68,8 @@ export const loginUser = (username, password) => {
 export function verifyAuth() {
     return function (dispatch) {
         firebase.auth().onAuthStateChanged(user => {
-          console.log("user data:" + JSON.stringify(user));
+          //console.log("user data:" + JSON.stringify(user));
             if (user) {
-              console.log(user.email.substring(0,3))
               if(user.email.substring(0,3) === "PNG" || user.email.substring(0,3) === "png") {
                 teacherAlreadyLogin(dispatch, user);
               }else{

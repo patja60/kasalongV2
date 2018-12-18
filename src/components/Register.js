@@ -58,7 +58,6 @@ and have "Complete transact"
 
     const userTime = userData.studentTime;
     const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec]);
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
     if (this.checkTime(userTime, subjectTime)) {
       timeProb = false;
@@ -84,8 +83,8 @@ and have "Complete transact"
     upvotesRef
       .transaction(function(data) {
         console.log(
-          "********************************************this is what i read: " +
-            data
+          "**************this is what i read: " +
+            data + "**************"
         );
         for (let i = 0; i < 5000; i++) {
           console.log(i);
@@ -205,9 +204,9 @@ and have "Complete transact"
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later. because subject id may be like KSL012
-    //console.log("currentSub" + currentSub);
-    if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+    const subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
+    console.log("*************" + subjectIdCheck);
+    if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");
       return;
     }
@@ -327,7 +326,7 @@ and have "Complete transact"
             onSubjectClick={this.onSubjectClick}
           />
           <SubjectCard
-            subId={subjectData[currentSub].subjectId}
+            subId={subjectData[currentSub].subjectId.substring(3,5)}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}

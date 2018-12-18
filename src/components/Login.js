@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from 'redux';
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { firebaseConnect } from 'react-redux-firebase';
 
@@ -81,6 +81,10 @@ class Login extends Component {
                 >
                   Login
                 </button>
+                <Link
+                  to="/loginteacher"
+                  className="btn btn-secondary btn-block"
+                >For Teacher</Link>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 
 import { fetchSubject, fetchUserData } from "../actions";
 
@@ -13,6 +14,13 @@ class Timetable extends Component {
     this.props.fetchUserData();
     console.log("hi : " + JSON.stringify(this.props.userData));
     console.log("ho : " + JSON.stringify(this.props.subjectData));
+  }
+
+  generateSecDict(userData) {
+    const secDict = userData.secDict;
+    Object.keys(secDict).forEach((key) => {
+        console.log(key);
+    })
   }
 
   render() {

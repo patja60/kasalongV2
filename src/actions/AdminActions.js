@@ -86,7 +86,7 @@ export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
     firebase.database().ref(`/subject`)
     .child(subjectId).set({ subjectName: subjectName, subjectId: subjectId, subjectPassword: subjectPassword })
     .then(() => {
-      firebase.database().ref(`/subject/${subjectId}/secList/1`)
+      firebase.database().ref(`/subject/${subjectId}/secList/0`)
       .set({ subjectTime: 1, capacity: 30, currentStudent: 0 })
       .then(() => {
         createSubjectSuccess(dispatch);
@@ -94,6 +94,24 @@ export const createSubject = ({ subjectName, subjectId, subjectPassword }) => {
       .catch(() => {
         createSubjectFailed(dispatch);
       });
+      const email = subjectId+"@camp.com";
+      const password = subjectPassword;
+      firebase.auth().createUserWithEmailAndPassword( email, password )
+      .then((userData) => {
+        const defaultData = {
+          username: subjectId,
+          password: password,
+        };
+        firebase.database().ref(`/subjectAcc/${userData.user.uid}/`)
+        .set(defaultData)
+        .then(() => {
+          createUserSuccess(dispatch);
+        })
+        .catch((err) => {
+          createUserFailed(dispatch);
+          console.log(err);
+        });
+      })
     })
     .catch(() => {
       createSubjectFailed(dispatch);

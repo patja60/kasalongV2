@@ -21,10 +21,24 @@ class LoginTeacher extends Component {
     this.props.loginTeacher(username, password);
   }
 
+<<<<<<< HEAD
   onSignUp() {
     const { username, password } = this.props;
     this.props.signUp(username, password);
   }
+=======
+    render() {
+      return (
+        <div className="row">
+          <div className="col-md-6 mx-auto">
+            <div className="card">
+              <div className="card-body">
+                <h1 className="text-center pb-4 pt-3">
+                  <span className="text-primary">
+                    <i className="fas fa-lock" /> Login Teacher
+                  </span>
+                </h1>
+>>>>>>> 7101ea302dc81b5959a2036414293b221c338bd0
 
   render() {
     return (
