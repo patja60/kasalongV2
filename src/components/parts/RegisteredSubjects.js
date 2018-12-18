@@ -32,7 +32,11 @@ class RegisteredSubjects extends Component {
         <div>
           <div className="h4">Registered Subject</div>
           {dummy1.map((subject, index) => (
-            <RegisteredCard key={index} subject={subject} />
+            <RegisteredCard
+              key={index}
+              subject={subject}
+              onDelete={this.props.onDelete}
+            />
           ))}
         </div>
       );

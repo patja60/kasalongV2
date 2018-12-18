@@ -1,26 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 
 export default ({ students }) => {
-  if(students) {
+  if (students) {
     return (
-      <div>
-        { Object.values(students).map((student,index) => {
-          console.log(student.username)
-            return (
-              <div>
-                <h5>
-                  {student.username}
-                </h5>
-              </div>
-            )
-          })}
+      <div className="list-group">
+        {Object.values(students).map((student, index) => (
+          <ul key={index} className="list-group-item bg-light">
+            {student.username}
+          </ul>
+        ))}
       </div>
     );
-  }else{
-    return(
-      <div>
-        hello
-      </div>
-    );
+  } else {
+    return <div>hello</div>;
   }
-}
+};

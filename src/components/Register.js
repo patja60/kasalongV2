@@ -24,6 +24,7 @@ class Register extends Component {
     this.onSectionClick = this.onSectionClick.bind(this);
     this.onRegister = this.onRegister.bind(this);
     this.onSignout = this.onSignout.bind(this);
+    this.onDelete2 = this.onDelete2.bind(this);
   }
 
   componentWillMount() {
@@ -128,12 +129,24 @@ class Register extends Component {
       });
   }
 
-  /* this funct is the example of performing transaction, if you register from 2 user,
-there are delay from 5000 loop, the first user who register will have sentence "Complete transact" at the end.
-but 2nd user will perform this transact 2 time at first time it will have no "Complete transact" after that it will perform again
-and have "Complete transact"
-*/
+  // this method takes two parameters subjectId and sec
+  onDelete2(subId, sec) {
+    //testing
+    const result = window.confirm(
+      `Are you sure to remove ${subId}, sec ${sec}?`
+    );
+    if (result) {
+      console.log(`delete: subId=${subId}, sec=${sec}`);
+      // if the student click yes,
+      // remove the specified subId and sec from this students registration
+    }
+  }
 
+    /* this funct is the example of performing transaction, if you register from 2 user,
+  there are delay from 5000 loop, the first user who register will have sentence "Complete transact" at the end.
+  but 2nd user will perform this transact 2 time at first time it will have no "Complete transact" after that it will perform again
+  and have "Complete transact"
+  */
   onRegister() {
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
@@ -151,7 +164,7 @@ and have "Complete transact"
     let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
     subjectIdCheck = Math.pow(2, subjectIdCheck-1);
     console.log("*************" + subjectIdCheck);
-    if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
+    if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");
       return;
     }
@@ -271,7 +284,7 @@ and have "Complete transact"
             onSubjectClick={this.onSubjectClick}
           />
           <SubjectCard
-            subId={subjectData[currentSub].subjectId.substring(3,5)}
+            subId={subjectData[currentSub].subjectId.substring(3, 5)}
             subName={subjectData[currentSub].subjectName}
             sections={subjectData[currentSub].secList}
             currentSec={currentSec}
@@ -281,6 +294,7 @@ and have "Complete transact"
           <RegisteredSubjects
             userData={this.props.userData}
             subjectData={this.props.subjectData}
+            onDelete={this.onDelete2}
           />
           <Link
             onClick={this.onSignout}
