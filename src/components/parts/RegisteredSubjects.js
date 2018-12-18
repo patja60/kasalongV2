@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { convertDecToBin } from "../DateTime";
 
+import RegisteredCard from "./RegisteredCard";
+
+import { dummy1 } from "./dummyForTableAndList";
+
 class RegisteredSubjects extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +14,7 @@ class RegisteredSubjects extends Component {
     // this.getRegisteredSubject();
   }
 
+  // this method returns a list of subjects that this student has registered, which contains subjects information
   getRegisteredSubject = () => {
     console.log("getting...");
     const { userData } = this.props;
@@ -22,18 +27,15 @@ class RegisteredSubjects extends Component {
   };
 
   render() {
-    return (
-      <div>
-        Registered Subject
-        <br />
-        {JSON.stringify(this.props.userData)}
-        <hr />
-        {JSON.stringify(this.props.subjectData)}
-        <button onClick={this.getRegisteredSubject} className="btn-default">
-          Test
-        </button>
-      </div>
-    );
+    if (dummy1)
+      return (
+        <div>
+          <div className="h4">Registered Subject</div>
+          {dummy1.map((subject, index) => (
+            <RegisteredCard key={index} subject={subject} />
+          ))}
+        </div>
+      );
   }
 }
 
