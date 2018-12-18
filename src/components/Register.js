@@ -318,7 +318,7 @@ and have "Complete transact"
 
     if (subjectData) {
       return (
-        <div>
+        <div className="mb-5">
           <h4>Welcome : {firebase.auth().currentUser.email}</h4>
           <SubjectList
             subjects={subjectData}
