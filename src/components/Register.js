@@ -44,66 +44,6 @@ class Register extends Component {
     this.props.logoutUser();
   }
 
-  /* this funct is the example of performing transaction, if you register from 2 user,
-there are delay from 5000 loop, the first user who register will have sentence "Complete transact" at the end.
-but 2nd user will perform this transact 2 time at first time it will have no "Complete transact" after that it will perform again
-and have "Complete transact"
-*/
-  onRegister_test2() {
-    const { currentSub, currentSec } = this.state;
-    const { subjectData, userData } = this.props;
-
-    let timeProb = true;
-    let subjectProb = true;
-
-    const userTime = userData.studentTime;
-    const sec = currentSec + 1;
-    const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    if (this.checkTime(userTime, subjectTime)) {
-      timeProb = false;
-    } else {
-      console.log("Time confilct");
-      return;
-    }
-
-    const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(currentSub) + 1; // find this func later.
-    if (this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
-      subjectProb = false;
-    } else {
-      console.log("Already register");
-      return;
-    }
-    const subjectId = subjectData[currentSub].subjectId;
-    var upvotesRef = firebase
-      .database()
-      .ref(`/subject/${subjectId}/secList/${sec}/`);
-    upvotesRef
-      .transaction(function(data) {
-        console.log(
-          "**************this is what i read: " +
-            data + "**************"
-        );
-        for (let i = 0; i < 5000; i++) {
-          console.log(i);
-        }
-        console.log("done********");
-        if (data.currentStudent < data.capacity) {
-          data.currentStudent++;
-        } else {
-          throw "full";
-        }
-        console.log("return: " + JSON.stringify(data));
-        return data;
-      })
-      .then(() => {
-        console.log("conplete transac");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
   onDelete() {
     const { deleteSub, deleteSec } = this.state;
     const { subjectData, userData } = this.props;
@@ -188,6 +128,12 @@ and have "Complete transact"
       });
   }
 
+  /* this funct is the example of performing transaction, if you register from 2 user,
+there are delay from 5000 loop, the first user who register will have sentence "Complete transact" at the end.
+but 2nd user will perform this transact 2 time at first time it will have no "Complete transact" after that it will perform again
+and have "Complete transact"
+*/
+
   onRegister() {
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
@@ -202,7 +148,8 @@ and have "Complete transact"
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    const subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
+    let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3,5)); // find this func later. because subject id may be like KSL012
+    subjectIdCheck = Math.pow(2, subjectIdCheck-1);
     console.log("*************" + subjectIdCheck);
     if(!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       console.log("Already register");

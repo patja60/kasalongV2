@@ -21,7 +21,6 @@ export const fetchSubject = () => {
   return (dispatch) => {
     firebase.database().ref(`/subject/`)
     .on('value', function(snapshot) {
-      console.log("subject data: *******" + JSON.stringify(snapshot.val()));
       let list = [];
       Object.keys(snapshot.val()).forEach(function(key) {
         let data = {};
@@ -31,6 +30,7 @@ export const fetchSubject = () => {
         });
         list.push(data);
       });
+      console.log("subject data: " + JSON.stringify(list))
       updateSubjectData(dispatch,list);
     });
   };
