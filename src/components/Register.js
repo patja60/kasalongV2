@@ -332,7 +332,10 @@ and have "Complete transact"
             onSectionClick={this.onSectionClick}
             onRegister={this.onRegister}
           />
-          <RegisteredSubjects />
+          <RegisteredSubjects
+            userData={this.props.userData}
+            subjectData={this.props.subjectData}
+          />
           <Link
             onClick={this.onSignout}
             to="/"

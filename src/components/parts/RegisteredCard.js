@@ -9,3 +9,5 @@ class RegisteredCard extends Component {
     return <div />;
   }
 }
+
+export default RegisteredCard;
