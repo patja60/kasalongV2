@@ -7,7 +7,7 @@ import {
   LOGIN_TEACHER_SUCCESS,
   LOGIN_TEACHER_FAIL,
   LOGOUT_USER,
-  LOGOUT_TEACHER
+  LOGOUT_TEACHER,
 } from "./types";
 import { provider } from "../database";
 

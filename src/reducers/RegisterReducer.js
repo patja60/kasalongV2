@@ -3,7 +3,7 @@ import {
   UPDATE_USER_DATA,
   UPDATE_TEACHER_DATA,
   LOGOUT_USER,
-  LOGOUT_TEACHER
+  LOGOUT_TEACHER,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -23,11 +23,11 @@ export default (state = INITIAL_STATE, action) => {
     case "alreadylogin":
       return { ...state, isLoading: false, isInitializing: true };
     case "notAlreadylogin":
-      return { ...state, isLoading: false, teacherIsLoading: false };
+      return { ...state, isLoading: false, teacherIsLoading: false, nav: false };
     case LOGOUT_USER:
-      return { ...state, isLoading: false, isInitializing: false };
+      return { ...state, isLoading: false, isInitializing: false, userData: null };
     case LOGOUT_TEACHER:
-      return { ...state, teacherIsLoading: false, teacherIsInitializing: false };
+      return { ...state, teacherIsLoading: false, teacherIsInitializing: false, teacherData: null };
     case UPDATE_SUBJECT_DATA:
       return { ...state, subjectData: action.payload };
     case UPDATE_USER_DATA:

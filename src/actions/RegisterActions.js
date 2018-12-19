@@ -37,14 +37,26 @@ export const fetchSubject = () => {
 };
 
 export const fetchUserData = () => {
-  return (dispatch) => {
-    var user = firebase.auth().currentUser;
-    firebase.database().ref(`/student/${user.uid}`)
-    .on('value', function(snapshot) {
-      //console.log("user data: " + JSON.stringify(snapshot.val()));
-      updateUserData(dispatch,snapshot.val());
-    });
-  };
+  if(firebase.auth().currentUser){
+    return (dispatch) => {
+      var user = firebase.auth().currentUser;
+      firebase.database().ref(`/student/${user.uid}`)
+      .on('value', function(snapshot) {
+        //console.log("user data: " + JSON.stringify(snapshot.val()));
+        updateUserData(dispatch,snapshot.val());
+      });
+    };
+  }else{
+    return (dispatch) => {
+      notAlreadyLogin(dispatch);
+    };
+  }
+};
+
+const notAlreadyLogin = dispatch => {
+  dispatch({
+    type: "notAlreadylogin"
+  });
 };
 
 export const updateSubjectData = (dispatch,val) => {

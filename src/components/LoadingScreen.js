@@ -16,11 +16,7 @@ class LoadingScreen extends Component {
     return (
       <div>
       <h1 className="display4">Loading...</h1>
-      <Link
-        onClick={this.onSignout}
-        to="/"
-        className="btn btn-secondary btn-block"
-      >
+      <Link to="/" onClick={this.onSignout} className="btn btn-secondary btn-block">
         Logout
       </Link>
       </div>
