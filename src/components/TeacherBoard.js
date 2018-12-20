@@ -4,6 +4,7 @@ import firebase from "firebase";
 import { Link, Redirect } from "react-router-dom";
 import { logoutTeacher, fetchTeacher } from "../actions";
 import StudentList from "./parts/StudentList";
+import { mapToDateTime } from "./DateTime";
 class TeacherBoard extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,7 @@ class TeacherBoard extends Component {
                 <strong>Section : {index}</strong>
               </div>
               <div className="card-body">
-                <div>Time : {sec.subjectTime}</div>
+                <div>Date : {mapToDateTime[sec.subjectTime].date}, Time : {mapToDateTime[sec.subjectTime].time}  </div>
                 <div>
                   Student : {sec.currentStudent}/{sec.capacity}
                 </div>

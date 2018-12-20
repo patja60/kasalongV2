@@ -10,11 +10,11 @@ import TeacherBoard from "./TeacherBoard";
 import LoginTeacher from "./LoginTeacher";
 import NotFound from "./NotFound";
 
+//<Route exact path="/dashboard" component={Dashboard} />
 export default () => (
   <Switch>
     <Route exact path="/" component={UserIsNotAuthenticated(Login)} />
     <Route exact path="/register" component={UserIsAuthenticated(Register)} />
-    <Route exact path="/dashboard" component={Dashboard} />
     <Route exact path="/timetable" component={UserIsAuthenticated(Timetable)} />
     <Route exact path="/loginteacher" component={TeacherIsNotAuthenticated(LoginTeacher)} />
     <Route exact path="/teacherboard" component={TeacherIsAuthenticated(TeacherBoard)} />

@@ -39,6 +39,6 @@ export const store = createStoreWithFirebase(
   initialState,
   compose(
     reactReduxFirebase(firebase),
-    applyMiddleware(ReduxThunk),devTools
+    applyMiddleware(ReduxThunk),
   )
 );

@@ -51,7 +51,7 @@ class Navbar extends Component {
       );
     }else if(teacherData) {
       logoutButton = (
-        <Link to="/" onClick={this.onSignoutTeacher} className="nav-link">
+        <Link to="/loginteacher" onClick={this.onSignoutTeacher} className="nav-link">
           Logout
         </Link>
       );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { firebaseConnect } from "react-redux-firebase";
 import { loginTeacher, usernameChanged, passwordChanged } from "../actions";
@@ -33,7 +33,7 @@ class LoginTeacher extends Component {
           <div className="card">
             <div className="card-body">
               <h1 className="text-center pb-4 pt-3">
-                <span className="text-primary">
+                <span className="text-success">
                   <i className="fas fa-lock" /> Login For Teacher
                 </span>
               </h1>
@@ -64,11 +64,15 @@ class LoginTeacher extends Component {
                 </div>
 
                 <button
-                  className="btn btn-primary btn-block"
+                  className="btn btn-success btn-block"
                   onClick={this.onLogin.bind(this)}
                 >
                   Login
                 </button>
+                <Link
+                  to="/"
+                  className="btn btn-secondary btn-block"
+                >Back to student's login</Link>
               </div>
             </div>
           </div>
