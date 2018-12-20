@@ -5,6 +5,8 @@ import { Link, Redirect } from "react-router-dom";
 import { fetchSubject, fetchUserData } from "../actions";
 import { mapToDateTime } from "./DateTime";
 
+import subTableImage from '../subTable.jpg';
+
 class Timetable extends Component {
   constructor(props) {
     super(props);
@@ -91,6 +93,7 @@ class Timetable extends Component {
                 </tr>
               </tbody>
             </table>
+            <img src={subTableImage} />
           </div>
         </div>
       );
