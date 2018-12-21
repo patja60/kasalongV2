@@ -6,7 +6,7 @@ export default ({ students }) => {
       <div className="list-group">
         {Object.values(students).map((student, index) => (
           <ul key={index} className="list-group-item bg-light">
-            {student.username}
+            {index+1} : {student.username}
           </ul>
         ))}
       </div>

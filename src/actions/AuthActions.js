@@ -31,6 +31,7 @@ export const loginTeacher = (username, password) => {
       username.substring(0, 3) !== "PNG" &&
       username.substring(0, 3) !== "png"
     ) {
+      alert("This page is for teacher.");
       loginUserFail(dispatch);
       return;
     }
@@ -42,6 +43,7 @@ export const loginTeacher = (username, password) => {
         loginTeacherSuccess(dispatch);
       })
       .catch(error => {
+        alert("Wrong username or password.");
         loginUserFail(dispatch);
         console.log(error);
       });
@@ -54,6 +56,7 @@ export const loginUser = (username, password) => {
       username.substring(0, 3) === "PNG" ||
       username.substring(0, 3) === "png"
     ) {
+      alert("This page is for student.");
       loginUserFail(dispatch);
       return;
     }
@@ -65,6 +68,7 @@ export const loginUser = (username, password) => {
         loginUserSuccess(dispatch);
       })
       .catch(error => {
+        alert("Wrong username or password.");
         loginUserFail(dispatch);
         console.log(error);
       });
