@@ -8,6 +8,7 @@ export default [
         //There is always atlest 1 sec.
         secNumber: 1,
         subTime: 2,
+        subTimeMap: 2,
         capacity: 40,
         current: 2,
         room: 1,
@@ -18,7 +19,8 @@ export default [
       },
       1: {
         secNumber: 2,
-        subTime: 5,
+        subTime: 3,
+        subTimeMap: "1_2",
         capacity: 40,
         current: 0,
         room: 3,
@@ -33,7 +35,8 @@ export default [
     sec: {
       1: {
         secNumber: 1,
-        subTime: 2,
+        subTime: 5,
+        subTimeMap: "1_4",
         capacity: 40,
         current: 2,
         room: 2,
