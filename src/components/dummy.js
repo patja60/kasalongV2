@@ -6,24 +6,22 @@ export default [
     sec: {
       0: {
         //There is always atlest 1 sec.
-        secNumber: 1,
-        subTime: 2,
-        subTimeMap: 2,
+        sec: 1,
+        subjectTime: 2,
+        subjectTimeMap: 2,
         capacity: 40,
-        current: 2,
-        room: 1,
+        currentStudent: 2,
         studentList: {
           userId: { name: "Patja", timeStamp: "..." },
           userId: { name: "fudgy", timeStamp: "..." }
         }
       },
       1: {
-        secNumber: 2,
-        subTime: 3,
-        subTimeMap: "1_2",
+        sec: 2,
+        subjectTime: 3,
+        subjectTimeMap: "1_2",
         capacity: 40,
-        current: 0,
-        room: 3,
+        currentStudent: 0,
         studentList: null
         // this studentList node can be null if there is no student register yet, be careful.
       }
@@ -34,12 +32,11 @@ export default [
     subName: "Express Bussiness",
     sec: {
       1: {
-        secNumber: 1,
-        subTime: 5,
-        subTimeMap: "1_4",
+        sec: 1,
+        subjectTime: 5,
+        subjectTimeMap: "1_4",
         capacity: 40,
-        current: 2,
-        room: 2,
+        currentStudent: 2,
         studentList: {
           userId: { name: "Patja", timeStamp: "..." },
           userId: { name: "fudgy", timeStamp: "..." }
