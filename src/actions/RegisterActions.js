@@ -40,9 +40,10 @@ export const fetchUserData = () => {
   if(firebase.auth().currentUser){
     return (dispatch) => {
       var user = firebase.auth().currentUser;
+      console.log(user.uid)
       firebase.database().ref(`/student/${user.uid}`)
       .on('value', function(snapshot) {
-        //console.log("user data: " + JSON.stringify(snapshot.val()));
+        console.log("user data: " + JSON.stringify(snapshot.val()));
         updateUserData(dispatch,snapshot.val());
       });
     };

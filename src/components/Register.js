@@ -131,8 +131,8 @@ class Register extends Component {
 
     const userTime = userData.studentTime;
     const sec = currentSec + 1;
+    console.log(subjectData[currentSub].secList[sec])
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
-    //console.log(subjectData[currentSub].secList[sec])
     if (!this.checkTime(userTime, subjectTime)) {
       alert("Time confilct")
       console.log("Time confilct.");

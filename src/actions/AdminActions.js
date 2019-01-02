@@ -47,7 +47,7 @@ export const createUser = ({ createUsername, createName, createPassword }) => {
         studentTime: 0,
         registeredSubject: 0
       };
-      firebase.database().ref(`/student/${userData.user.uid}/`)
+      firebase.database().ref(`/student/${userData.user.uid}/1`)
       .set(defaultData)
       .then(() => {
         createUserSuccess(dispatch);
