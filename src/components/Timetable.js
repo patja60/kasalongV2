@@ -5,7 +5,8 @@ import { Link, Redirect } from "react-router-dom";
 import { fetchSubject, fetchUserData } from "../actions";
 import { mapToDateTime } from "./DateTime";
 
-import subTableImage from '../subTable.jpg';
+import subTableImage from "../subTable.jpg";
+import dummy from "./dummy";
 
 class Timetable extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Timetable extends Component {
   }
 
   generateRegisteredData(userData, subjectData) {
-    if(!userData.secDict){
+    if (!userData.secDict) {
       return [];
     }
     const secDict = userData.secDict;
@@ -46,7 +47,13 @@ class Timetable extends Component {
       4: null,
       8: null,
       16: null,
-      32: null
+      32: null,
+      64: null,
+      128: null,
+      256: null,
+      512: null,
+      1024: null,
+      2048: null
     };
     for (let i = 0; i < registeredData.length; i++) {
       let tmp = registeredData[i];
@@ -57,14 +64,47 @@ class Timetable extends Component {
     return obj2;
   }
 
+  // with dummy
+  prepareDummy() {
+    const obj = {
+      1: null,
+      2: null,
+      4: null,
+      8: null,
+      16: null,
+      32: null,
+      64: null,
+      128: null,
+      256: null,
+      512: null,
+      1024: null,
+      2048: null
+    };
+    let tmp, tmp1;
+    for (let i = 0; i < dummy.length; i++) {
+      tmp = dummy[i];
+      tmp1 = dummy[i].subjectTimeMap.split("_");
+      console.log("tmp1: ", tmp1);
+      for (let x = 0; x < 5; x++) {
+        obj[Number(tmp1[x])] = `${tmp.subjectId}: ${tmp.subjectName}, Sec ${
+          tmp.sec
+        }`;
+        console.log(Number(tmp1[x]), obj[Number(tmp1[x])]);
+      }
+    }
+    return obj;
+  }
+
   render() {
     const { userData, subjectData } = this.props;
+    // for dummy only
+    const obj = this.prepareDummy();
+
     if (userData && subjectData) {
       const obj2 = this.generateRegisteredData(userData, subjectData);
-      console.log(obj2);
       return (
         <div className="mt-5">
-        <h4>Welcome : {userData.username}</h4>
+          <h4>Welcome : {userData.username}</h4>
           <div>
             <div className="h5 mb-2">This is your time table</div>
             <table className="table table-dark">
@@ -98,9 +138,51 @@ class Timetable extends Component {
         </div>
       );
     } else {
+      console.log("this is your obj: ", obj);
       return (
-        <div>
-          <h4>Loading</h4>
+        // <div>
+        //   <h4>Loading</h4>
+        // </div>
+        <div className="mt-5">
+          {/* <h4>Welcome : {userData.username}</h4> */}
+          <div>
+            <div className="h5 mb-2">This is your time table</div>
+            <table className="table table-dark">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>9.00 - 10.30</th>
+                  <th>10.30 - 12.00</th>
+                  <th>13.00 - 14.30</th>
+                  <th>14.30 - 16.00</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">15 Jan 2019</th>
+                  <td>{obj[1] || "-"}</td>
+                  <td>{obj[2] || "-"}</td>
+                  <td>{obj[4] || "-"}</td>
+                  <td>{obj[8] || "-"}</td>
+                </tr>
+                <tr>
+                  <th scope="row">16 Jan 2019</th>
+                  <td>{obj[16] || "-"}</td>
+                  <td>{obj[32] || "-"}</td>
+                  <td>{obj[64] || "-"}</td>
+                  <td>{obj[128] || "-"}</td>
+                </tr>
+                <tr>
+                  <th scope="row">17 Jan 2019</th>
+                  <td>{obj[256] || "-"}</td>
+                  <td>{obj[512] || "-"}</td>
+                  <td>{obj[1024] || "-"}</td>
+                  <td>{obj[2048] || "-"}</td>
+                </tr>
+              </tbody>
+            </table>
+            <img src={subTableImage} />
+          </div>
         </div>
       );
     }
