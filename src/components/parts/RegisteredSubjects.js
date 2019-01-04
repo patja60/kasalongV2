@@ -61,7 +61,6 @@ class RegisteredSubjects extends Component {
       userData,
       subjectData
     );
-    console.log("registeredSubjects: ", registeredSubjects);
     if (userData && subjectData)
       return (
         <div>

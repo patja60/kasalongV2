@@ -34,15 +34,12 @@ export default ({
             </div>
 
             <div>
-              {/* Time: {mapToDateTime[section.subjectTime].date}:{" "}
-              {mapToDateTime[section.subjectTime].time} */}
               Time:{" "}
               {section.subjectTimeMap.split("_").map((slot, slotNo) => (
                 <div key={slotNo}>
                   {mapToDateTime[Number(slot)].date} :{" "}
                   {mapToDateTime[Number(slot)].time}
                 </div>
-                // <div key={slotNo}>{slot}</div>
               ))}
             </div>
           </li>

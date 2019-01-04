@@ -14,9 +14,20 @@ export default ({ subject, onDelete }) => (
         </button>
       </h6>
 
-      <div className="card-text">Section: {subject.sec}</div>
-      <div className="card-text">Date: {subject.subjectDate[0]}</div>
-      <div className="card-text">Time: {subject.subjectTime[0]}</div>
+      <div className="card-text">
+        <strong>Section: {subject.sec}</strong>
+      </div>
+      <div className="card-text">
+        <div>Time:</div>
+        <div>
+          {subject.subjectDate[0]} : {subject.subjectTime[0]}
+        </div>
+        <div>
+          {subject.subjectDate.length > 1 &&
+            subject.subjectDate[1] + " : " + subject.subjectTime[1]}
+        </div>
+      </div>
+      <div className="card-text" />
     </div>
   </div>
 );
