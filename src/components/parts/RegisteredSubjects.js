@@ -21,27 +21,22 @@ class RegisteredSubjects extends Component {
       return [];
     }
     const secDict = userData.secDict;
-    let registeredData = [];
+    const registeredData = [];
     Object.keys(secDict).forEach(key => {
       const index = parseInt(key.substring(3, 5)) - 1;
       const { subjectTimeMap } = subjectData[index].secList[secDict[key]];
-      console.log("subjectTimeMap: ", subjectTimeMap);
       const array = subjectTimeMap.split("_");
-      let tmp = [];
+      const tmp = [],
+        dateArr = [],
+        timeArr = [];
       for (let i = 0; i < array.length; i++) {
         tmp.push(Number(array[i]));
       }
-      console.log("tmp: ", tmp);
 
-      let dateArr = [],
-        timeArr = [];
       for (let i = 0; i < tmp.length; i++) {
         dateArr.push(mapToDateTime[tmp[i]].date);
         timeArr.push(mapToDateTime[tmp[i]].time);
       }
-
-      console.log("dateArr: ", dateArr);
-      console.log("timeArr: ", timeArr);
 
       let obj = {
         subjectId: key,
@@ -64,7 +59,9 @@ class RegisteredSubjects extends Component {
     if (userData && subjectData)
       return (
         <div>
-          <div className="h4">Registered Subject</div>
+          {registeredSubjects.length > 0 && (
+            <div className="h4">Registered Subject</div>
+          )}
           {registeredSubjects.map((subject, index) => (
             <RegisteredCard
               key={index}
