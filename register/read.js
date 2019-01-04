@@ -49,65 +49,64 @@ sheet_name_list.forEach(function(y) {
     //drop those first two rows which are empty
     data.shift();
     data.shift();
-    console.log(data);
+    // console.log(data);
 
     var reColumns=[
-        {header:'Year',key:'year'},
-        {header:'Room',key:'room'},
         {header:'Name',key:'name'},
         {header:'Nickname',key:'nickname'},
-        {header:'Bdate',key:'bdate'},
-        {header:'Password',key:'passwd'},
+        {header:'Year',key:'year'},
+        {header:'Passwd/Tel',key:'Tel'},
+        {header:'Size',key:'size'},
+        {header:'Username',key:'username'},
     ];
     st.columns = reColumns;
+    school = [];
 
-    // data.forEach((item, index) => {
-    //   //console.log(i, item)
-    //   index++;
-    //   var valueArray = [];
-    //   valueArray = Object.values(item); // forming an array of values of single json in an array
-    //   let genData
-    //   if(isNaN(valueArray[1]) ){
-    //     valueArray[1] = 0;
-    //   }
-    //   if(isNaN(valueArray[2]) ){
-    //     valueArray[2] = 0;
-    //   }
-    //   if(index < 10){
-    //     genData = "" + valueArray[1] + valueArray[2] + "0" + index
-    //   }else{
-    //     genData = "" + valueArray[1] + valueArray[2] + index
-    //   }
-    //
-    //   password = valueArray[8].toString();
-    //   for(let i = 6 - password.length ; i > 0 ; i--){
-    //     password = password + i.toString();
-    //   }
-    //
-    //   valueUse = [valueArray[1], valueArray[2], valueArray[3], valueArray[4], password,genData]
-    //   //addUserToFirebase(index, genData+"@camp.com", valueArray[3], valueArray[8])
-    //   st.addRow(valueUse); // add the array as a row in sheet
-    // });
-    //
-    // wb.xlsx.writeFile('./out.xlsx').then(function() {
-    //     console.log('file is written');
-    // });
+    data.forEach((item, index) => {
+      //console.log(i, item)
+      index++;
+      var valueArray = [];
+      valueArray = Object.values(item); // forming an array of values of single json in an array
+      let genData
+      if(isNaN(valueArray[5]) ){
+        valueArray[5] = 1234567890;
+      }
+      if(isNaN(valueArray[2]) ){
+        // valueArray[2] = 0;
+      }
+      if(index < 10){
+        genData = "" + valueArray[8] + "0" + valueArray[4].substring(2,3) + "0" + index
+      }else{
+        genData = "" + valueArray[8] + "0" + valueArray[4].substring(2,3) + index
+      }
+      let sch;
+      if(school.indexOf(valueArray[3]) < 0) {
+        school.push(valueArray[3]);
+        sch = school.length
+      }else {
+        sch = school.indexOf(valueArray[3]) + 1
+      }
+
+      valueUse = [valueArray[1], valueArray[2], valueArray[4], valueArray[5], valueArray[8], genData]
+      addUserToFirebase(index, genData+"@camp.com", valueArray[1], valueArray[5])
+      st.addRow(valueUse); // add the array as a row in sheet
+    });
+
+    console.log("****"+school)
+
+    wb.xlsx.writeFile('./out.xlsx').then(function() {
+        console.log('file is written');
+    });
 });
 
 function addUserToFirebase(index, email, username, password) {
   console.log(index, email, username, password);
-  const splitName = username.split(" ")
-  const newName = splitName.join(" ")
   password = password.toString();
-  for(let i = 6 - password.length ; i > 0 ; i--){
-    password = password + i.toString();
-  }
-  //console.log(password)
-  if(true){
+  if(false){
     firebase.auth().createUserWithEmailAndPassword( email, password )
     .then((userData) => {
       const defaultData = {
-        username: newName,
+        username: username,
         password: password,
         studentTime: 0,
         registeredSubject: 0
