@@ -17,23 +17,36 @@ class RegisteredSubjects extends Component {
 
   // this method returns a list of subjects that this student has registered, which contains subjects information
   generateRegisteredData(userData, subjectData) {
-    if(!userData.secDict){
+    if (!userData.secDict) {
       return [];
     }
     const secDict = userData.secDict;
-    let registeredData = [];
-    Object.keys(secDict).forEach((key) => {
-      const index = parseInt(key.substring(3,5)) - 1;
-      const subjectTime = subjectData[index].secList[secDict[key]].subjectTime;
+    const registeredData = [];
+    Object.keys(secDict).forEach(key => {
+      const index = parseInt(key.substring(3, 5)) - 1;
+      const { subjectTimeMap } = subjectData[index].secList[secDict[key]];
+      const array = subjectTimeMap.split("_");
+      const tmp = [],
+        dateArr = [],
+        timeArr = [];
+      for (let i = 0; i < array.length; i++) {
+        tmp.push(Number(array[i]));
+      }
+
+      for (let i = 0; i < tmp.length; i++) {
+        dateArr.push(mapToDateTime[tmp[i]].date);
+        timeArr.push(mapToDateTime[tmp[i]].time);
+      }
+
       let obj = {
         subjectId: key,
         subjectName: subjectData[index].subjectName,
         sec: secDict[key],
-        subjectDate: mapToDateTime[subjectTime].date,
-        subjectTime: mapToDateTime[subjectTime].time
-      }
+        subjectDate: dateArr,
+        subjectTime: timeArr
+      };
       registeredData.push(obj);
-    })
+    });
     return registeredData;
   }
 
@@ -46,7 +59,9 @@ class RegisteredSubjects extends Component {
     if (userData && subjectData)
       return (
         <div>
-          <div className="h4">Registered Subject</div>
+          {registeredSubjects.length > 0 && (
+            <div className="h4">Registered Subject</div>
+          )}
           {registeredSubjects.map((subject, index) => (
             <RegisteredCard
               key={index}

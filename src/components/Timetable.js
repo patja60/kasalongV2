@@ -36,8 +36,7 @@ class Timetable extends Component {
         subjectId: key,
         subjectName: subjectData[index].subjectName,
         sec: secDict[key],
-        subjectDate: mapToDateTime[subjectTime].date,
-        subjectTime
+        subjectTimeMap: subjectData[index].secList[secDict[key]].subjectTimeMap
       };
       registeredData.push(obj);
     });
@@ -55,11 +54,17 @@ class Timetable extends Component {
       1024: null,
       2048: null
     };
+    let tmp, tmp1;
     for (let i = 0; i < registeredData.length; i++) {
-      let tmp = registeredData[i];
-      obj2[registeredData[i].subjectTime] = `${tmp.subjectId}: ${
-        tmp.subjectName
-      }, Sec ${tmp.sec}`;
+      tmp = registeredData[i];
+      tmp1 = registeredData[i].subjectTimeMap.split("_");
+      console.log("tmp1: ", tmp1);
+      for (let x = 0; x < tmp1.length; x++) {
+        obj2[Number(tmp1[x])] = `${tmp.subjectId}: ${tmp.subjectName}, Sec ${
+          tmp.sec
+        }`;
+        console.log(Number(tmp1[x]), obj2[Number(tmp1[x])]);
+      }
     }
     return obj2;
   }
@@ -97,52 +102,10 @@ class Timetable extends Component {
 
   render() {
     const { userData, subjectData } = this.props;
-    // for dummy only
-    const obj = this.prepareDummy();
 
     if (userData && subjectData) {
-      const obj2 = this.generateRegisteredData(userData, subjectData);
+      const obj = this.generateRegisteredData(userData, subjectData);
       return (
-        <div className="mt-5">
-          <h4>Welcome : {userData.username}</h4>
-          <div>
-            <div className="h5 mb-2">This is your time table</div>
-            <table className="table table-dark">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>9.00 - 12.00</th>
-                  <th>13.00 - 15.00</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">22 Dec 2018</th>
-                  <td>{obj2[1] || "-"}</td>
-                  <td>{obj2[2] || "-"}</td>
-                </tr>
-                <tr>
-                  <th scope="row">23 Dec 2018</th>
-                  <td>{obj2[4] || "-"}</td>
-                  <td>{obj2[8] || "-"}</td>
-                </tr>
-                <tr>
-                  <th scope="row">24 Dec 2018</th>
-                  <td>{obj2[16] || "-"}</td>
-                  <td>{obj2[32] || "-"}</td>
-                </tr>
-              </tbody>
-            </table>
-            <img style={{width: '100%'}} src={subTableImage} />
-          </div>
-        </div>
-      );
-    } else {
-      console.log("this is your obj: ", obj);
-      return (
-        // <div>
-        //   <h4>Loading</h4>
-        // </div>
         <div className="mt-5">
           {/* <h4>Welcome : {userData.username}</h4> */}
           <div>
@@ -183,6 +146,12 @@ class Timetable extends Component {
             </table>
             <img style={{width: '100%'}} src={subTableImage} />
           </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h4>Loading...</h4>
         </div>
       );
     }
