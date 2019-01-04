@@ -97,52 +97,10 @@ class Timetable extends Component {
 
   render() {
     const { userData, subjectData } = this.props;
-    // for dummy only
-    const obj = this.prepareDummy();
 
     if (userData && subjectData) {
-      const obj2 = this.generateRegisteredData(userData, subjectData);
+      const obj = this.prepareDummy();
       return (
-        <div className="mt-5">
-          <h4>Welcome : {userData.username}</h4>
-          <div>
-            <div className="h5 mb-2">This is your time table</div>
-            <table className="table table-dark">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>9.00 - 12.00</th>
-                  <th>13.00 - 15.00</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">22 Dec 2018</th>
-                  <td>{obj2[1] || "-"}</td>
-                  <td>{obj2[2] || "-"}</td>
-                </tr>
-                <tr>
-                  <th scope="row">23 Dec 2018</th>
-                  <td>{obj2[4] || "-"}</td>
-                  <td>{obj2[8] || "-"}</td>
-                </tr>
-                <tr>
-                  <th scope="row">24 Dec 2018</th>
-                  <td>{obj2[16] || "-"}</td>
-                  <td>{obj2[32] || "-"}</td>
-                </tr>
-              </tbody>
-            </table>
-            <img src={subTableImage} />
-          </div>
-        </div>
-      );
-    } else {
-      console.log("this is your obj: ", obj);
-      return (
-        // <div>
-        //   <h4>Loading</h4>
-        // </div>
         <div className="mt-5">
           {/* <h4>Welcome : {userData.username}</h4> */}
           <div>
@@ -183,6 +141,12 @@ class Timetable extends Component {
             </table>
             <img src={subTableImage} />
           </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h4>Loading...</h4>
         </div>
       );
     }

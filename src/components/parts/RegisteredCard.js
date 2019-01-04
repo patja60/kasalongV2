@@ -15,8 +15,8 @@ export default ({ subject, onDelete }) => (
       </h6>
 
       <div className="card-text">Section: {subject.sec}</div>
-      <div className="card-text">Date: {subject.subjectDate}</div>
-      <div className="card-text">Time: {subject.subjectTime}</div>
+      <div className="card-text">Date: {subject.subjectDate[0]}</div>
+      <div className="card-text">Time: {subject.subjectTime[0]}</div>
     </div>
   </div>
 );
