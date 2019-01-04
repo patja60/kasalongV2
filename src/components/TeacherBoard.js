@@ -35,7 +35,7 @@ class TeacherBoard extends Component {
                 <strong>Section : {index}</strong>
               </div>
               <div className="card-body">
-                <div>Date : {mapToDateTime[sec.subjectTime].date}, Time : {mapToDateTime[sec.subjectTime].time}  </div>
+                <div>Date : {mapToDateTime[sec.subjectTimeMap.split("_")[index-1]].date}, Time : {mapToDateTime[sec.subjectTimeMap.split("_")[index-1]].time}  </div>
                 <div>
                   Student : {sec.currentStudent}/{sec.capacity}
                 </div>
