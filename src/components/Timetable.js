@@ -133,7 +133,7 @@ class Timetable extends Component {
                 </tr>
               </tbody>
             </table>
-            <img src={subTableImage} />
+            <img style={{width: '100%'}} src={subTableImage} />
           </div>
         </div>
       );
@@ -181,7 +181,7 @@ class Timetable extends Component {
                 </tr>
               </tbody>
             </table>
-            <img src={subTableImage} />
+            <img style={{width: '100%'}} src={subTableImage} />
           </div>
         </div>
       );
