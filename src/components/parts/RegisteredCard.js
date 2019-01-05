@@ -3,8 +3,13 @@ import React from "react";
 export default ({ subject, onDelete }) => (
   <div className="card bg-light mb-2">
     <div className="card-body">
-      <h6 className="card-title">
-        {subject.subjectId}{" "}
+      <h6 className={parseInt(subject.subjectId.substring(3,5))<=10?
+        "card-title text-info"
+        : "card-title text-success"}>
+        <span className={parseInt(subject.subjectId.substring(3,5))<=10?
+          "text-info"
+          : "text-success"}>◉</span>
+        {" "}{subject.subjectId}{" "}
         <span className="text-secondary">{subject.subjectName}</span>
         <button
           onClick={() => onDelete(subject.subjectId, subject.sec)}

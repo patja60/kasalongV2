@@ -18,9 +18,11 @@ export default ({
         {Object.values(sections).map((section, index) => (
           <li
             className={
-              currentSec == index
+              (currentSec == index) & (parseInt(subId.substring(3,5))<=10)
                 ? "list-group-item bg-info text-white"
-                : "list-group-item"
+                : (currentSec == index)
+                  ? "list-group-item bg-success text-white"
+                  : "list-group-item"
             }
             key={index}
             onClick={() => onSectionClick(index)}
@@ -28,7 +30,9 @@ export default ({
           >
             <div className="clearfix">
               <h6 className="float-left">Section: {index + 1}</h6>
-              <span className="badge badge-info float-right">
+              <span className={(parseInt(subId.substring(3,5))<=10)?
+                "badge badge-info float-right"
+                :"badge badge-success float-right text-white"}>
                 {section.currentStudent} / {section.capacity}
               </span>
             </div>
@@ -47,7 +51,9 @@ export default ({
       </ul>
       <button
         onClick={() => onRegister()}
-        className="btn btn-outline-info btn-block mt-3"
+        className={(parseInt(subId.substring(3,5))<=10)?
+          "btn btn-outline-info btn-block mt-3"
+          :"btn btn-outline-success btn-block mt-3"}
       >
         Register
       </button>

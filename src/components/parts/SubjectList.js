@@ -8,7 +8,7 @@ export default ({ subjects, onSubjectClick }) => {
         type="button"
         data-toggle="dropdown"
       >
-        Choose a subject
+        Choose a major subject
       </button>
 
       <div className="dropdown-menu">

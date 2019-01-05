@@ -50,6 +50,9 @@ class Register extends Component {
 
   countOrdiSub(userData) {
     const secDict = userData.secDict;
+    if(!secDict){
+      return 0;
+    }
     let count = 0;
     Object.keys(secDict).forEach((key) => {
       if(parseInt(key.substring(3,5))<=10){
