@@ -47,6 +47,18 @@ class Register extends Component {
     this.props.logoutUser();
   }
 
+  countOrdiSub(userData) {
+    const secDict = userData.secDict;
+    let count = 0;
+    Object.keys(secDict).forEach((key) => {
+      if(parseInt(key.substring(3,5))<=10){
+        count++;
+        console.log(key.substring(3,5))
+      }
+    })
+    return count;
+  }
+
   // this method takes two parameters subjectId and sec
   onDelete(subId, sec) {
     if(this.state.deletePressd){
@@ -129,6 +141,17 @@ class Register extends Component {
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
 
+    console.log(subjectData[currentSub].subjectId.substring(3,5))
+    if(parseInt(subjectData[currentSub].subjectId.substring(3,5))<10){
+      console.log("count ordi sub")
+      if(this.countOrdiSub(userData)>=4){
+        alert("Only maximum 4 of major subject can be registered.")
+        console.log("max.");
+        this.setState({regisPressed: false})
+        return;
+      }
+    }
+
     const userTime = userData.studentTime;
     const sec = currentSec + 1;
     console.log(subjectData[currentSub].secList[sec])
@@ -141,11 +164,8 @@ class Register extends Component {
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    let subjectIdCheck = parseInt(
-      subjectData[currentSub].subjectId.substring(3, 5)
-    ); // find this func later. because subject id may be like KSL012
+    let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3, 5));
     subjectIdCheck = Math.pow(2, subjectIdCheck - 1);
-    console.log("*************" + subjectIdCheck);
     if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       alert(subjectData[currentSub].subjectId + " (" + subjectData[currentSub].subjectName + ") "  + " is already register.")
       console.log("Already register");

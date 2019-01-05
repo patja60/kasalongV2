@@ -30,7 +30,7 @@ export const fetchSubject = () => {
         });
         list.push(data);
       });
-      console.log("subject data: " + JSON.stringify(list))
+      // console.log("subject data: " + JSON.stringify(list))
       updateSubjectData(dispatch,list);
     });
   };
