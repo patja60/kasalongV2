@@ -110,7 +110,7 @@ class Timetable extends Component {
           {/* <h4>Welcome : {userData.username}</h4> */}
           <div>
             <div className="h5 mb-2">This is your time table</div>
-            <table className="table table-dark">
+            <table style={{ fontSize: "0.5em" }} className="table table-dark">
               <thead>
                 <tr>
                   <th>#</th>
@@ -144,7 +144,7 @@ class Timetable extends Component {
                 </tr>
               </tbody>
             </table>
-            <img style={{width: '100%'}} src={subTableImage} />
+            <img style={{ width: "100%" }} src={subTableImage} />
           </div>
         </div>
       );

@@ -15,7 +15,7 @@ export default ({ subjects, onSubjectClick }) => {
         {subjects.map((subject, index) => {
           return (
             <div
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontSize: "0.8em" }}
               key={subject.subjectId}
               className="dropdown-item"
               onClick={() => {
@@ -25,9 +25,9 @@ export default ({ subjects, onSubjectClick }) => {
             >
               {subject.subjectId}: {subject.subjectName}
             </div>
-          )
+          );
         })}
       </div>
     </div>
   );
-}
+};
