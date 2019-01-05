@@ -4,11 +4,11 @@ export default ({ subjects, onSubjectClick }) => {
   return (
     <div className="dropdown mb-3">
       <button
-        className="btn btn-block btn-primary dropdown-toggle"
+        className="btn btn-block btn-success dropdown-toggle"
         type="button"
         data-toggle="dropdown"
       >
-        Choose a subject
+        Choose a gened
       </button>
 
       <div className="dropdown-menu">
@@ -20,7 +20,7 @@ export default ({ subjects, onSubjectClick }) => {
               className="dropdown-item"
               onClick={() => {
                 console.log("subjectId passed: ", subject.subjectId);
-                onSubjectClick(index);
+                onSubjectClick(index + 10);
               }}
             >
               {subject.subjectId}: {subject.subjectName}

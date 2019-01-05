@@ -7,6 +7,7 @@ import { logoutUser, fetchSubject, fetchUserData } from "../actions";
 
 import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
+import GenedList from "./parts/GenedList";
 import RegisteredSubjects from "./parts/RegisteredSubjects";
 
 class Register extends Component {
@@ -49,10 +50,10 @@ class Register extends Component {
 
   // this method takes two parameters subjectId and sec
   onDelete(subId, sec) {
-    if(this.state.deletePressd){
+    if (this.state.deletePressd) {
       return;
     }
-    this.setState({deletePressd: true});
+    this.setState({ deletePressd: true });
     const result = window.confirm(
       `Are you sure to remove ${subId}, sec ${sec}?`
     );
@@ -61,58 +62,88 @@ class Register extends Component {
       // if the student click yes,
       // remove the specified subId and sec from this students registration
       const { subjectData, userData } = this.props;
-      console.log(userData)
+      console.log(userData);
 
       const userTime = userData.studentTime;
-      const deleteSub = parseInt(subId.substring(3,5))
-      const deleteSubIndex = deleteSub - 1 // -1 to change to index for subjectData[index]
+      const deleteSub = parseInt(subId.substring(3, 5));
+      const deleteSubIndex = deleteSub - 1; // -1 to change to index for subjectData[index]
       const subjectTime = subjectData[deleteSubIndex].secList[sec].subjectTime;
 
       const userRegisteredSubject = userData.registeredSubject;
-      const subjectIdCheck = Math.pow(2, deleteSub-1);
+      const subjectIdCheck = Math.pow(2, deleteSub - 1);
 
       const subjectId = subjectData[deleteSubIndex].subjectId;
 
-      var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
-      secRef.transaction((data) => {
-        // console.log("**********************this is what i read: "+data+"**********************");
-        data.currentStudent--;
-        return data;
-      })
-      .then(() => {
-        // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
-        firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).once("value")
-        .then(snapshot => {
+      var secRef = firebase
+        .database()
+        .ref(`/subject/${subjectId}/secList/${sec}/`);
+      secRef
+        .transaction(data => {
+          // console.log("**********************this is what i read: "+data+"**********************");
+          data.currentStudent--;
+          return data;
+        })
+        .then(() => {
+          // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
+          firebase
+            .database()
+            .ref(`/subject/${subjectId}/secList/${sec}/`)
+            .once("value")
+            .then(snapshot => {
+              let updateObject = {};
 
-          let updateObject = {};
+              updateObject[
+                "/subject/" +
+                  subjectId +
+                  "/secList/" +
+                  sec +
+                  "/studentList/" +
+                  firebase.auth().currentUser.uid
+              ] = null;
+              updateObject[
+                "/student/" +
+                  firebase.auth().currentUser.uid +
+                  "/registeredSubject"
+              ] = userRegisteredSubject - subjectIdCheck;
+              updateObject[
+                "/student/" + firebase.auth().currentUser.uid + "/studentTime"
+              ] = userTime - subjectTime;
+              updateObject[
+                "/student/" +
+                  firebase.auth().currentUser.uid +
+                  "/secDict/" +
+                  subjectId
+              ] = null;
 
-          updateObject["/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid] = null;
-          updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = userRegisteredSubject - subjectIdCheck;
-          updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = userTime - subjectTime;
-          updateObject["/student/" + firebase.auth().currentUser.uid + "/secDict/" + subjectId] = null;
-
-          firebase.database().ref().update(updateObject, err => {
-            if (err) {
-              console.log("Sorry something went wrong, please try again.");
-              alert("Sorry something went wrong, please try again.")
-              var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
-              secRef.transaction((data) => {
-                data.currentStudent++;
-                return data;
-              });
-              console.log(err);
-            }
-          });
-          this.setState({deletePressd: false});
+              firebase
+                .database()
+                .ref()
+                .update(updateObject, err => {
+                  if (err) {
+                    console.log(
+                      "Sorry something went wrong, please try again."
+                    );
+                    alert("Sorry something went wrong, please try again.");
+                    var secRef = firebase
+                      .database()
+                      .ref(`/subject/${subjectId}/secList/${sec}/`);
+                    secRef.transaction(data => {
+                      data.currentStudent++;
+                      return data;
+                    });
+                    console.log(err);
+                  }
+                });
+              this.setState({ deletePressd: false });
+            });
+        })
+        .catch(err => {
+          this.setState({ deletePressd: false });
+          console.log(err);
         });
-      })
-      .catch(err => {
-        this.setState({deletePressd: false});
-        console.log(err);
-      });
-    }else{
-      console.log("no")
-      this.setState({deletePressd: false});
+    } else {
+      console.log("no");
+      this.setState({ deletePressd: false });
     }
   }
 
@@ -122,21 +153,21 @@ class Register extends Component {
   and have "Complete transact"
   */
   onRegister() {
-    if(this.state.regisPressed){
+    if (this.state.regisPressed) {
       return;
     }
-    this.setState({regisPressed: true})
+    this.setState({ regisPressed: true });
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
 
     const userTime = userData.studentTime;
     const sec = currentSec + 1;
-    console.log(subjectData[currentSub].secList[sec])
+    console.log(subjectData[currentSub].secList[sec]);
     const subjectTime = subjectData[currentSub].secList[sec].subjectTime;
     if (!this.checkTime(userTime, subjectTime)) {
-      alert("Time confilct")
+      alert("Time confilct");
       console.log("Time confilct.");
-      this.setState({regisPressed: false})
+      this.setState({ regisPressed: false });
       return;
     }
 
@@ -147,59 +178,94 @@ class Register extends Component {
     subjectIdCheck = Math.pow(2, subjectIdCheck - 1);
     console.log("*************" + subjectIdCheck);
     if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
-      alert(subjectData[currentSub].subjectId + " (" + subjectData[currentSub].subjectName + ") "  + " is already register.")
+      alert(
+        subjectData[currentSub].subjectId +
+          " (" +
+          subjectData[currentSub].subjectName +
+          ") " +
+          " is already register."
+      );
       console.log("Already register");
-      this.setState({regisPressed: false})
+      this.setState({ regisPressed: false });
       return;
     }
 
     const subjectId = subjectData[currentSub].subjectId;
-    var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
-    secRef.transaction((data) => {
-      // console.log("**********************this is what i read: "+data+"**********************");
-      // for (let i = 0; i < 5000; i++) {
-      //   console.log(i);
-      // }
-      // console.log("********done********");
-      if (data.currentStudent >= data.capacity) {
-        alert("This section is full.");
-        this.setState({regisPressed: false});
-        throw "full";
-      } else {
-        data.currentStudent++;
-      }
-      return data;
-    })
-    .then(() => {
-      // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
-      firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`).once("value")
-      .then(snapshot => {
-        let updateObject = {};
+    var secRef = firebase
+      .database()
+      .ref(`/subject/${subjectId}/secList/${sec}/`);
+    secRef
+      .transaction(data => {
+        // console.log("**********************this is what i read: "+data+"**********************");
+        // for (let i = 0; i < 5000; i++) {
+        //   console.log(i);
+        // }
+        // console.log("********done********");
+        if (data.currentStudent >= data.capacity) {
+          alert("This section is full.");
+          this.setState({ regisPressed: false });
+          throw "full";
+        } else {
+          data.currentStudent++;
+        }
+        return data;
+      })
+      .then(() => {
+        // console.log("this student is reserved, but if the transaction after this failed, nothing will be damage.")
+        firebase
+          .database()
+          .ref(`/subject/${subjectId}/secList/${sec}/`)
+          .once("value")
+          .then(snapshot => {
+            let updateObject = {};
 
-        updateObject["/subject/" + subjectId + "/secList/" + sec + "/studentList/" + firebase.auth().currentUser.uid]
-        = { username: userData.username, timeStamp: "now" };
-        updateObject["/student/" + firebase.auth().currentUser.uid + "/registeredSubject"] = userRegisteredSubject | subjectIdCheck;
-        updateObject["/student/" + firebase.auth().currentUser.uid + "/studentTime"] = userTime | subjectTime;
-        updateObject["/student/" + firebase.auth().currentUser.uid + "/secDict/" + subjectId] = sec;
+            updateObject[
+              "/subject/" +
+                subjectId +
+                "/secList/" +
+                sec +
+                "/studentList/" +
+                firebase.auth().currentUser.uid
+            ] = { username: userData.username, timeStamp: "now" };
+            updateObject[
+              "/student/" +
+                firebase.auth().currentUser.uid +
+                "/registeredSubject"
+            ] = userRegisteredSubject | subjectIdCheck;
+            updateObject[
+              "/student/" + firebase.auth().currentUser.uid + "/studentTime"
+            ] = userTime | subjectTime;
+            updateObject[
+              "/student/" +
+                firebase.auth().currentUser.uid +
+                "/secDict/" +
+                subjectId
+            ] = sec;
 
-        firebase.database().ref().update(updateObject, err => {
-          if (err) {
-            alert("Sorry something went wrong, please try again.");
-            console.log("Sorry something went wrong, please try again.");
-            var secRef = firebase.database().ref(`/subject/${subjectId}/secList/${sec}/`);
-            secRef.transaction((data) => {
-              data.currentStudent--;
-              return data;
-            });
-            console.log(err);
-          }
-        });
-        this.setState({regisPressed: false})
+            firebase
+              .database()
+              .ref()
+              .update(updateObject, err => {
+                if (err) {
+                  alert("Sorry something went wrong, please try again.");
+                  console.log("Sorry something went wrong, please try again.");
+                  var secRef = firebase
+                    .database()
+                    .ref(`/subject/${subjectId}/secList/${sec}/`);
+                  secRef.transaction(data => {
+                    data.currentStudent--;
+                    return data;
+                  });
+                  console.log(err);
+                }
+              });
+            this.setState({ regisPressed: false });
+          });
+      })
+      .catch(err => {
+        this.setState({ regisPressed: false });
+        console.log(err);
       });
-    }).catch(err => {
-      this.setState({regisPressed: false})
-      console.log(err);
-    });
   }
 
   checkTime(userTime, subjectTime) {
@@ -225,10 +291,21 @@ class Register extends Component {
       return (
         <div className="mb-5">
           <h4>Welcome : {userData.username}</h4>
-          <SubjectList
-            subjects={subjectData}
-            onSubjectClick={this.onSubjectClick}
-          />
+          <div className="row">
+            <div className="col-sm-6">
+              <SubjectList
+                subjects={subjectData.slice(0, 10)}
+                onSubjectClick={this.onSubjectClick}
+              />
+            </div>
+            <div className="col-sm-6">
+              <GenedList
+                subjects={subjectData.slice(10, 20)}
+                onSubjectClick={this.onSubjectClick}
+              />
+            </div>
+          </div>
+
           <SubjectCard
             subId={subjectData[currentSub].subjectId}
             subName={subjectData[currentSub].subjectName}
