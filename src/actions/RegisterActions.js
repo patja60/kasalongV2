@@ -7,14 +7,20 @@ import {
 import { provider } from '../database';
 
 export const fetchTeacher = () => {
-  return (dispatch) => {
-    //console.log("subject**: "+JSON.stringify(firebase.auth().currentUser));
-    const subjectId = firebase.auth().currentUser.email.substring(0,5).toUpperCase();
-    firebase.database().ref(`/subject/${subjectId}/`)
-    .on('value', function(snapshot) {
-      updateTeacherData(dispatch,snapshot.val());
-    });
-  };
+  if(firebase.auth().currentUser){
+    return (dispatch) => {
+      //console.log("subject**: "+JSON.stringify(firebase.auth().currentUser));
+      const subjectId = firebase.auth().currentUser.email.substring(0,5).toUpperCase();
+      firebase.database().ref(`/subject/${subjectId}/`)
+      .on('value', function(snapshot) {
+        updateTeacherData(dispatch,snapshot.val());
+      });
+    };
+  }else{
+    return (dispatch) => {
+      teacherNotAlreadyLogin(dispatch);
+    };
+  }
 };
 
 export const fetchSubject = () => {
@@ -49,14 +55,20 @@ export const fetchUserData = () => {
     };
   }else{
     return (dispatch) => {
-      notAlreadyLogin(dispatch);
+      userNotAlreadyLogin(dispatch);
     };
   }
 };
 
-const notAlreadyLogin = dispatch => {
+const userNotAlreadyLogin = dispatch => {
   dispatch({
-    type: "notAlreadylogin"
+    type: "userNotAlreadyLogin"
+  });
+};
+
+const teacherNotAlreadyLogin = dispatch => {
+  dispatch({
+    type: "teacherNotAlreadyLogin"
   });
 };
 

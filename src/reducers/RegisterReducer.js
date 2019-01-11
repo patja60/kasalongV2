@@ -19,11 +19,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "teacherAlreadylogin":
-      return { ...state, teacherIsLoading: false, teacherIsInitializing: true };
+      return { ...state, teacherIsLoading: false, teacherIsInitializing: true, isLoading: false };
     case "alreadylogin":
-      return { ...state, isLoading: false, isInitializing: true };
-    case "notAlreadylogin":
-      return { ...state, isLoading: false, teacherIsLoading: false, nav: false };
+      return { ...state, isLoading: false, isInitializing: true, teacherIsLoading: false };
+    case "userNotAlreadyLogin":
+      return { ...state, isLoading: false, nav: false };
+    case "teacherNotAlreadyLogin":
+      return { ...state, teacherIsLoading: false, nav: false };
     case LOGOUT_USER:
       return { ...state, isLoading: false, isInitializing: false, userData: null };
     case LOGOUT_TEACHER:

@@ -122,21 +122,21 @@ class Timetable extends Component {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">15 Jan 2019</th>
+                  <th scope="row">14 Jan 2019</th>
                   <td>{obj[1] || "-"}</td>
                   <td>{obj[2] || "-"}</td>
                   <td>{obj[4] || "-"}</td>
                   <td>{obj[8] || "-"}</td>
                 </tr>
                 <tr>
-                  <th scope="row">16 Jan 2019</th>
+                  <th scope="row">15 Jan 2019</th>
                   <td>{obj[16] || "-"}</td>
                   <td>{obj[32] || "-"}</td>
                   <td>{obj[64] || "-"}</td>
                   <td>{obj[128] || "-"}</td>
                 </tr>
                 <tr>
-                  <th scope="row">17 Jan 2019</th>
+                  <th scope="row">16 Jan 2019</th>
                   <td>{obj[256] || "-"}</td>
                   <td>{obj[512] || "-"}</td>
                   <td>{obj[1024] || "-"}</td>

@@ -7,6 +7,9 @@ import { firebaseConnect } from "react-redux-firebase";
 import firebase from "firebase";
 import { logoutUser, logoutTeacher, fetchUserData } from "../actions";
 
+import logoBlack from "../ksl_logo_black.png";
+import logoWhite from "../ksl_logo_white.png";
+
 class Navbar extends Component {
 
   constructor(props) {
@@ -59,6 +62,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
         <div className="container">
+          <img style={{ height: 50, paddingRight: 20 }} src={logoWhite} />
           <a className="navbar-brand" href="#">
             Regwar
           </a>

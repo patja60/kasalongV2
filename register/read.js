@@ -1,6 +1,6 @@
 var XLSX = require('xlsx');
 var excel = require('exceljs');
-var workbook = XLSX.readFile('student.xlsx');
+var workbook = XLSX.readFile('student2.xlsx');
 var sheet_name_list = workbook.SheetNames;
 var dataout = []
 
@@ -71,8 +71,14 @@ sheet_name_list.forEach(function(y) {
       if(isNaN(valueArray[5]) ){
         valueArray[5] = 1234567890;
       }
-      if(isNaN(valueArray[2]) ){
-        // valueArray[2] = 0;
+      if(valueArray[8].indexOf(" (") > 0){
+        // console.log(valueArray[8].indexOf("("))
+        // console.log(index, valueArray[8].substring(0,valueArray[8].indexOf("(")))
+        valueArray[8] = valueArray[8].substring(0,valueArray[8].indexOf(" ("))
+      }else if(valueArray[8].indexOf("(") > 0){
+        // console.log(valueArray[8].indexOf("("))
+        // console.log(index, valueArray[8].substring(0,valueArray[8].indexOf("(")))
+        valueArray[8] = valueArray[8].substring(0,valueArray[8].indexOf("("))
       }
       if(index < 10){
         genData = "" + valueArray[8] + "0" + valueArray[4].substring(2,3) + "0" + index
@@ -92,8 +98,6 @@ sheet_name_list.forEach(function(y) {
       st.addRow(valueUse); // add the array as a row in sheet
     });
 
-    console.log("****"+school)
-
     wb.xlsx.writeFile('./out.xlsx').then(function() {
         console.log('file is written');
     });
@@ -102,7 +106,7 @@ sheet_name_list.forEach(function(y) {
 function addUserToFirebase(index, email, username, password) {
   console.log(index, email, username, password);
   password = password.toString();
-  if(false){
+  if(true){
     firebase.auth().createUserWithEmailAndPassword( email, password )
     .then((userData) => {
       const defaultData = {
