@@ -12,7 +12,6 @@ class TeacherBoard extends Component {
   }
 
   componentWillMount() {
-    console.log("fet**********")
     this.props.fetchTeacher();
   }
 
@@ -38,7 +37,7 @@ class TeacherBoard extends Component {
               <div className="card-body">
                 {sec.subjectTimeMap.split("_").map((num, index) => {
                   return (
-                    <div>Date : {mapToDateTime[num].date}, Time : {mapToDateTime[num].time}  </div>
+                    <div key={index}>Date : {mapToDateTime[num].date}, Time : {mapToDateTime[num].time}  </div>
                   );
                 })}
                 <div>

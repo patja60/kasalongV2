@@ -89,7 +89,8 @@ export function verifyAuth() {
           alreadyLogin(dispatch, user);
         }
       } else {
-        notAlreadyLogin(dispatch);
+        userNotAlreadyLogin(dispatch);
+        teacherNotAlreadyLogin(dispatch);
       }
     });
   };
@@ -109,9 +110,15 @@ const alreadyLogin = (dispatch, user) => {
   });
 };
 
-const notAlreadyLogin = dispatch => {
+const userNotAlreadyLogin = dispatch => {
   dispatch({
-    type: "notAlreadylogin"
+    type: "userNotAlreadyLogin"
+  });
+};
+
+const teacherNotAlreadyLogin = dispatch => {
+  dispatch({
+    type: "teacherNotAlreadyLogin"
   });
 };
 
