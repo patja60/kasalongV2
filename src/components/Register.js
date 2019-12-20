@@ -177,8 +177,7 @@ class Register extends Component {
 
     console.log(subjectData[currentSub].subjectId.substring(3,5))
     
-    console.log('change this line')
-    
+
     if(parseInt(subjectData[currentSub].subjectId.substring(3,5))<10){
       console.log("count ordi sub")
       if(this.countOrdiSub(userData)>=4){
