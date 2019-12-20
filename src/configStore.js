@@ -3,7 +3,7 @@ import { reactReduxFirebase, firebaseReducer } from "react-redux-firebase";
 import firebase from "firebase";
 
 import ReduxThunk from "redux-thunk";
-import dbconfig from "./database";
+import {dbconfig} from "./database";
 import AuthReducer from "./reducers/AuthReducer";
 import AdminReducer from "./reducers/AdminReducer";
 import RegisterReducer from "./reducers/RegisterReducer";
