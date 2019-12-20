@@ -11,6 +11,7 @@ import RegisterReducer from "./reducers/RegisterReducer";
 const firebaseConfig = dbconfig;
 
 // react-redux-firebase config
+// add comment
 const rrfConfig = {
   userProfile: "users"
 };
