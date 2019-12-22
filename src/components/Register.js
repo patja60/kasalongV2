@@ -88,13 +88,17 @@ class Register extends Component {
       const subjectIdCheck = Math.pow(2, deleteSub - 1);
 
       const subjectId = subjectData[deleteSubIndex].subjectId;
+      /*console.log(userTime)
+      console.log(deleteSub)
+      console.log(deleteSubIndex)
+      console.log(subjectData) */
 
       var secRef = firebase
         .database()
         .ref(`/subject/${subjectId}/secList/${sec}/`);
       secRef
         .transaction(data => {
-          // console.log("**********************this is what i read: "+data+"**********************");
+           // console.log("**********************this is what i read: "+data+"**********************");
           data.currentStudent--;
           return data;
         })
@@ -176,8 +180,14 @@ class Register extends Component {
     const { subjectData, userData } = this.props;
 
     console.log(subjectData[currentSub].subjectId.substring(3,5))
-    
 
+    /*var d = new Date()
+    var h = d.getHours()
+    var m = d.getMinutes()
+    var s = d.getSeconds()
+    const time = h + ":" + m + ":" + s
+    console.log(time)*/
+    
     if(parseInt(subjectData[currentSub].subjectId.substring(3,5))<10){
       console.log("count ordi sub")
       if(this.countOrdiSub(userData)>=4){
@@ -251,7 +261,7 @@ class Register extends Component {
                 sec +
                 "/studentList/" +
                 firebase.auth().currentUser.uid
-            ] = { username: userData.username, timeStamp: "now" };
+            ] = { username: userData.username, timeStamp: "now" }; // now == time
             updateObject[
               "/student/" +
                 firebase.auth().currentUser.uid +
