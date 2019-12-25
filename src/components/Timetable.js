@@ -51,8 +51,6 @@ class Timetable extends Component {
       128: null,
       256: null,
       512: null,
-      1024: null,
-      2048: null
     };
     let tmp, tmp1;
     for (let i = 0; i < registeredData.length; i++) {
@@ -82,8 +80,6 @@ class Timetable extends Component {
       128: null,
       256: null,
       512: null,
-      1024: null,
-      2048: null
     };
     let tmp, tmp1;
     for (let i = 0; i < dummy.length; i++) {
@@ -130,17 +126,17 @@ class Timetable extends Component {
                 </tr>
                 <tr>
                   <th scope="row">14 Jan 2020</th>
+                  <td>{obj[4] || "-"}</td>
+                  <td>{obj[8] || "-"}</td>
                   <td>{obj[16] || "-"}</td>
                   <td>{obj[32] || "-"}</td>
-                  <td>{obj[64] || "-"}</td>
-                  <td>{obj[128] || "-"}</td>
                 </tr>
                 <tr>
                   <th scope="row">15 Jan 2020</th>
+                  <td>{obj[64] || "-"}</td>
+                  <td>{obj[128] || "-"}</td>
                   <td>{obj[256] || "-"}</td>
                   <td>{obj[512] || "-"}</td>
-                  <td>{obj[1024] || "-"}</td>
-                  <td>{obj[2048] || "-"}</td>
                 </tr>
               </tbody>
             </table>

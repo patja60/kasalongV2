@@ -1,24 +1,45 @@
 export default [
   {
     subjectId: 1,
-    subjectName: "Exploring Engineering World",
+    subjectName: "MED",
     subjectPassword: "123456",
     sec: 1,
-    subjectTime: 2,
-    subjectTimeMap: "2"
+    subjectTime: 33,
+    subjectTimeMap: "1_32"
   },
   {
     subjectId: 2,
-    subjectName: "Express Bussiness",
+    subjectName: "LAW",
     sec: 1,
-    subjectTime: 5,
-    subjectTimeMap: "1_4"
+    subjectTime: 66,
+    subjectTimeMap: "2_64"
   },
   {
     subjectId: 3,
-    subjectName: "Invest to the future",
+    subjectName: "SHI",
     sec: 1,
-    subjectTime: 13,
-    subjectTimeMap: "32_1024"
+    subjectTime: 512,
+    subjectTimeMap: "512"
+  },
+  {
+    subjectId: 4,
+    subjectName: "ARTS",
+    sec: 2,
+    subjectTime: 132,
+    subjectTimeMap: "4_128"
+  },
+  {
+    subjectId: 5,
+    subjectName: "EDU",
+    sec: 1,
+    subjectTime: 264,
+    subjectTimeMap: "8_256"
+  },
+  {
+    subjectId: 5,
+    subjectName: "BUD",
+    sec: 2,
+    subjectTime: 16,
+    subjectTimeMap: "16"
   }
 ];

@@ -9,6 +9,7 @@ import SubjectCard from "./parts/SubjectCard";
 import SubjectList from "./parts/SubjectList";
 import GenedList from "./parts/GenedList";
 import RegisteredSubjects from "./parts/RegisteredSubjects";
+import time from "./clickedTime"
 
 class Register extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Register extends Component {
       deleteSub: null,
       deleteSec: null,
       regisPressed: false,
-      deletePressd: false
+      deletePressd: false,
     };
 
     this.onSubjectClick = this.onSubjectClick.bind(this);
@@ -48,20 +49,66 @@ class Register extends Component {
     this.props.logoutUser();
   }
 
-  countOrdiSub(userData) {
+  countOrdiSub(userData,subjectData,currentSub) {
     const secDict = userData.secDict;
     if(!secDict){
       return 0;
     }
-    let count = 0;
+    if(parseInt(subjectData[currentSub].subjectId.substring(3,5)) <= 10 ){
+      console.log("count Group 1 sub")
+      if(this.counterGroup1Sub(userData)>= 3){
+        alert("Only maximum 3 of Group 1 subject can be registered.")
+        console.log("max.");
+        this.setState({regisPressed: false})
+        return true;
+      }
+    }
+    else {
+      if (11 <= parseInt(subjectData[currentSub].subjectId.substring(3,5)) <= 30){
+      console.log("count Group 2 sub")
+      if(this.counterGroup2Sub(userData)>= 2){
+        alert("Only maximum 2 of Group 2 subject can be registered.")
+        console.log("max.");
+        this.setState({regisPressed: false})
+        return true;
+      }
+    }}
+    }
+
+  counterGroup1Sub(userData) {
+    const secDict = userData.secDict;
+    if (!secDict){
+      return 0;
+    }
+    let counterGr1 = 0;
     Object.keys(secDict).forEach((key) => {
-      if(parseInt(key.substring(3,5))<=10){
-        count++;
+      console.log(parseInt(key.substring(3,5)));
+      if(parseInt(key.substring(3,5)) <=10){
+        counterGr1++;
         console.log(key.substring(3,5))
+        console.log("gr1" + (parseInt(key.substring(3,5)) <=10) )
       }
     })
-    return count;
+    return counterGr1;
   }
+
+  counterGroup2Sub(userData) {
+    const secDict = userData.secDict;
+    if (!secDict){
+      return 0;
+    }
+    let counterGr2 = 0;
+    Object.keys(secDict).forEach((key) => {
+      console.log(parseInt(key.substring(3,5)));
+      if( (11 <= parseInt(key.substring(3,5))) && (parseInt(key.substring(3,5))<= 20)){
+        counterGr2++;
+        console.log(key.substring(3,5))
+        console.log("gr2" + ( 11 <= parseInt(key.substring(3,5)) <= 20) )
+      }
+    })
+    return counterGr2;
+  }
+  
 
   // this method takes two parameters subjectId and sec
   onDelete(subId, sec) {
@@ -181,21 +228,8 @@ class Register extends Component {
 
     console.log(subjectData[currentSub].subjectId.substring(3,5))
 
-    /*var d = new Date()
-    var h = d.getHours()
-    var m = d.getMinutes()
-    var s = d.getSeconds()
-    const time = h + ":" + m + ":" + s
-    console.log(time)*/
-    
-    if(parseInt(subjectData[currentSub].subjectId.substring(3,5))<10){
-      console.log("count ordi sub")
-      if(this.countOrdiSub(userData)>=4){
-        alert("Only maximum 4 of major subject can be registered.")
-        console.log("max.");
-        this.setState({regisPressed: false})
-        return;
-      }
+    if (this.countOrdiSub(userData,subjectData,currentSub)) {
+      return
     }
 
     const userTime = userData.studentTime;
@@ -261,7 +295,7 @@ class Register extends Component {
                 sec +
                 "/studentList/" +
                 firebase.auth().currentUser.uid
-            ] = { username: userData.username, timeStamp: "now" }; // now == time
+            ] = { username: userData.username, timeStamp: time }; // now == time
             updateObject[
               "/student/" +
                 firebase.auth().currentUser.uid +

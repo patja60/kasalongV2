@@ -4,7 +4,8 @@ const dummy1 = [
     subjectName: "Name1",
     sec: 1,
     subjectDate: "27 Dec 2018",
-    subjectTime: "8.00 - 9.30"
+    subjectTime: "8.00 - 9.30",
+    subjectTimeMap: 8
   },
   {
     subjectId: "PNG02",
