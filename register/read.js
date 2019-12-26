@@ -1,3 +1,5 @@
+import {dbconfig} from "../src/database"
+
 var XLSX = require('xlsx');
 var excel = require('exceljs');
 var workbook = XLSX.readFile('student2.xlsx');
@@ -8,14 +10,7 @@ var wb = new excel.Workbook(); //creating workbook
 var st = wb.addWorksheet('MySheet'); //creating worksheet
 
 const firebase = require('firebase')
-const firebaseConfig = {
-  apiKey: "AIzaSyC17_L0LsfxLgSrSkkQuDZmETgk5MoMKps",
-  authDomain: "kasalongv2.firebaseapp.com",
-  databaseURL: "https://kasalongv2.firebaseio.com",
-  projectId: "kasalongv2",
-  storageBucket: "kasalongv2.appspot.com",
-  messagingSenderId: "1041888717910"
-};
+const firebaseConfig = {dbconfig}
 
 firebase.initializeApp(firebaseConfig);
 
@@ -113,7 +108,8 @@ function addUserToFirebase(index, email, username, password) {
         username: username,
         password: password,
         studentTime: 0,
-        registeredSubject: 0
+        registeredSubject: 0,
+        email: email
       };
       firebase.database().ref(`/student/${userData.user.uid}/`).set(defaultData)
       .then(() => {

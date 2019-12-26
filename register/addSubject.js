@@ -3,7 +3,7 @@ const firebaseConfig =  require('../src/database')
 
 firebase.initializeApp(firebaseConfig);
 
-var subjects = require('./subject3');
+var subjects = require('./subject19th');
 
 for (let i = 0; i < subjects.length; i++) {
   const subjectId = subjects[i].subId;

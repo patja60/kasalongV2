@@ -10,7 +10,7 @@ export const fetchTeacher = () => {
   if(firebase.auth().currentUser){
     return (dispatch) => {
       //console.log("subject**: "+JSON.stringify(firebase.auth().currentUser));
-      const subjectId = firebase.auth().currentUser.email.substring(0,5).toUpperCase();
+      const subjectId = firebase.auth().currentUser.email.substring(0,7).toUpperCase();
       firebase.database().ref(`/subject/${subjectId}/`)
       .on('value', function(snapshot) {
         updateTeacherData(dispatch,snapshot.val());
