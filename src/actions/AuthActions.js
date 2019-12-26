@@ -28,8 +28,8 @@ export const passwordChanged = text => {
 export const loginTeacher = (username, password) => {
   return dispatch => {
     if (
-      username.substring(0, 3) !== "KSL" &&
-      username.substring(0, 3) !== "ksl"
+      username.substring(2, 5) !== "KSL" &&
+      username.substring(2, 5) !== "ksl"
     ) {
       alert("This page is for teacher.");
       loginUserFail(dispatch);
@@ -53,8 +53,8 @@ export const loginTeacher = (username, password) => {
 export const loginUser = (username, password) => {
   return dispatch => {
     if (
-      username.substring(0, 3) === "KSL" ||
-      username.substring(0, 3) === "ksl"
+      username.substring(2, 5) === "KSL" ||
+      username.substring(2, 5) === "ksl"
     ) {
       alert("This page is for student.");
       loginUserFail(dispatch);
@@ -81,8 +81,8 @@ export function verifyAuth() {
       //console.log("user data:" + JSON.stringify(user));
       if (user) {
         if (
-          user.email.substring(0, 3) === "KSL" ||
-          user.email.substring(0, 3) === "ksl"
+          user.email.substring(2, 5) === "KSL" ||
+          user.email.substring(2, 5) === "ksl"
         ) {
           teacherAlreadyLogin(dispatch, user);
         } else {
