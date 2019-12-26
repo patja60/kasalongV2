@@ -27,7 +27,7 @@ class TeacherBoard extends Component {
       return (
         <div>
           <h4>Subject Name : {teacherData.subjectName}</h4>
-          <h4>Subject ID : {teacherData.subjectId}</h4>
+          <h4>Subject ID : {teacherData.subjectId.substring(2,7)}</h4>
           <br />
           {secList.map((sec, index) => (
             <div key={index} className="card mb-2">

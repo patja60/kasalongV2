@@ -54,7 +54,7 @@ class Register extends Component {
     if(!secDict){
       return 0;
     }
-    if(parseInt(subjectData[currentSub].subjectId.substring(3,5)) <= 10 ){
+    if(parseInt(subjectData[currentSub].subjectId.substring(5,7)) <= 20 ){
       console.log("count Group 1 sub")
       if(this.counterGroup1Sub(userData)>= 3){
         alert("Only maximum 3 of Group 1 subject can be registered.")
@@ -64,7 +64,7 @@ class Register extends Component {
       }
     }
     else {
-      if (11 <= parseInt(subjectData[currentSub].subjectId.substring(3,5)) <= 30){
+      if ((21 <= parseInt(subjectData[currentSub].subjectId.substring(5,7))) && ( parseInt(subjectData[currentSub].subjectId.substring(5,7)) <= 29)){
       console.log("count Group 2 sub")
       if(this.counterGroup2Sub(userData)>= 2){
         alert("Only maximum 2 of Group 2 subject can be registered.")
@@ -82,11 +82,10 @@ class Register extends Component {
     }
     let counterGr1 = 0;
     Object.keys(secDict).forEach((key) => {
-      console.log(parseInt(key.substring(3,5)));
-      if(parseInt(key.substring(3,5)) <=10){
+      console.log(parseInt(key.substring(5,7)));
+      if(parseInt(key.substring(5,7)) <=20){
         counterGr1++;
-        console.log(key.substring(3,5))
-        console.log("gr1" + (parseInt(key.substring(3,5)) <=10) )
+        console.log(key.substring(5,7))
       }
     })
     return counterGr1;
@@ -99,11 +98,10 @@ class Register extends Component {
     }
     let counterGr2 = 0;
     Object.keys(secDict).forEach((key) => {
-      console.log(parseInt(key.substring(3,5)));
-      if( (11 <= parseInt(key.substring(3,5))) && (parseInt(key.substring(3,5))<= 20)){
+      console.log(parseInt(key.substring(5,7)));
+      if( (21 <= parseInt(key.substring(5,7))) && (parseInt(key.substring(5,7))<= 29)){
         counterGr2++;
-        console.log(key.substring(3,5))
-        console.log("gr2" + ( 11 <= parseInt(key.substring(3,5)) <= 20) )
+        console.log(key.substring(5,7))
       }
     })
     return counterGr2;
@@ -117,7 +115,7 @@ class Register extends Component {
     }
     this.setState({ deletePressd: true });
     const result = window.confirm(
-      `Are you sure to remove ${subId}, sec ${sec}?`
+      `Are you sure to remove ${subId.substring(2,7)}, sec ${sec}?`
     );
     if (result) {
       //console.log(`delete: subId=${subId}, sec=${sec}`);
@@ -127,18 +125,14 @@ class Register extends Component {
       console.log(userData);
 
       const userTime = userData.studentTime;
-      const deleteSub = parseInt(subId.substring(3, 5));
-      const deleteSubIndex = deleteSub - 1; // -1 to change to index for subjectData[index]
+      const deleteSub = parseInt(subId.substring(0, 2));
+      const deleteSubIndex = deleteSub; // -1 to change to index for subjectData[index]
       const subjectTime = subjectData[deleteSubIndex].secList[sec].subjectTime;
 
       const userRegisteredSubject = userData.registeredSubject;
-      const subjectIdCheck = Math.pow(2, deleteSub - 1);
+      const subjectIdCheck = Math.pow(2, deleteSub);
 
       const subjectId = subjectData[deleteSubIndex].subjectId;
-      /*console.log(userTime)
-      console.log(deleteSub)
-      console.log(deleteSubIndex)
-      console.log(subjectData) */
 
       var secRef = firebase
         .database()
@@ -226,8 +220,7 @@ class Register extends Component {
     const { currentSub, currentSec } = this.state;
     const { subjectData, userData } = this.props;
 
-    console.log(subjectData[currentSub].subjectId.substring(3,5))
-
+    console.log(subjectData[currentSub].subjectId.substring(5,7))
     if (this.countOrdiSub(userData,subjectData,currentSub)) {
       return
     }
@@ -244,11 +237,11 @@ class Register extends Component {
     }
 
     const userRegisteredSubject = userData.registeredSubject;
-    let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(3, 5));
-    subjectIdCheck = Math.pow(2, subjectIdCheck - 1);
+    let subjectIdCheck = parseInt(subjectData[currentSub].subjectId.substring(0, 2));
+    subjectIdCheck = Math.pow(2, subjectIdCheck);
     if (!this.checkRegistered(userRegisteredSubject, subjectIdCheck)) {
       alert(
-        subjectData[currentSub].subjectId +
+        subjectData[currentSub].subjectId.substring(2,7) +
           " (" +
           subjectData[currentSub].subjectName +
           ") " +
@@ -363,13 +356,13 @@ class Register extends Component {
           <div className="row">
             <div className="col-sm-6">
               <SubjectList
-                subjects={subjectData.slice(0, 10)}
+                subjects={subjectData.slice(0, 9)}
                 onSubjectClick={this.onSubjectClick}
               />
             </div>
             <div className="col-sm-6">
               <GenedList
-                subjects={subjectData.slice(10, 20)}
+                subjects={subjectData.slice(9, 20)}
                 onSubjectClick={this.onSubjectClick}
               />
             </div>

@@ -1,16 +1,9 @@
 const firebase = require('firebase')
-const firebaseConfig = {
-  apiKey: "AIzaSyC17_L0LsfxLgSrSkkQuDZmETgk5MoMKps",
-  authDomain: "kasalongv2.firebaseapp.com",
-  databaseURL: "https://kasalongv2.firebaseio.com",
-  projectId: "kasalongv2",
-  storageBucket: "kasalongv2.appspot.com",
-  messagingSenderId: "1041888717910"
-};
+const firebaseConfig =  require('../src/database')
 
 firebase.initializeApp(firebaseConfig);
 
-var subjects = require('./subject');
+var subjects = require('./subject3');
 
 for (let i = 0; i < subjects.length; i++) {
   const subjectId = subjects[i].subId;
@@ -36,7 +29,7 @@ function addSubjectToFirebase(index, subjectId, subjectName, subjectPassword, se
       .set({ subjectTime: secList[key].subjectTime, subjectTimeMap: secList[key].subjectTimeMap, capacity: secList[key].capacity, currentStudent: 0 })
       .then(() => {
         const email = subjectId+"@camp.com";
-        const password = subjectPassword;
+        const password = "123456";
         firebase.auth().createUserWithEmailAndPassword( email, password )
       })
       .catch((err) => {

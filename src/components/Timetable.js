@@ -25,7 +25,7 @@ class Timetable extends Component {
     const secDict = userData.secDict;
     const registeredData = [];
     Object.keys(secDict).forEach(key => {
-      const index = parseInt(key.substring(3, 5)) - 1;
+      const index = parseInt(key.substring(0, 2));
       const subjectTime = subjectData[index].secList[secDict[key]].subjectTime;
       console.log(
         `subjectData[${index}]=${
@@ -58,7 +58,7 @@ class Timetable extends Component {
       tmp1 = registeredData[i].subjectTimeMap.split("_");
       console.log("tmp1: ", tmp1);
       for (let x = 0; x < tmp1.length; x++) {
-        obj2[Number(tmp1[x])] = `${tmp.subjectId}: ${tmp.subjectName}, Sec ${
+        obj2[Number(tmp1[x])] = `${tmp.subjectId.substring(2,7)}: ${tmp.subjectName}, Sec ${
           tmp.sec
         }`;
         console.log(Number(tmp1[x]), obj2[Number(tmp1[x])]);

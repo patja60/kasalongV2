@@ -20,10 +20,10 @@ export default ({ subjects, onSubjectClick }) => {
               className="dropdown-item"
               onClick={() => {
                 console.log("subjectId passed: ", subject.subjectId);
-                onSubjectClick(index + 10);
+                onSubjectClick(index + 9);
               }}
             >
-              {subject.subjectId}: {subject.subjectName}
+              {subject.subjectId.substring(2,7)}: {subject.subjectName}
             </div>
           );
         })}

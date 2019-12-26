@@ -23,7 +23,7 @@ export default ({ subjects, onSubjectClick }) => {
                 onSubjectClick(index);
               }}
             >
-              {subject.subjectId}: {subject.subjectName}
+              {subject.subjectId.substring(2,7)}: {subject.subjectName}
             </div>
           );
         })}

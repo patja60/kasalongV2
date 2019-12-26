@@ -23,7 +23,7 @@ class RegisteredSubjects extends Component {
     const secDict = userData.secDict;
     const registeredData = [];
     Object.keys(secDict).forEach(key => {
-      const index = parseInt(key.substring(3, 5)) - 1;
+      const index = parseInt(key.substring(0, 2));
       const { subjectTimeMap } = subjectData[index].secList[secDict[key]];
       const array = subjectTimeMap.split("_");
       const tmp = [],

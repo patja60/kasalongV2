@@ -12,13 +12,13 @@ export default ({
   <div className="card mb-3 bg-light">
     <div className="card-body">
       <h6 className="card-title">
-        {subId} {subName}
+        {subId.substring(2,7)} {subName}
       </h6>
       <ul className="list-group">
         {Object.values(sections).map((section, index) => (
           <li
             className={
-              (currentSec == index) & (parseInt(subId.substring(3,5))<=10)
+              (currentSec == index) & (parseInt(subId.substring(5,7))<=30)
                 ? "list-group-item bg-info text-white"
                 : (currentSec == index)
                   ? "list-group-item bg-success text-white"
@@ -30,7 +30,7 @@ export default ({
           >
             <div className="clearfix">
               <h6 className="float-left">Section: {index + 1}</h6>
-              <span className={(parseInt(subId.substring(3,5))<=10)?
+              <span className={(parseInt(subId.substring(5,7))<=30)?
                 "badge badge-info float-right"
                 :"badge badge-success float-right text-white"}>
                 {section.currentStudent} / {section.capacity}
