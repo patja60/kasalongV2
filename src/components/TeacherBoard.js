@@ -45,7 +45,7 @@ class TeacherBoard extends Component {
                 </div>
                 <br />
                 <div className="mb-1">Student List</div>
-                <StudentList students={sec.studentList} />
+                <StudentList students= {sec.studentList} />
               </div>
             </div>
           ))}

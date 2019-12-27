@@ -303,7 +303,7 @@ class Register extends Component {
                 "/secDict/" +
                 subjectId
             ] = sec;
-
+      
             firebase
               .database()
               .ref()
