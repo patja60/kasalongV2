@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { fetchSubject, fetchUserData } from "../actions";
 import { mapToDateTime } from "./DateTime";
 
-import subTableImage from "../subTable.jpg";
+import subTableImage from "../schedule.jpg";
 import dummy from "./dummy";
 
 class Timetable extends Component {
@@ -36,7 +36,8 @@ class Timetable extends Component {
         subjectId: key,
         subjectName: subjectData[index].subjectName,
         sec: secDict[key],
-        subjectTimeMap: subjectData[index].secList[secDict[key]].subjectTimeMap
+        subjectTimeMap: subjectData[index].secList[secDict[key]].subjectTimeMap,
+        room: subjectData[index].secList[secDict[key]].room
       };
       registeredData.push(obj);
     });
@@ -56,11 +57,11 @@ class Timetable extends Component {
     for (let i = 0; i < registeredData.length; i++) {
       tmp = registeredData[i];
       tmp1 = registeredData[i].subjectTimeMap.split("_");
+      console.log("tmp", tmp)
       console.log("tmp1: ", tmp1);
       for (let x = 0; x < tmp1.length; x++) {
         obj2[Number(tmp1[x])] = `${tmp.subjectId.substring(2,7)}: ${tmp.subjectName}, Sec ${
-          tmp.sec
-        }`;
+          tmp.sec}, Room : ${tmp.room}`;
         console.log(Number(tmp1[x]), obj2[Number(tmp1[x])]);
       }
     }

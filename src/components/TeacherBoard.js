@@ -32,7 +32,7 @@ class TeacherBoard extends Component {
           {secList.map((sec, index) => (
             <div key={index} className="card mb-2">
               <div className="card-header">
-                <strong>Section : {index}</strong>
+                <strong>{" "} Section : {index}, {" "} Room : {sec.room}</strong>
               </div>
               <div className="card-body">
                 {sec.subjectTimeMap.split("_").map((num, index) => {

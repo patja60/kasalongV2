@@ -19,7 +19,9 @@ export default ({ students }) => {
       </div>
     );
   } else {
-    return <div>no student</div>;
+    return (<div>
+      <strong><font color = "ED1C24">No student</font></strong>
+    </div>);
   }
 };
 
@@ -28,7 +30,9 @@ function secondsToHourMinuteSecond(seconds){
   var text = ""
   for(let i = 0; i < 3; i++){
     var time = Math.floor(seconds / timeChange[i])
-    console.log(time)
+    if(time.toString().length == 1){
+      time = "0" + time
+    }
     seconds = seconds % timeChange[i]
     text = text + time + ":"
   }

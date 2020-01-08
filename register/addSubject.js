@@ -10,6 +10,7 @@ for (let i = 0; i < subjects.length; i++) {
   const subjectName = subjects[i].subjectName;
   const subjectPassword = subjects[i].subjectPassword;
   const secList = subjects[i].secList;
+  const room = subjects[i].room
 
   // console.log(i, subjectId, subjectName, subjectPassword, secList);
   addSubjectToFirebase(i, subjectId, subjectName, subjectPassword, secList);
@@ -26,7 +27,7 @@ function addSubjectToFirebase(index, subjectId, subjectName, subjectPassword, se
   .then(() => {
     Object.keys(secList).forEach((key) => {
       firebase.database().ref(`/subject/${subjectId}/secList/${key}`)
-      .set({ subjectTime: secList[key].subjectTime, subjectTimeMap: secList[key].subjectTimeMap, capacity: secList[key].capacity, currentStudent: 0 })
+      .set({ subjectTime: secList[key].subjectTime, subjectTimeMap: secList[key].subjectTimeMap, capacity: secList[key].capacity, currentStudent: 0, room: secList[key].room })
       .then(() => {
         const email = subjectId+"@camp.com";
         const password = "123456";

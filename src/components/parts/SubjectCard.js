@@ -36,7 +36,9 @@ export default ({
                 {section.currentStudent} / {section.capacity}
               </span>
             </div>
-
+            <div>
+              <strong>Room: {section.room}</strong>
+            </div>
             <div>
               Time:{" "}
               {section.subjectTimeMap.split("_").map((slot, slotNo) => (
@@ -51,7 +53,7 @@ export default ({
       </ul>
       <button
         onClick={() => onRegister()}
-        className={(parseInt(subId.substring(3,5))<=10)?
+        className={(parseInt(subId.substring(5,7))<=30)?
           "btn btn-outline-info btn-block mt-3"
           :"btn btn-outline-success btn-block mt-3"}
       >

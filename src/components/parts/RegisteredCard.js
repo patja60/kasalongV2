@@ -22,6 +22,9 @@ export default ({ subject, onDelete }) => (
       <div className="card-text">
         <strong>Section: {subject.sec}</strong>
       </div>
+      <div>
+      <strong>Room: {subject.room}</strong>
+      </div>
       <div className="card-text">
         <div>Time:</div>
         <div>

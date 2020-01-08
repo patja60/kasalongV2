@@ -43,7 +43,8 @@ class RegisteredSubjects extends Component {
         subjectName: subjectData[index].subjectName,
         sec: secDict[key],
         subjectDate: dateArr,
-        subjectTime: timeArr
+        subjectTime: timeArr,
+        room: subjectData[index].secList[secDict[key]].room
       };
       registeredData.push(obj);
     });

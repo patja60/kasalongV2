@@ -63,7 +63,7 @@ class Navbar extends Component {
         <div className="container">
           <img style={{ height: 50, paddingRight: 20 }} src={logo19th} />
           <a className="navbar-brand" href="#">
-            KASALONG Regwar
+            <strong><font color = "ffa3a4">KASALONG</font></strong> Regwar
           </a>
           <button
             className="navbar-toggler"
