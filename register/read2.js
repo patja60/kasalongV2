@@ -43,13 +43,14 @@ sheet_name_list.forEach(function(y) {
     //drop those first two rows which are empty
     data.shift();
     data.shift();
-    console.log(data);
+    // console.log(data);
 
     var reColumns=[
         {header:'Name',key:'name'},
         {header:'Nickname',key:'nickname'},
         {header:'Year',key:'year'},
         {header:'Passwd/Tel',key:'Tel'},
+        {header: 'Province',key: 'province'},
         {header:'Size',key:'size'},
         {header:'Username',key:'username'},
     ];
@@ -59,37 +60,22 @@ sheet_name_list.forEach(function(y) {
     // !!!!!!!!!!!!!!!
     data.forEach((item, index) => {
       // console.log(i, item)
+      
       index++;
       var valueArray = [];
       valueArray = Object.values(item); // forming an array of values of single json in an array
-      let genData
-      if(isNaN(valueArray[5]) ){
-        valueArray[5] = 1234567890;
+      let genUsername
+      if (index.toString().length < 2) {
+        genUsername = makeUsername(4) + index
+      } else {
+        genUsername = makeUsername(3) + index
       }
-      if(valueArray[8].indexOf(" (") > 0){
-        // console.log(valueArray[8].indexOf("("))
-        // console.log(index, valueArray[8].substring(0,valueArray[8].indexOf("(")))
-        valueArray[8] = valueArray[8].substring(0,valueArray[8].indexOf(" ("))
-      }else if(valueArray[8].indexOf("(") > 0){
-        // console.log(valueArray[8].indexOf("("))
-        // console.log(index, valueArray[8].substring(0,valueArray[8].indexOf("(")))
-        valueArray[8] = valueArray[8].substring(0,valueArray[8].indexOf("("))
-      }
-      if(index < 10){
-        genData = "" + valueArray[8] + "0" + valueArray[4].substring(2,3) + "0" + index
-      }else{
-        genData = "" + valueArray[8] + "0" + valueArray[4].substring(2,3) + index
-      }
-      let sch;
-      if(school.indexOf(valueArray[3]) < 0) {
-        school.push(valueArray[3]);
-        sch = school.length
-      }else {
-        sch = school.indexOf(valueArray[3]) + 1
-      }
+      valueArray[7] = valueArray[7].replace("-", "")
+
+      valueUse = [valueArray[1], valueArray[2], valueArray[3], valueArray[7], valueArray[5], valueArray[6], genUsername]
+      console.log(valueUse)
+      addUserToFirebase(index, genUsername+"@camp.com", valueArray[2], valueArray[7])
       /*
-      valueUse = [valueArray[1], valueArray[2], valueArray[4], valueArray[5], valueArray[8], genData]
-      addUserToFirebase(index, genData+"@camp.com", valueArray[1], valueArray[5])
       st.addRow(valueUse); // add the array as a row in sheet
       */
     });
@@ -110,7 +96,7 @@ function addUserToFirebase(index, email, username, password) {
         password: password,
         studentTime: 0,
         registeredSubject: 0,
-        email: email
+        email: email.substring(0,5)
       };
       firebase.database().ref(`/student/${userData.user.uid}/`).set(defaultData)
       .then(() => {
@@ -126,3 +112,13 @@ function addUserToFirebase(index, email, username, password) {
     })
   }
 }
+
+function makeUsername(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
