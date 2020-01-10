@@ -60,21 +60,22 @@ sheet_name_list.forEach(function(y) {
     // !!!!!!!!!!!!!!!
     data.forEach((item, index) => {
       // console.log(i, item)
-      
+      var counter = 0
+      var checkUser = []
       index++;
       var valueArray = [];
       valueArray = Object.values(item); // forming an array of values of single json in an array
       let genUsername
       if (index.toString().length < 2) {
-        genUsername = makeUsername(4) + index
+        genUsername = makeUsername(3) + index + makeUsername(1)
       } else {
-        genUsername = makeUsername(3) + index
+        genUsername = makeUsername(2) + index + makeUsername(1)
       }
       valueArray[7] = valueArray[7].replace("-", "")
 
       valueUse = [valueArray[1], valueArray[2], valueArray[3], valueArray[7], valueArray[5], valueArray[6], genUsername]
-      console.log(valueUse)
-      addUserToFirebase(index, genUsername+"@camp.com", valueArray[2], valueArray[7])
+
+      //addUserToFirebase(index, genUsername+"@camp.com", valueArray[2], valueArray[7])
       /*
       st.addRow(valueUse); // add the array as a row in sheet
       */
