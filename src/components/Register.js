@@ -348,7 +348,7 @@ class Register extends Component {
     const { currentSub, currentSec } = this.state;
     const { userData, subjectData } = this.props;
     //console.log("real data: ", subjectData)
-
+    
     if (userData && subjectData) {
       return (
         <div className="mb-5">
