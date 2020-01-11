@@ -72,18 +72,20 @@ sheet_name_list.forEach(function(y) {
         genUsername = makeUsername(2) + index + makeUsername(1)
       }
       valueArray[7] = valueArray[7].replace("-", "")
+      if (valueArray[7].length < 10) {
+        valueArray[7] = '1234567890'
+      }
 
       valueUse = [valueArray[1], valueArray[2], valueArray[3], valueArray[7], valueArray[5], valueArray[6], genUsername]
-
-      //addUserToFirebase(index, genUsername+"@camp.com", valueArray[2], valueArray[7])
-      /*
+      addUserToFirebase(index, genUsername+"@camp.com", valueArray[2], valueArray[7])
+      
       st.addRow(valueUse); // add the array as a row in sheet
-      */
+      
     });
-/*
+
     wb.xlsx.writeFile('./out.xlsx').then(function() {
         console.log('file is written');
-    });*/
+    });
   });
 
 function addUserToFirebase(index, email, username, password) {

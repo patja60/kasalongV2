@@ -1,4 +1,5 @@
 import React from "react";
+import showButton from "../showButton"
 
 export default ({ subject, onDelete }) => (
   <div className="card bg-light mb-2">
@@ -14,9 +15,11 @@ export default ({ subject, onDelete }) => (
         <button
           onClick={() => onDelete(subject.subjectId, subject.sec)}
           className="btn btn-danger float-right"
+          hidden= {showButton}
         >
           Remove
         </button>
+        {showButton}
       </h6>
 
       <div className="card-text">
